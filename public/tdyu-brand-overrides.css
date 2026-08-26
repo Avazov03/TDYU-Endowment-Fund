@@ -4,3 +4,19 @@
 .rs-logo a span {
   /* keep original styles */
 }
+
+/* TDYU logo sizing */
+.rstb-site-logo img,
+.loader-icon img {
+  height: 52px !important;
+  width: auto !important;
+  max-width: 240px !important;
+  object-fit: contain !important;
+}
+.loader-icon img {
+  height: 72px !important;
+  max-width: 120px !important;
+}
+header .rstb-site-logo img {
+  height: 48px !important;
+}

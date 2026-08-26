@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 120" role="img" aria-label="TDYU Endowment Fund">
+  <title>TDYU Endowment Fund</title>
+  <!-- Mark -->
+  <g fill="none" stroke-linecap="square" stroke-linejoin="miter">
+    <path d="M18 86 V22 H82" stroke="#0C5776" stroke-width="14"/>
+    <path d="M34 78 V38 H74" stroke="#3D7A94" stroke-width="12"/>
+    <path d="M48 70 V50 H66" stroke="#00ADE2" stroke-width="10"/>
+  </g>
+  <rect x="58" y="62" width="14" height="14" rx="1" transform="rotate(45 65 69)" fill="#00ADE2"/>
+  <!-- Divider -->
+  <rect x="118" y="28" width="2" height="64" fill="#7EB6C9"/>
+  <!-- Wordmark -->
+  <text x="140" y="58" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="700" fill="#0C5776" letter-spacing="1">TDYU</text>
+  <text x="140" y="88" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="500" fill="#3D7A94" letter-spacing="3.2">ENDOWMENT FUND</text>
+</svg>
