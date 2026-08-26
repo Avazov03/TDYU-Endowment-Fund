@@ -1,0 +1,64 @@
+/* Local fonts — no Google CDN */
+@font-face {
+  font-family: "Maitree";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local("Maitree"), url("/fonts/maitree-latin-400-normal.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Maitree";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local("Maitree"), url("/fonts/maitree-latin-700-normal.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local("Inter"), url("/fonts/inter-latin-400-normal.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: local("Inter"), url("/fonts/inter-latin-500-normal.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: local("Inter"), url("/fonts/inter-latin-600-normal.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Bitter";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local("Bitter"), url("/fonts/bitter-latin-400-normal.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Bitter";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: local("Bitter"), url("/fonts/bitter-latin-500-normal.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local("Roboto"), url("/fonts/inter-latin-400-normal.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: local("Roboto"), url("/fonts/inter-latin-500-normal.woff2") format("woff2");
+}

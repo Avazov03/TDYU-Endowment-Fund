@@ -1,0 +1,51 @@
+{
+  "savedAt": "2026-08-26T09:56:04.085Z",
+  "note": "These menu/footer items were marked ⚠ (unnecessary for endowment IA) and hidden with CSS class tdyu-ia-hide. To restore: remove tdyu-ia-hide from HTML or delete the hide rules in public/tdyu-menu-mark.css. Sahifalar parent was kept as a navigation group.",
+  "keptAsVisibleParents": ["Sahifalar"],
+  "hiddenLabels": [
+    "⚠ Administration",
+    "⚠ Alumni Details",
+    "⚠ Alumni tafsilotlari",
+    "⚠ Azo tafsilotlari",
+    "⚠ A’zo tafsilotlari",
+    "⚠ Blog Standard",
+    "⚠ Blog grid",
+    "⚠ Campus Map",
+    "⚠ Dasturlar",
+    "⚠ Event Details",
+    "⚠ Events Details",
+    "⚠ Faculty",
+    "⚠ Fakultet tafsilotlari",
+    "⚠ Fakultetlar",
+    "⚠ Fond tadbirlari",
+    "⚠ Galereya",
+    "⚠ Graduate  Programs",
+    "⚠ History",
+    "⚠ Kutubxonalar",
+    "⚠ Loyiha tafsilotlari",
+    "⚠ Ma’muriyat",
+    "⚠ Others",
+    "⚠ Research Details",
+    "⚠ Savol-javob",
+    "⚠ TDYU kutubxonasi",
+    "⚠ Tadbir tafsilotlari",
+    "⚠ Tarix",
+    "⚠ Xarita",
+    "⚠ Yangilik tafsilotlari",
+    "⚠ Yangiliklar",
+    "⚠ Yangiliklar paneli",
+    "⚠ Yangiliklar ro'yxati",
+    "⚠ Yangiliklar ro‘yxat",
+    "⚠ Yangiliklar yon panel",
+    "⚠ ⚠ Tadbir tafsilotlari"
+  ],
+  "stats": {
+    "filesTouched": 185,
+    "hideOps": 6151,
+    "cssInject": 181
+  },
+  "restoreHint": {
+    "showAgain": "Delete or comment out .tdyu-ia-hide{display:none!important} in public/tdyu-menu-mark.css",
+    "hardRemoveLater": "Optionally delete the HTML nodes with class tdyu-ia-hide once confirmed unused"
+  }
+}

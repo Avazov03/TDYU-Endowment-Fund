@@ -1,0 +1,6 @@
+/* Light TDYU branding on original Cyan layout — does not restyle layout */
+.site-title,
+.logo-text,
+.rs-logo a span {
+  /* keep original styles */
+}

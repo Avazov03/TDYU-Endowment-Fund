@@ -1,0 +1,8 @@
+/* TDYU page copy polish — Cyan DNA */
+.prelements-heading .title-inner .title,
+.prelements-heading h1,
+.prelements-heading h2,
+.prelements-heading h3 {
+  /* keep theme fonts; ensure long Uzbek titles wrap cleanly */
+  overflow-wrap: anywhere;
+}
