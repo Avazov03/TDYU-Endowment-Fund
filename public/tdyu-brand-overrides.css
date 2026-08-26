@@ -20,3 +20,10 @@
 header .rstb-site-logo img {
   height: 48px !important;
 }
+
+/* logo transparent blend */
+.rstb-site-logo img,
+.loader-icon img {
+  background: transparent !important;
+  mix-blend-mode: normal;
+}
