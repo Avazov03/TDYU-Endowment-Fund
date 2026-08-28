@@ -915,12 +915,40 @@
     })
   }
 
+  function wireMotion() {
+    if (window.__tdyuMotion) return
+    window.__tdyuMotion = true
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    var nodes = document.querySelectorAll('[data-aos], [data-aos-once]')
+    function show(el) {
+      el.classList.add('aos-animate')
+    }
+    if (reduce || !('IntersectionObserver' in window)) {
+      nodes.forEach(show)
+      return
+    }
+    var io = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return
+          show(entry.target)
+          io.unobserve(entry.target)
+        })
+      },
+      { threshold: 0.12, rootMargin: '0px 0px -8% 0px' },
+    )
+    nodes.forEach(function (el) {
+      io.observe(el)
+    })
+  }
+
   function boot() {
     revealLazyBackgrounds()
     swapYoutubeVideos()
     wireForms()
     wireSearch()
     wireElementorWidgets()
+    wireMotion()
     snapshotFilterItems()
     wireAcademicFilters()
     setTimeout(function () {

@@ -205,3 +205,76 @@
 .elementor-tabs .elementor-tab-content:not(.elementor-active) {
   display: none !important;
 }
+
+/* Menyu dropdown: theme JS bo‘lmasa ham hover/focus ishlasin */
+@media (min-width: 1025px) {
+  .rstb-nav-menu .primary-menu > .menu-item-has-children:hover > .sub-menu,
+  .rstb-nav-menu .primary-menu > .menu-item-has-children:focus-within > .sub-menu,
+  .rstb-nav-menu .primary-menu > .menu-item:hover > .mega-menu,
+  .rstb-nav-menu .primary-menu > .menu-item:focus-within > .mega-menu,
+  .rstb-nav-menu .primary-menu > .menu-item:hover > .rs-mega-menu,
+  .rstb-nav-menu .primary-menu > .menu-item:focus-within > .rs-mega-menu {
+    display: block !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: none !important;
+    pointer-events: auto !important;
+  }
+}
+
+/* Kartochka / galereya rasm hover (Univet zoom) */
+.elementor-widget-rs-image:has(img[src*="gallery-img"]) .rs-image,
+.elementor-widget-rs-image:has(img[src*="campas-thumb"]) .rs-image,
+.elementor-widget-rs-image:has(img[src*="campus"]) .rs-image,
+.elementor-widget-rs-blog .rs-image,
+.elementor-widget-rs-event .rs-image,
+.faculty-member .image-wrap,
+.rs-academic-filter-area .filter-item .image,
+.rs-blog-grid .blog-img {
+  overflow: hidden;
+}
+.elementor-widget-rs-image:has(img[src*="gallery-img"]) img,
+.elementor-widget-rs-image:has(img[src*="campas-thumb"]) img,
+.elementor-widget-rs-image:has(img[src*="campus"]) img,
+.elementor-widget-rs-blog img,
+.elementor-widget-rs-event img,
+.faculty-member .image-wrap img,
+.rs-academic-filter-area .filter-item img,
+.rs-blog-grid .blog-img img {
+  transition: transform 0.45s ease;
+}
+.elementor-widget-rs-image:has(img[src*="gallery-img"]):hover img,
+.elementor-widget-rs-image:has(img[src*="campas-thumb"]):hover img,
+.elementor-widget-rs-image:has(img[src*="campus"]):hover img,
+.elementor-widget-rs-blog:hover img,
+.elementor-widget-rs-event:hover img,
+.faculty-member:hover .image-wrap img,
+.rs-academic-filter-area .filter-item:hover img,
+.rs-blog-grid .blog-item:hover .blog-img img {
+  transform: scale(1.07);
+}
+
+/* GSAP float yo‘qolganda — bezak rasmlar sekin harakatlanadi */
+@keyframes tdyu-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .gsap-enable .gsap-move-yes {
+    animation: tdyu-float 4.8s ease-in-out infinite;
+  }
+  .gsap-enable .gsap-move-yes.down-120,
+  .gsap-enable .gsap-move-yes.down-160 {
+    animation-direction: reverse;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .gsap-enable .gsap-move-yes {
+    animation: none !important;
+  }
+}

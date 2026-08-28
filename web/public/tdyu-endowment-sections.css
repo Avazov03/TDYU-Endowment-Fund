@@ -6,11 +6,21 @@
   pointer-events: none !important;
 }
 
-/* Keep mega / mobile / offcanvas menus collapsed without theme JS */
+/* Keep menus collapsed until hover/focus; theme JS is not required */
 .rstb-header .sub-menu,
 .rstb-header .mega-menu,
 .rstb-header .rs-mega-menu {
-  display: none !important;
+  display: none;
+}
+@media (min-width: 1025px) {
+  .rstb-header .menu-item-has-children:hover > .sub-menu,
+  .rstb-header .menu-item-has-children:focus-within > .sub-menu,
+  .rstb-header li:hover > .mega-menu,
+  .rstb-header li:focus-within > .mega-menu,
+  .rstb-header li:hover > .rs-mega-menu,
+  .rstb-header li:focus-within > .rs-mega-menu {
+    display: block !important;
+  }
 }
 .rstheme-offcanvas,
 .rstb-offcanvas,

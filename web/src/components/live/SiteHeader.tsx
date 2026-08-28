@@ -161,7 +161,7 @@ function Drop({ label, items }: { label: string; items: { href: string; label: s
           <path d="M12 15.5 5.6 9.1l1.4-1.4L12 12.7l5-5 1.4 1.4z" />
         </svg>
       </span>
-      <div className="invisible opacity-0 group-hover:visible group-hover:opacity-100 transition absolute left-0 top-full pt-3 min-w-[240px] z-50">
+      <div className="invisible opacity-0 group-hover:visible group-hover:opacity-100 transition duration-200 absolute left-0 top-full pt-3 min-w-[240px] z-50">
         <div className="bg-white rounded-2xl shadow-[0_12px_40px_rgba(12,87,118,0.16)] py-2 border border-black/5">
           {items.map((item) => (
             <Link key={item.label} href={item.href} className="block px-4 py-2 hover:bg-cream hover:text-sky">
