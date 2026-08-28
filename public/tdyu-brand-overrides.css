@@ -18,12 +18,29 @@
   max-width: 120px !important;
 }
 header .rstb-site-logo {
-  margin-top: -4px;
-  margin-bottom: -4px;
+  margin-top: -8px;
+  margin-bottom: -8px;
 }
 header .rstb-site-logo img {
-  height: 56px !important;
-  max-height: 56px !important;
+  height: 68px !important;
+  max-height: 68px !important;
+  max-width: 300px !important;
+}
+
+/* Univet graduation-cap heading glyphs → TDYU corner mark */
+.prelements-heading .title-inner span.sub-text:has(> svg)::before {
+  content: "";
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  margin-right: 8px;
+  flex-shrink: 0;
+  background: url("/brand/tdyu-mark.svg") center / contain no-repeat;
+}
+.prelements-heading .title-inner span.sub-text > svg {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
 }
 
 /* Official TDYU seal in the same img boxes as the Univet placeholders.
