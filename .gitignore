@@ -15,7 +15,13 @@ dist-ssr
 server/.env
 server/prisma/*.db
 server/prisma/*.db-journal
+server/prisma/.migration-row-counts.json
 server/uploads
+test-results
+playwright-report
+blob-report
+playwright/.cache
+deploy/.env.production
 
 # Editor directories and files
 .vscode/*

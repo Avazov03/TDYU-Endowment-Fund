@@ -5,6 +5,7 @@ import fs from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import { prisma } from '../db.mjs'
 import { authRequired, hashPassword, verifyPassword } from '../auth.mjs'
+import { MAX_UPLOAD_BYTES, storedUploadName, assertAllowedUpload } from '../upload-security.mjs'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const uploadDir = path.join(__dirname, '../../uploads')
@@ -13,13 +14,24 @@ fs.mkdirSync(uploadDir, { recursive: true })
 const storage = multer.diskStorage({
   destination: (_req, _file, cb) => cb(null, uploadDir),
   filename: (_req, file, cb) => {
-    const safe = file.originalname.replace(/[^a-zA-Z0-9._-]/g, '_')
-    cb(null, `${Date.now()}-${safe}`)
+    try {
+      cb(null, storedUploadName(file.originalname))
+    } catch (err) {
+      cb(err)
+    }
   },
 })
 const upload = multer({
   storage,
-  limits: { fileSize: 15 * 1024 * 1024 },
+  limits: { fileSize: MAX_UPLOAD_BYTES },
+  fileFilter: (_req, file, cb) => {
+    try {
+      assertAllowedUpload({ originalname: file.originalname, mimetype: file.mimetype, size: 0 })
+      cb(null, true)
+    } catch (err) {
+      cb(err)
+    }
+  },
 })
 
 const router = Router()

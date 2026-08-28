@@ -4,7 +4,7 @@
 
 Hozir ishlayotgan kod: public — Elementor HTML dump (`public/cyan`, `public/ru`, `public/en`); backend — Express + Prisma + SQLite; admin — React (`/admin`). Ko‘chirish **parallel** (eski o‘chmaydi).
 
-To‘liq TZ va xavfsiz yo‘l: [TZ-STACK.md](./TZ-STACK.md).
+To‘liq TZ va xavfsiz yo‘l: [TZ-STACK.md](./TZ-STACK.md). Testlar: [TESTING.md](./TESTING.md).
 
 ## Tezkor start
 
@@ -32,8 +32,16 @@ npm run dev:all
 | `npm run server` | FAQAT API (8787) |
 | `npm run dev` | FAQAT Vite |
 | `npm run dev:all` | API + Vite birga |
+| `npm run dev:new` | API + Next (`:3000`) |
 | `npm run db:seed` | Admin + sozlamalar + namuna e’lonlar |
 | `npm run build` | Admin SPA build (`dist/`) |
+| `npm run test:unit` | Vitest (`test.db`, `dev.db` ga tegilmaydi) |
+| `npm run test:e2e` | Barcha Playwright loyihalari |
+| `npm run test:e2e:smoke` | Sahifalar + `/api/health` |
+| `npm run test:e2e:forms` | Aloqa, xayriya, obuna |
+| `npm run test:e2e:admin` | Login, yangilik, hujjat, status |
+| `npm run test:e2e:i18n` | UZ / RU / EN |
+| `npm run test:migration-safety` | Jadval yozuvlari soni (qo‘lda snapshot/verify) |
 
 ## Admin da nima boshqariladi (to‘liq)
 

@@ -18,8 +18,17 @@ export async function verifyPassword(password, hash) {
   return bcrypt.compare(password, hash)
 }
 
-export function signToken(payload) {
-  return jwt.sign(payload, JWT_SECRET, { expiresIn: '7d' })
+export function signToken(payload, options = { expiresIn: '7d' }) {
+  return jwt.sign(payload, JWT_SECRET, options)
+}
+
+export function verifyToken(token) {
+  if (!token) {
+    const err = new Error('Unauthorized')
+    err.code = 'NO_TOKEN'
+    throw err
+  }
+  return jwt.verify(token, JWT_SECRET)
 }
 
 export function authRequired(req, res, next) {
@@ -29,7 +38,7 @@ export function authRequired(req, res, next) {
     return res.status(401).json({ error: 'Unauthorized' })
   }
   try {
-    req.user = jwt.verify(token, JWT_SECRET)
+    req.user = verifyToken(token)
     next()
   } catch {
     return res.status(401).json({ error: 'Invalid token' })

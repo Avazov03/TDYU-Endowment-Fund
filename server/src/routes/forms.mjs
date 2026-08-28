@@ -1,5 +1,6 @@
 import { Router } from 'express'
 import { prisma } from '../db.mjs'
+import { validateContact, validateDonation, validateGrant, validateNewsletter } from '../validation.mjs'
 
 const router = Router()
 
@@ -45,16 +46,11 @@ function flattenPayload(body) {
 
 router.post('/contact', async (req, res) => {
   const b = req.body || {}
-  const name =
-    b.name ||
-    [b.firstName, b.lastName].filter(Boolean).join(' ').trim() ||
-    b['your-name'] ||
-    ''
-  const email = b.email || b['your-email'] || ''
-  const message = b.message || b['your-message'] || b.xabar || ''
-  if (!name || !email || !message) {
-    return res.status(400).json({ error: 'name, email and message are required' })
+  const check = validateContact(b)
+  if (!check.ok) {
+    return res.status(400).json({ error: check.error })
   }
+  const { name, email, message } = check.value
   const row = await prisma.contactMessage.create({
     data: {
       name: String(name),
@@ -72,11 +68,12 @@ router.post('/contact', async (req, res) => {
 
 router.post('/donation', async (req, res) => {
   const b = req.body || {}
-  const firstName = b.firstName || b.name || b.Ism || ''
-  const email = b.email || ''
-  if (!firstName || !email) {
-    return res.status(400).json({ error: 'firstName and email are required' })
+  const check = validateDonation(b)
+  if (!check.ok) {
+    return res.status(400).json({ error: check.error })
   }
+  const firstName = check.value.firstName
+  const email = check.value.email
 
   const paymentMethod = b.paymentMethod ? String(b.paymentMethod) : 'bank'
   const paymentDemo = Boolean(b.paymentDemo)
@@ -114,11 +111,11 @@ router.post('/donation', async (req, res) => {
 
 router.post('/grant', async (req, res) => {
   const b = req.body || {}
-  const name = b.name || [b.firstName, b.lastName].filter(Boolean).join(' ').trim()
-  const email = b.email || ''
-  if (!name || !email) {
-    return res.status(400).json({ error: 'name and email are required' })
+  const check = validateGrant(b)
+  if (!check.ok) {
+    return res.status(400).json({ error: check.error })
   }
+  const { name, email } = check.value
   const row = await prisma.grantApplication.create({
     data: {
       name: String(name),
@@ -134,10 +131,11 @@ router.post('/grant', async (req, res) => {
 })
 
 router.post('/newsletter', async (req, res) => {
-  const email = (req.body?.email || '').trim().toLowerCase()
-  if (!email || !email.includes('@')) {
-    return res.status(400).json({ error: 'valid email required' })
+  const check = validateNewsletter(req.body || {})
+  if (!check.ok) {
+    return res.status(400).json({ error: check.error })
   }
+  const email = check.value.email
   const row = await prisma.newsletterSubscriber.upsert({
     where: { email },
     create: { email, lang: req.body.lang || 'uz' },
