@@ -189,3 +189,19 @@
     overflow: auto;
   }
 }
+
+.e-n-tabs.e-activated > .e-n-tabs-content > .e-con:not(.e-active) {
+  display: none !important;
+}
+.e-n-tabs.e-activated > .e-n-tabs-content > .e-con.e-active {
+  display: flex !important;
+}
+.e-n-tab-title {
+  cursor: pointer;
+}
+.e-n-accordion-item-title {
+  cursor: pointer;
+}
+.elementor-tabs .elementor-tab-content:not(.elementor-active) {
+  display: none !important;
+}

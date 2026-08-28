@@ -731,11 +731,196 @@
     })
   }
 
+  function nestedTabIndex(el) {
+    if (!el) return ''
+    return el.getAttribute('data-tab-index') || el.getAttribute('data-tab') || ''
+  }
+
+  function activateNestedTab(root, index) {
+    if (!root || !index) return
+    root.classList.add('e-activated')
+    root.querySelectorAll('.e-n-tab-title').forEach(function (btn) {
+      var on = String(nestedTabIndex(btn)) === String(index)
+      btn.classList.toggle('e-active', on)
+      btn.setAttribute('aria-selected', on ? 'true' : 'false')
+      btn.tabIndex = on ? 0 : -1
+    })
+    var content = root.querySelector('.e-n-tabs-content')
+    if (!content) return
+    var panels = []
+    for (var i = 0; i < content.children.length; i++) panels.push(content.children[i])
+    panels.forEach(function (panel) {
+      var on = String(nestedTabIndex(panel)) === String(index)
+      panel.classList.toggle('e-active', on)
+      panel.hidden = !on
+      panel.setAttribute('aria-hidden', on ? 'false' : 'true')
+    })
+  }
+
+  function accordionAllowsMultiple(acc) {
+    var widget = acc && acc.closest('[data-widget_type*="accordion"], .elementor-widget-n-accordion')
+    var raw = widget && widget.getAttribute('data-settings')
+    if (!raw) return false
+    try {
+      var s = JSON.parse(raw)
+      return s.max_items_expended === 'multiple' || s.max_items_expanded === 'multiple'
+    } catch (err) {
+      return false
+    }
+  }
+
+  function setNestedAccordionItem(details, open) {
+    if (!details) return
+    details.open = !!open
+    var summary = details.querySelector('summary, .e-n-accordion-item-title')
+    if (summary) summary.setAttribute('aria-expanded', open ? 'true' : 'false')
+  }
+
+  function wireElementorWidgets() {
+    if (window.__tdyuElWidgets) return
+    window.__tdyuElWidgets = true
+
+    document.addEventListener(
+      'keydown',
+      function (e) {
+        var t = e.target
+        if (!t || !t.closest) return
+        var title = t.closest('.e-n-tab-title')
+        if (!title) return
+        var root = title.closest('.e-n-tabs')
+        if (!root) return
+        var titles = []
+        root.querySelectorAll('.e-n-tabs-heading .e-n-tab-title').forEach(function (btn) {
+          if (titles.indexOf(btn) === -1) titles.push(btn)
+        })
+        if (!titles.length) {
+          root.querySelectorAll('.e-n-tab-title').forEach(function (btn) {
+            if (titles.indexOf(btn) === -1) titles.push(btn)
+          })
+        }
+        var cur = titles.indexOf(title)
+        if (cur < 0) cur = 0
+        var next = cur
+        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') next = (cur + 1) % titles.length
+        else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') next = (cur - 1 + titles.length) % titles.length
+        else if (e.key === 'Home') next = 0
+        else if (e.key === 'End') next = titles.length - 1
+        else if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault()
+          activateNestedTab(root, nestedTabIndex(title))
+          return
+        } else return
+        e.preventDefault()
+        titles[next].focus()
+        activateNestedTab(root, nestedTabIndex(titles[next]))
+      },
+      true,
+    )
+
+    document.addEventListener(
+      'click',
+      function (e) {
+        var t = e.target
+        if (!t || !t.closest) return
+        var nestedAccTitle = t.closest('.e-n-accordion-item-title, .e-n-accordion-item summary')
+        if (nestedAccTitle) {
+          var details = nestedAccTitle.closest('details')
+          var acc = nestedAccTitle.closest('.e-n-accordion')
+          if (details && acc) {
+            e.preventDefault()
+            var willOpen = !details.open
+            if (willOpen && !accordionAllowsMultiple(acc)) {
+              acc.querySelectorAll('details').forEach(function (other) {
+                setNestedAccordionItem(other, other === details)
+              })
+            } else {
+              setNestedAccordionItem(details, willOpen)
+            }
+          }
+          return
+        }
+        var nestedTitle = t.closest('.e-n-tab-title')
+        if (nestedTitle) {
+          var nestedRoot = nestedTitle.closest('.e-n-tabs')
+          var idx = nestedTabIndex(nestedTitle)
+          if (nestedRoot && idx) {
+            e.preventDefault()
+            activateNestedTab(nestedRoot, idx)
+          }
+          return
+        }
+        var tabTitle = t.closest(
+          '.elementor-tab-title, .elementor-tab-desktop-title, .elementor-tab-mobile-title',
+        )
+        if (tabTitle && !tabTitle.classList.contains('e-n-tab-title')) {
+          var tabs = tabTitle.closest('.elementor-tabs')
+          var tabId = tabTitle.getAttribute('data-tab')
+          if (tabs && tabId) {
+            e.preventDefault()
+            tabs.querySelectorAll('.elementor-tab-title, .elementor-tab-desktop-title, .elementor-tab-mobile-title').forEach(function (el) {
+              var on = el.getAttribute('data-tab') === tabId
+              el.classList.toggle('elementor-active', on)
+              el.setAttribute('aria-selected', on ? 'true' : 'false')
+              el.setAttribute('aria-expanded', on ? 'true' : 'false')
+            })
+            tabs.querySelectorAll('.elementor-tab-content').forEach(function (el) {
+              var on = el.getAttribute('data-tab') === tabId
+              el.classList.toggle('elementor-active', on)
+              el.hidden = !on
+              el.style.display = on ? '' : 'none'
+            })
+          }
+          return
+        }
+        var accTitle = t.closest('.elementor-accordion-title, .elementor-toggle-title')
+        if (accTitle) {
+          var item = accTitle.closest('.elementor-accordion-item, .elementor-toggle-item')
+          if (!item) return
+          e.preventDefault()
+          var open = !accTitle.classList.contains('elementor-active')
+          var group = accTitle.closest('.elementor-accordion, .elementor-toggle')
+          if (group && group.classList.contains('elementor-accordion')) {
+            group.querySelectorAll('.elementor-accordion-item').forEach(function (other) {
+              var title = other.querySelector('.elementor-accordion-title')
+              var body = other.querySelector('.elementor-tab-content, .elementor-accordion-content')
+              var on = open && other === item
+              if (title) {
+                title.classList.toggle('elementor-active', on)
+                title.setAttribute('aria-expanded', on ? 'true' : 'false')
+              }
+              if (body) {
+                body.classList.toggle('elementor-active', on)
+                body.hidden = !on
+                body.style.display = on ? '' : 'none'
+              }
+            })
+          } else {
+            var body = item.querySelector('.elementor-tab-content, .elementor-toggle-content')
+            accTitle.classList.toggle('elementor-active', open)
+            accTitle.setAttribute('aria-expanded', open ? 'true' : 'false')
+            if (body) {
+              body.classList.toggle('elementor-active', open)
+              body.hidden = !open
+              body.style.display = open ? '' : 'none'
+            }
+          }
+        }
+      },
+      true,
+    )
+
+    document.querySelectorAll('.e-n-tabs').forEach(function (root) {
+      var current = root.querySelector('.e-n-tab-title[aria-selected="true"]')
+      activateNestedTab(root, current ? current.getAttribute('data-tab-index') : '1')
+    })
+  }
+
   function boot() {
     revealLazyBackgrounds()
     swapYoutubeVideos()
     wireForms()
     wireSearch()
+    wireElementorWidgets()
     snapshotFilterItems()
     wireAcademicFilters()
     setTimeout(function () {
