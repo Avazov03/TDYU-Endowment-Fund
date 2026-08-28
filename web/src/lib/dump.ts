@@ -108,7 +108,8 @@ function rewriteSealHtml(html: string) {
 }
 
 function rewriteHtml(html: string, locale: Locale, dumpDir: string) {
-  let out = html.replace(/(href|src|action)=(["'])([^"']*)\2/gi, (_, attr, q, u) => {
+  let out = rewriteYoutubeHtml(html)
+  out = out.replace(/(href|src|action)=(["'])([^"']*)\2/gi, (_, attr, q, u) => {
     return `${attr}=${q}${rewriteUrl(u, locale, dumpDir)}${q}`
   })
   out = out.replace(/srcset=(["'])([^"']*)\1/gi, (_, q, set) => {
@@ -127,6 +128,20 @@ function rewriteHtml(html: string, locale: Locale, dumpDir: string) {
   return rewriteSealHtml(out)
 }
 
+/** Univet template placeholders → official TSUL (@tsulofficial) videos. */
+const YT_SWAP: Record<string, string> = {
+  LpdRAyIGg8I: 'v-Z3jc0-LhU', // Welcome to TSUL
+  LXvZA4bmUU4: 'KIgz0XGDJZw', // TDYU haqida xorijiy talabalar
+}
+
+function rewriteYoutubeHtml(html: string) {
+  let out = html
+  for (const [from, to] of Object.entries(YT_SWAP)) {
+    out = out.split(from).join(to)
+  }
+  return out
+}
+
 export function rewriteUrl(raw: string, locale: Locale, dumpDir: string) {
   let url = String(raw).trim()
   if (
@@ -142,6 +157,12 @@ export function rewriteUrl(raw: string, locale: Locale, dumpDir: string) {
 
   url = url.replace(/^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?/i, '')
   url = url.replace(/^https?:\/\/univet\.rstheme\.com/i, '')
+
+  // Keep YouTube / other third-party URLs. Otherwise `new URL(full, dummy)`
+  // turns https://www.youtube.com/watch?v=… into a local /uz/watch page.
+  if (/^https?:\/\//i.test(url)) {
+    return url
+  }
 
   let pathname = url
   let hash = ''

@@ -1,0 +1,15 @@
+node_modules
+web
+web/node_modules
+.git
+.env
+server/.env
+server/prisma/*.db
+server/prisma/*.db-journal
+server/uploads
+dist-ssr
+*.md
+scripts
+src
+_archive
+hts-cache

@@ -7,6 +7,7 @@ const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts')
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 const nextConfig: NextConfig = {
+  output: 'standalone',
   outputFileTracingRoot: __dirname,
   devIndicators: false,
   async redirects() {

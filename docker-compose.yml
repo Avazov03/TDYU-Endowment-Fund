@@ -1,0 +1,26 @@
+# Isolated stack. Never publish 80/443 — host nginx already owns them.
+# This VPS has ~1 GB RAM; prefer PM2 (ecosystem.config.cjs) so other sites stay up.
+services:
+  api:
+    build: .
+    container_name: tdyu-endowment-api
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      HOST: 0.0.0.0
+      PORT: 18787
+      DATABASE_URL: file:/data/prod.db
+    ports:
+      - "127.0.0.1:18787:18787"
+    volumes:
+      - tdyu_sqlite:/data
+      - tdyu_uploads:/app/server/uploads
+    mem_limit: 256m
+    cpus: "0.50"
+    security_opt:
+      - no-new-privileges:true
+
+volumes:
+  tdyu_sqlite:
+  tdyu_uploads:

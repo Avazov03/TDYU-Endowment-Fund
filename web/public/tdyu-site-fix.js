@@ -423,8 +423,44 @@
     })
   }
 
+  function swapYoutubeVideos() {
+    var map = {
+      LpdRAyIGg8I: 'v-Z3jc0-LhU',
+      LXvZA4bmUU4: 'KIgz0XGDJZw',
+    }
+    document.querySelectorAll('a.popup-videos, a[href*="youtube"], a[href*="youtu.be"], a[href*="watch?v="], iframe[src*="youtube"]').forEach(function (el) {
+      var attr = el.tagName === 'IFRAME' ? 'src' : 'href'
+      var v = el.getAttribute(attr) || ''
+      var idMatch = v.match(/[?&]v=([A-Za-z0-9_-]+)/) || v.match(/youtu\.be\/([A-Za-z0-9_-]+)/)
+      if (idMatch && !/youtube\.com|youtu\.be/i.test(v)) {
+        v = 'https://www.youtube.com/watch?v=' + idMatch[1]
+      }
+      Object.keys(map).forEach(function (from) {
+        if (v.indexOf(from) !== -1) v = v.split(from).join(map[from])
+      })
+      el.setAttribute(attr, v)
+    })
+  }
+
+  document.addEventListener(
+    'click',
+    function (e) {
+      var t = e.target
+      var a = t && t.closest ? t.closest('a[href]') : null
+      if (!a) return
+      var href = a.getAttribute('href') || ''
+      var cls = a.className || ''
+      if (cls.indexOf('popup-videos') === -1 && href.indexOf('watch?v=') === -1 && href.indexOf('youtube') === -1) {
+        return
+      }
+      swapYoutubeVideos()
+    },
+    true,
+  )
+
   function boot() {
     revealLazyBackgrounds()
+    swapYoutubeVideos()
     wireForms()
     wireSearch()
     fixPrivacyLinks()

@@ -13,9 +13,16 @@ dotenv.config({ path: path.join(__dirname, '../.env') })
 dotenv.config({ path: path.join(__dirname, '../../.env') })
 
 const PORT = Number(process.env.PORT || 8787)
+const HOST = process.env.HOST || '0.0.0.0'
 const app = express()
+app.disable('x-powered-by')
 
-app.use(cors())
+const corsOrigin = process.env.CORS_ORIGIN
+app.use(
+  corsOrigin
+    ? cors({ origin: corsOrigin.split(',').map((s) => s.trim()).filter(Boolean) })
+    : cors(),
+)
 app.use(express.json({ limit: '1mb' }))
 app.use(express.urlencoded({ extended: true }))
 
@@ -47,6 +54,6 @@ app.use((err, _req, res, _next) => {
   res.status(500).json({ error: 'Server error' })
 })
 
-app.listen(PORT, () => {
-  console.log(`TDYU API http://localhost:${PORT}`)
+app.listen(PORT, HOST, () => {
+  console.log(`TDYU API http://${HOST}:${PORT}`)
 })

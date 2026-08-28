@@ -20,6 +20,7 @@ export function DumpRuntime({
     document.body.setAttribute('data-tdyu-lang', locale)
     document.documentElement.lang = locale
     revealLazyBackgrounds()
+    swapYoutubeVideos()
 
     bootPromise = (async () => {
       for (const s of scripts) await loadScript(s)
@@ -32,6 +33,7 @@ export function DumpRuntime({
       mountLang(locale)
       bindDumpNav()
       swapPlaceholderSeals()
+      swapYoutubeVideos()
     })
 
     return () => window.clearTimeout(t)
@@ -56,6 +58,13 @@ function bindDumpNav() {
       if (raw.startsWith('#') || raw.startsWith('javascript:') || raw.startsWith('mailto:') || raw.startsWith('tel:')) {
         return
       }
+      if (
+        a.classList.contains('popup-videos') ||
+        /youtube\.com|youtu\.be|\/watch\?v=/i.test(raw) ||
+        /youtube\.com|youtu\.be/i.test(a.href)
+      ) {
+        return
+      }
       if (!a.href.startsWith(location.origin)) return
       ev.preventDefault()
       location.assign(a.href)
@@ -76,6 +85,28 @@ function hidePreloader() {
     el.style.display = 'none'
     el.remove()
   }
+}
+
+function swapYoutubeVideos() {
+  const map: Record<string, string> = {
+    LpdRAyIGg8I: 'v-Z3jc0-LhU',
+    LXvZA4bmUU4: 'KIgz0XGDJZw',
+  }
+  const run = () => {
+    document.querySelectorAll('a.popup-videos, a[href*="youtube"], a[href*="youtu.be"], a[href*="watch?v="], iframe[src*="youtube"]').forEach((el) => {
+      const attr = el.tagName === 'IFRAME' ? 'src' : 'href'
+      let v = el.getAttribute(attr) || ''
+      const idMatch = v.match(/[?&]v=([A-Za-z0-9_-]+)/) || v.match(/youtu\.be\/([A-Za-z0-9_-]+)/)
+      if (idMatch && !/youtube\.com|youtu\.be/i.test(v)) {
+        v = `https://www.youtube.com/watch?v=${idMatch[1]}`
+      }
+      Object.entries(map).forEach(([from, to]) => {
+        if (v.includes(from)) v = v.split(from).join(to)
+      })
+      el.setAttribute(attr, v)
+    })
+  }
+  run()
 }
 
 function swapPlaceholderSeals() {
