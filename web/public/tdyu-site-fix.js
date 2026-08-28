@@ -14,6 +14,24 @@
   })()
   var LANG = (document.body && document.body.getAttribute('data-tdyu-lang')) || 'uz'
 
+  ;(function patchWpFilterAjax() {
+    function patch(jq) {
+      if (!jq || jq.__tdyuFilterPatch) return
+      jq.__tdyuFilterPatch = true
+      jq.ajaxPrefilter(function (opts, _orig, xhr) {
+        var data = opts && opts.data
+        var s = typeof data === 'string' ? data : data && data.action ? String(data.action) : JSON.stringify(data || '')
+        if (s.indexOf('rs_academic_filter') !== -1) xhr.abort()
+      })
+    }
+    patch(window.jQuery)
+    var n = 0
+    var id = setInterval(function () {
+      patch(window.jQuery)
+      if (++n > 80) clearInterval(id)
+    }, 50)
+  })()
+
   var I18N = {
     uz: {
       formOk: 'Murojaat yuborildi',
@@ -55,23 +73,25 @@
   var t = I18N[LANG] || I18N.uz
 
   var PAGES = [
-    { u: '/index.html', title: { uz: 'Bosh', ru: 'Главная', en: 'Home' }, k: 'home bosh endowment' },
-    { u: '/about-us/index.html', title: { uz: 'Missiya', ru: 'Миссия', en: 'Mission' }, k: 'missiya mission fond haqida' },
-    { u: '/mission-value/index.html', title: { uz: '6 ustun', ru: '6 столпов', en: '6 pillars' }, k: 'ustun pillars strategy' },
-    { u: '/vice-chancellor/index.html', title: { uz: 'Boshqaruv', ru: 'Управление', en: 'Governance' }, k: 'boshqaruv vasiylik taftish' },
-    { u: '/alumni/index.html', title: { uz: 'Alumni', ru: 'Alumni', en: 'Alumni' }, k: 'alumni bitiruvchi' },
-    { u: '/research/index.html', title: { uz: 'Loyihalar', ru: 'Проекты', en: 'Projects' }, k: 'loyiha project jessup' },
-    { u: '/scholarships/index.html', title: { uz: 'Grantlar', ru: 'Гранты', en: 'Grants' }, k: 'grant stipendiya scholarship' },
-    { u: '/events/index.html', title: { uz: 'Tadbirlar', ru: 'Мероприятия', en: 'Events' }, k: 'tadbir event kongress' },
-    { u: '/all-programs/index.html', title: { uz: 'Dasturlar', ru: 'Программы', en: 'Programs' }, k: 'dastur program stajirovka' },
-    { u: '/tuition-fee/index.html', title: { uz: 'Hisobotlar', ru: 'Отчёты', en: 'Reports' }, k: 'hisobot report audit' },
-    { u: '/how-to-apply/index.html', title: { uz: 'Yordam', ru: 'Помощь', en: 'Support' }, k: 'yordam how apply' },
-    { u: '/admission-requirements/index.html', title: { uz: 'Huquqiy asos', ru: 'Правовая основа', en: 'Legal basis' }, k: 'huquqiy qonun legal' },
-    { u: '/cost-financial-aid/index.html', title: { uz: 'Shaffoflik', ru: 'Прозрачность', en: 'Transparency' }, k: 'shaffoflik transparency' },
-    { u: '/apply-now/index.html', title: { uz: 'Xayriya', ru: 'Пожертвование', en: 'Donate' }, k: 'xayriya donate donation' },
-    { u: '/blog/index.html', title: { uz: 'Yangiliklar', ru: 'Новости', en: 'News' }, k: 'yangilik news blog' },
-    { u: '/contact/index.html', title: { uz: 'Aloqa', ru: 'Контакты', en: 'Contact' }, k: 'aloqa contact email' },
-    { u: '/privacy-policy/index.html', title: { uz: 'Maxfiylik siyosati', ru: 'Политика конфиденциальности', en: 'Privacy policy' }, k: 'maxfiylik privacy' },
+    { u: '', title: { uz: 'Bosh', ru: 'Главная', en: 'Home' }, k: 'home bosh endowment' },
+    { u: '/about-us', title: { uz: 'Missiya', ru: 'Миссия', en: 'Mission' }, k: 'missiya mission fond haqida' },
+    { u: '/mission-value', title: { uz: '6 ustun', ru: '6 столпов', en: '6 pillars' }, k: 'ustun pillars strategy' },
+    { u: '/vice-chancellor', title: { uz: 'Boshqaruv', ru: 'Управление', en: 'Governance' }, k: 'boshqaruv vasiylik taftish' },
+    { u: '/alumni', title: { uz: 'Alumni', ru: 'Alumni', en: 'Alumni' }, k: 'alumni bitiruvchi' },
+    { u: '/researches', title: { uz: 'Loyihalar', ru: 'Проекты', en: 'Projects' }, k: 'loyiha project jessup research' },
+    { u: '/scholarships', title: { uz: 'Grantlar', ru: 'Гранты', en: 'Grants' }, k: 'grant stipendiya scholarship' },
+    { u: '/events', title: { uz: 'Tadbirlar', ru: 'Мероприятия', en: 'Events' }, k: 'tadbir event kongress' },
+    { u: '/all-programs', title: { uz: 'Dasturlar', ru: 'Программы', en: 'Programs' }, k: 'dastur program stajirovka nashr' },
+    { u: '/tuition-fee', title: { uz: 'Hisobotlar', ru: 'Отчёты', en: 'Reports' }, k: 'hisobot report audit' },
+    { u: '/how-to-apply', title: { uz: 'Yordam', ru: 'Помощь', en: 'Support' }, k: 'yordam how apply faq' },
+    { u: '/faq', title: { uz: 'FAQ', ru: 'FAQ', en: 'FAQ' }, k: 'faq savol javob yordam' },
+    { u: '/admission-requirements', title: { uz: 'Huquqiy asos', ru: 'Правовая основа', en: 'Legal basis' }, k: 'huquqiy qonun legal' },
+    { u: '/cost-financial-aid', title: { uz: 'Shaffoflik', ru: 'Прозрачность', en: 'Transparency' }, k: 'shaffoflik transparency' },
+    { u: '/apply-now', title: { uz: 'Xayriya', ru: 'Пожертвование', en: 'Donate' }, k: 'xayriya donate donation' },
+    { u: '/blog', title: { uz: 'Yangiliklar', ru: 'Новости', en: 'News' }, k: 'yangilik news blog' },
+    { u: '/contact', title: { uz: 'Aloqa', ru: 'Контакты', en: 'Contact' }, k: 'aloqa contact email' },
+    { u: '/privacy-policy', title: { uz: 'Maxfiylik siyosati', ru: 'Политика конфиденциальности', en: 'Privacy policy' }, k: 'maxfiylik privacy' },
+    { u: '/libraries', title: { uz: 'Nashrlar', ru: 'Издания', en: 'Publications' }, k: 'nashr publication tarjima kutubxona' },
   ]
 
   function toast(title, msg) {
@@ -330,18 +350,230 @@
       .join('')
   }
 
+  function isSiteSearchForm(form) {
+    if (!form || form.closest('.rs-academic-filter-area')) return false
+    if (form.querySelector('.filter-search-input')) return false
+    return Boolean(
+      form.getAttribute('role') === 'search' ||
+        form.querySelector('input[type="search"], input[name="s"], .search-field'),
+    )
+  }
+
   function wireSearch() {
-    document.querySelectorAll('form[role="search"]').forEach(function (form) {
+    document.querySelectorAll('form').forEach(function (form) {
+      if (!isSiteSearchForm(form)) return
       form.addEventListener(
         'submit',
         function (ev) {
           ev.preventDefault()
           ev.stopPropagation()
-          var input = form.querySelector('input[type="search"], input[name="s"], input[type="text"]')
+          var input = form.querySelector('input[type="search"], input[name="s"], .search-field, input[type="text"]')
           openSearch(input ? input.value : '')
         },
         true,
       )
+    })
+    document.querySelectorAll('.search-btn, .submit-btn, .search-toggle, .nav-search, .header-search').forEach(function (btn) {
+      btn.addEventListener('click', function (ev) {
+        var form = btn.closest('form')
+        if (form && !isSiteSearchForm(form)) return
+        if (form && form.querySelector('input')) {
+          ev.preventDefault()
+          ev.stopPropagation()
+          var input = form.querySelector('input[type="search"], input[name="s"], .search-field, input[type="text"]')
+          openSearch(input ? input.value : '')
+        }
+      })
+    })
+  }
+
+  function labelText(input) {
+    var lab = input.closest('label')
+    if (lab) {
+      return String(lab.textContent || '')
+        .replace(/\s+/g, ' ')
+        .trim()
+        .toLowerCase()
+    }
+    return String(input.value || '').toLowerCase()
+  }
+
+  function selectedLabels(root, name) {
+    var out = []
+    root.querySelectorAll('input[name="' + name + '"]:checked').forEach(function (el) {
+      out.push(labelText(el))
+    })
+    return out
+  }
+
+  function itemMatches(item, groups, q) {
+    var hay = String(item.textContent || '')
+      .replace(/\s+/g, ' ')
+      .trim()
+      .toLowerCase()
+    if (q && hay.indexOf(q) === -1) return false
+    for (var i = 0; i < groups.length; i++) {
+      var labels = groups[i]
+      if (!labels.length) continue
+      var ok = false
+      for (var j = 0; j < labels.length; j++) {
+        if (labels[j] && hay.indexOf(labels[j]) !== -1) {
+          ok = true
+          break
+        }
+      }
+      if (!ok) return false
+    }
+    return true
+  }
+
+  var FILTER_ITEMS_HTML = null
+  function snapshotFilterItems() {
+    document.querySelectorAll('.rs-academic-filter-area .filter-items-wrapper').forEach(function (w) {
+      if (w.querySelector('.filter-item') && !FILTER_ITEMS_HTML) FILTER_ITEMS_HTML = w.innerHTML
+      if (FILTER_ITEMS_HTML && !w.querySelector('.filter-item')) w.innerHTML = FILTER_ITEMS_HTML
+    })
+    document.querySelectorAll('.rs-academic-filter-area').forEach(ensureSeventhProgram)
+  }
+
+  function ensureSeventhProgram(wrap) {
+    if (!wrap) return
+    var list = wrap.querySelector('.filter-items-wrapper')
+    if (!list) return
+    var blob = String(list.textContent || '')
+    if (/Nashrlar va tarjima|Publications and translations|Издания и переводы/i.test(blob)) return
+    var copy = {
+      uz: {
+        t: 'Nashrlar va tarjimalar',
+        d: 'Huquqiy darsliklar tarjimasi, xorijiy nashrlar va kutubxonalarga adabiyot taqdimi.',
+        m: '07 · Nashrlar',
+        cta: 'Batafsil',
+      },
+      ru: {
+        t: 'Издания и переводы',
+        d: 'Перевод правовых учебников, зарубежные издания и литература для библиотек.',
+        m: '07 · Издания',
+        cta: 'Подробнее',
+      },
+      en: {
+        t: 'Publications and translations',
+        d: 'Legal textbook translation, international publishing, and books for libraries.',
+        m: '07 · Publications',
+        cta: 'Learn more',
+      },
+    }
+    var c = copy[LANG] || copy.uz
+    var card = document.createElement('div')
+    card.className = 'filter-item tdyu-injected-program'
+    card.innerHTML =
+      '<div class="item-content"><h4 class="item-title"><a href="' +
+      ROOT +
+      '/libraries">' +
+      c.t +
+      '</a></h4><ul class="item-meta"><li>' +
+      c.m +
+      '</li><li>Tarjima</li></ul><p class="item-desc">' +
+      c.d +
+      '</p><a class="rs-button style-default" href="' +
+      ROOT +
+      '/libraries"><span class="button-text">' +
+      c.cta +
+      '</span></a></div>'
+    list.appendChild(card)
+  }
+
+  function wireAcademicFilters() {
+    document.querySelectorAll('.rs-academic-filter-area').forEach(function (area) {
+      if (area.getAttribute('data-tdyu-filter') === '1') return
+      snapshotFilterItems()
+      area.removeAttribute('data-config')
+      var clone = area.cloneNode(true)
+      if (area.parentNode) area.parentNode.replaceChild(clone, area)
+      area = clone
+      area.setAttribute('data-tdyu-filter', '1')
+      ensureSeventhProgram(area)
+      var apply = function () {
+        var q = String((area.querySelector('.filter-search-input') || {}).value || '')
+          .trim()
+          .toLowerCase()
+        var items = area.querySelectorAll('.filter-item')
+        var groups = ['faculties', 'departments', 'levels'].map(function (name) {
+          var labels = selectedLabels(area, name)
+          if (!labels.length) return []
+          var tagged = false
+          items.forEach(function (item) {
+            var hay = String(item.textContent || '').toLowerCase()
+            labels.forEach(function (l) {
+              if (l && hay.indexOf(l) !== -1) tagged = true
+            })
+          })
+          return tagged ? labels : []
+        })
+        var n = 0
+        items.forEach(function (item) {
+          var show = itemMatches(item, groups, q)
+          item.classList.toggle('is-filtered-out', !show)
+          if (show) n++
+        })
+        var count = area.querySelector('.result-count')
+        if (count) count.textContent = String(n)
+        var empty = area.querySelector('.tdyu-filter-empty')
+        if (!empty) {
+          empty = document.createElement('p')
+          empty.className = 'tdyu-filter-empty'
+          empty.textContent =
+            LANG === 'ru' ? 'Ничего не найдено.' : LANG === 'en' ? 'No matching programs.' : 'Mos dastur topilmadi.'
+          var wrap = area.querySelector('.filter-items-wrapper')
+          if (wrap) wrap.appendChild(empty)
+        }
+        empty.hidden = n > 0
+      }
+      area.addEventListener('change', function (e) {
+        if (e.target && e.target.matches && e.target.matches('input[type="checkbox"]')) apply()
+      })
+      var search = area.querySelector('.filter-search-input')
+      if (search) search.addEventListener('input', apply)
+      area.querySelectorAll('.filter-reset-btn, .sidebar-title span').forEach(function (btn) {
+        btn.addEventListener('click', function (ev) {
+          ev.preventDefault()
+          area.querySelectorAll('input[type="checkbox"]').forEach(function (el) {
+            el.checked = false
+          })
+          if (search) search.value = ''
+          apply()
+        })
+      })
+      area.querySelectorAll('.criteria-show-more').forEach(function (btn) {
+        var box = btn.closest('.filter-criteria')
+        if (box) {
+          box.querySelectorAll('.criteria-item').forEach(function (li) {
+            if (li.style.display === 'none') li.setAttribute('data-tdyu-extra', '1')
+          })
+        }
+        btn.addEventListener('click', function () {
+          if (!box) return
+          var open = box.classList.toggle('is-expanded')
+          box.querySelectorAll('[data-tdyu-extra="1"]').forEach(function (li) {
+            li.style.display = open ? '' : 'none'
+          })
+          var show = btn.getAttribute('data-show-text') || btn.textContent
+          var hide = btn.getAttribute('data-hide-text') || show
+          btn.textContent = open ? hide : show
+        })
+      })
+      var toggle = area.querySelector('.filter-toggle-btn')
+      if (toggle) {
+        toggle.addEventListener('click', function () {
+          area.classList.toggle('is-sidebar-open')
+        })
+      }
+      var overlay = area.querySelector('.filter-sidebar-overly, .filter-sidebar-overlay')
+      if (overlay) {
+        overlay.addEventListener('click', function () {
+          area.classList.remove('is-sidebar-open')
+        })
+      }
+      apply()
     })
   }
 
@@ -504,6 +736,16 @@
     swapYoutubeVideos()
     wireForms()
     wireSearch()
+    snapshotFilterItems()
+    wireAcademicFilters()
+    setTimeout(function () {
+      snapshotFilterItems()
+      wireAcademicFilters()
+    }, 200)
+    setTimeout(function () {
+      snapshotFilterItems()
+      wireAcademicFilters()
+    }, 800)
     fixPrivacyLinks()
     fixFacultySocialIcons()
     hydrateAnnouncements()

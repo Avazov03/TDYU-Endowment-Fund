@@ -21,6 +21,19 @@ const nextConfig: NextConfig = {
       ['projects', 'researches'],
       ['governance', 'vice-chancellor'],
       ['reports', 'tuition-fee'],
+      ['transparency', 'cost-financial-aid'],
+      ['legal', 'admission-requirements'],
+      ['support', 'how-to-apply'],
+      ['mission', 'mission-value'],
+      ['blog-grid-3-column', 'blog'],
+      ['blog-standard', 'blog'],
+      ['blog-list', 'blog'],
+      ['category/alumni', 'alumni'],
+      ['category/educations', 'all-programs'],
+      ['category/education', 'all-programs'],
+      ['category/online', 'blog'],
+      ['category/research', 'researches'],
+      ['category/university', 'about-us'],
     ]
     return aliases.flatMap(([from, to]) =>
       ['uz', 'ru', 'en'].map((locale) => ({

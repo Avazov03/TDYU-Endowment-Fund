@@ -160,3 +160,32 @@
 .faculty-member .social-links .initial-icon i svg path {
   fill: #fff !important;
 }
+
+.rs-academic-filter-area .filter-item.is-filtered-out {
+  display: none !important;
+}
+.rs-academic-filter-area .tdyu-filter-empty {
+  margin: 16px 0 0;
+  color: #0c5776;
+  font-family: "Maitree", "Bitter", Georgia, serif;
+}
+.rs-academic-filter-area .tdyu-injected-program {
+  padding: 18px;
+  background: #fff;
+  border-radius: 12px;
+}
+.rs-academic-filter-area.filter-criteria.is-expanded .criteria-item,
+.rs-academic-filter-area .filter-criteria.is-expanded .criteria-item {
+  display: list-item !important;
+}
+@media (max-width: 991px) {
+  .rs-academic-filter-area.is-sidebar-open .filter-sidebar {
+    display: block !important;
+    position: fixed;
+    inset: 0 auto 0 0;
+    z-index: 100010;
+    max-width: min(320px, 90vw);
+    height: 100%;
+    overflow: auto;
+  }
+}

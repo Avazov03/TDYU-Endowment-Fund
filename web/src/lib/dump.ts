@@ -28,6 +28,34 @@ function publicDir() {
   return path.join(process.cwd(), 'public')
 }
 
+const PAGE_ALIAS: Record<string, string> = {
+  about: 'about-us',
+  donate: 'apply-now',
+  programs: 'all-programs',
+  privacy: 'privacy-policy',
+  news: 'blog',
+  grants: 'scholarships',
+  projects: 'researches',
+  governance: 'vice-chancellor',
+  reports: 'tuition-fee',
+  transparency: 'cost-financial-aid',
+  legal: 'admission-requirements',
+  support: 'how-to-apply',
+  mission: 'mission-value',
+  'blog-grid-3-column': 'blog',
+  'blog-standard': 'blog',
+  'blog-list': 'blog',
+}
+
+const CATEGORY_ALIAS: Record<string, string> = {
+  alumni: 'alumni',
+  educations: 'all-programs',
+  education: 'all-programs',
+  online: 'blog',
+  research: 'researches',
+  university: 'about-us',
+}
+
 function normalizeSlug(slug: string[]) {
   const parts = slug.filter(Boolean)
   if (parts.at(-1) === 'index.html') parts.pop()
@@ -37,9 +65,21 @@ function normalizeSlug(slug: string[]) {
   return parts
 }
 
+function resolveDumpSlug(slug: string[]) {
+  const parts = normalizeSlug(slug)
+  if (!parts.length) return parts
+  const key = parts.join('/')
+  if (PAGE_ALIAS[key]) return PAGE_ALIAS[key].split('/')
+  if (PAGE_ALIAS[parts[0]!]) return [PAGE_ALIAS[parts[0]!], ...parts.slice(1)]
+  if (parts[0] === 'category' && parts[1] && CATEGORY_ALIAS[parts[1]]) {
+    return [CATEGORY_ALIAS[parts[1]]]
+  }
+  return parts
+}
+
 export function dumpFilePath(locale: Locale, slug: string[]) {
   const root = dumpRoot(locale)
-  const parts = normalizeSlug(slug)
+  const parts = resolveDumpSlug(slug)
   if (parts.length === 0) return path.join(publicDir(), root, 'index.html')
   return path.join(publicDir(), root, ...parts, 'index.html')
 }
@@ -48,7 +88,7 @@ export function loadDump(locale: Locale, slug: string[]): DumpDoc | null {
   const file = dumpFilePath(locale, slug)
   if (!fs.existsSync(file)) return null
   const html = fs.readFileSync(file, 'utf8')
-  const dumpDir = normalizeSlug(slug).join('/')
+  const dumpDir = resolveDumpSlug(slug).join('/')
   const head = html.slice(0, html.search(/<body/i))
   const bodyOpen = html.match(/<body([^>]*)>/i)?.[1] ?? ''
   const bodyClass = /class=["']([^"']*)["']/i.exec(bodyOpen)?.[1] ?? ''
@@ -254,6 +294,17 @@ export function rewriteUrl(raw: string, locale: Locale, dumpDir: string) {
   }
   page = page.replace(/\/index\.html$/i, '').replace(/\.html$/i, '')
   if (!page.startsWith('/')) page = `/${page}`
+
+  const cat = page.match(/^\/category\/([^/]+)/i)
+  if (cat && CATEGORY_ALIAS[cat[1]]) {
+    page = `/${CATEGORY_ALIAS[cat[1]]}`
+  } else {
+    const first = page.replace(/^\//, '').split('/')[0]
+    if (first && PAGE_ALIAS[first]) {
+      page = `/${PAGE_ALIAS[first]}${page.slice(first.length + 1)}`
+    }
+  }
+
   if (page === '/') return `/${locale}${hash}`
   return `/${locale}${page}${search}${hash}`
 }
