@@ -235,7 +235,7 @@
   color: #fff;
   background:
     linear-gradient(120deg, rgba(8,56,77,.9), rgba(12,87,118,.72) 50%, rgba(0,173,226,.4)),
-    url('/cyan/wp-content/uploads/sites/17/2025/12/cyan-banner.jpg') center/cover no-repeat;
+    url('/media/hero-banner.jpg') center/cover no-repeat;
 }
 .tdyu-hero-inner { position: relative; z-index: 1; padding: 96px 0 64px; width: min(1200px, calc(100% - 40px)); margin-inline: auto; }
 .tdyu-hero h1 {
@@ -325,7 +325,7 @@
   padding: 64px 0 48px;
   background:
     linear-gradient(110deg, rgba(12,87,118,.92), rgba(0,173,226,.72)),
-    url('/cyan/wp-content/uploads/sites/17/2025/11/inner-about-page-img1-2-min.jpg') center/cover no-repeat;
+    url('/media/page-hero.jpg') center/cover no-repeat;
   color: #fff;
 }
 .tdyu-page-hero h1 { color: #fff; font-family: Maitree, Georgia, serif; font-size: clamp(1.8rem, 4vw, 2.6rem); margin: 0 0 10px; }
@@ -414,3 +414,26 @@
   margin-bottom: 28px;
 }
 .tdyu-head-row p { margin: 0; max-width: 36ch; opacity: .8; }
+
+.tdyu-faq {
+  background: #fff;
+  border-radius: var(--tdyu-radius);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.06);
+  margin-bottom: 12px;
+  padding: 0 22px;
+}
+.tdyu-faq summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--tdyu-title);
+  padding: 18px 0;
+  font-family: Maitree, Georgia, serif;
+  font-size: 1.05rem;
+  list-style: none;
+}
+.tdyu-faq summary::-webkit-details-marker { display: none; }
+.tdyu-faq[open] summary { color: var(--tdyu-primary); }
+.tdyu-faq p {
+  margin: 0 0 18px;
+  line-height: 1.65;
+}

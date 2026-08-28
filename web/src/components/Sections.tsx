@@ -11,7 +11,7 @@ export async function HomeHero({ locale }: { locale: Locale }) {
     <section className="tdyu-hero">
       <img
         className="tdyu-hero-bg"
-        src="/cyan/wp-content/uploads/sites/17/2025/12/cyan-banner.jpg"
+        src="/media/hero-banner.jpg"
         alt=""
       />
       <div className="tdyu-hero-inner tdyu-hero-layout">
@@ -92,11 +92,11 @@ export async function MissionBlock({ locale, full = false }: { locale: Locale; f
           {!full ? (
             <div className="tdyu-about-photos">
               <img
-                src="/cyan/wp-content/uploads/sites/17/2025/12/cyan-about-img1-min.jpg"
+                src="/media/about-1.jpg"
                 alt=""
               />
               <img
-                src="/cyan/wp-content/uploads/sites/17/2025/12/cyan-about-img2-min.jpg"
+                src="/media/about-2.jpg"
                 alt=""
               />
             </div>
@@ -136,12 +136,12 @@ export async function ProgramsBlock({ locale, limit }: { locale: Locale; limit?:
     <section className="tdyu-sec tdyu-sec-cream tdyu-sec-deco">
       <img
         className="tdyu-deco tdyu-deco-left"
-        src="/cyan/wp-content/uploads/sites/17/2025/12/program-cyan-left1-1.png"
+        src="/media/program-left.png"
         alt=""
       />
       <img
         className="tdyu-deco tdyu-deco-right"
-        src="/cyan/wp-content/uploads/sites/17/2025/12/program-cyan-right1.png"
+        src="/media/program-right.png"
         alt=""
       />
       <div className="tdyu-wrap">
@@ -424,6 +424,43 @@ export function LegalBlock({ locale }: { locale: Locale }) {
             {locale === 'ru' ? 'Связь' : locale === 'en' ? 'Contact' : 'Aloqa'}:{' '}
             <a href={`mailto:${brand.email}`}>{brand.email}</a>
           </p>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+export async function FaqBlock({ locale }: { locale: Locale }) {
+  const t = await getTranslations({ locale, namespace: 'faq' })
+  const items = [
+    { q: t('q1'), a: t('a1') },
+    { q: t('q2'), a: t('a2') },
+    { q: t('q3'), a: t('a3') },
+    { q: t('q4'), a: t('a4') },
+  ]
+  return (
+    <section className="tdyu-sec">
+      <div className="tdyu-wrap">
+        {items.map((item) => (
+          <details className="tdyu-faq" key={item.q}>
+            <summary>{item.q}</summary>
+            <p>{item.a}</p>
+          </details>
+        ))}
+      </div>
+    </section>
+  )
+}
+
+export async function PrivacyBlock({ locale }: { locale: Locale }) {
+  const t = await getTranslations({ locale, namespace: 'privacy' })
+  return (
+    <section className="tdyu-sec">
+      <div className="tdyu-wrap">
+        <div className="tdyu-card">
+          <p>{t('p1')}</p>
+          <p>{t('p2')}</p>
+          <p>{t('p3')}</p>
         </div>
       </div>
     </section>

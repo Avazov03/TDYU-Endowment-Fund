@@ -1,0 +1,103 @@
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities);
+@config "../../tailwind.config.ts";
+
+@theme {
+  --color-tdyu: #0c5776;
+  --color-tdyu-deep: #09465f;
+  --color-tdyu-mid: #0f6487;
+  --color-sky: #00ade2;
+  --color-cream: #f6f4ee;
+  --color-ink: #030303;
+  --color-body: #4c4c4c;
+  --font-display: "Maitree", Georgia, serif;
+  --font-ui: Inter, system-ui, sans-serif;
+  --radius-card: 16px;
+  --radius-pill: 30px;
+}
+
+@font-face {
+  font-family: "Maitree";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/maitree-latin-400-normal.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Maitree";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/maitree-latin-700-normal.woff2") format("woff2");
+}
+@font-face {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/inter-latin-400-normal.woff2") format("woff2");
+}
+@font-face {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/inter-latin-500-normal.woff2") format("woff2");
+}
+@font-face {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/fonts/inter-latin-600-normal.woff2") format("woff2");
+}
+
+.live-root {
+  font-family: Inter, system-ui, sans-serif;
+  color: #4c4c4c;
+  background: #fff;
+  min-height: 100vh;
+}
+
+.live-root *,
+.live-root *::before,
+.live-root *::after {
+  box-sizing: border-box;
+}
+
+.live-root a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.live-root img {
+  max-width: 100%;
+}
+
+.live-root button,
+.live-root input,
+.live-root textarea {
+  font: inherit;
+}
+
+.live-root h1,
+.live-root h2,
+.live-root h3,
+.live-root h4,
+.live-root p {
+  margin: 0;
+}
+
+.live-root h1,
+.live-root h2,
+.live-root h3,
+.live-root h4 {
+  font-family: Maitree, Georgia, serif;
+  color: #030303;
+  font-weight: 700;
+}
+
+.live-wrap {
+  width: min(1200px, calc(100% - 40px));
+  margin-inline: auto;
+}

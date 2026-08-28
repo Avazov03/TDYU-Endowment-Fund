@@ -10,9 +10,9 @@ export const dynamic = 'force-dynamic'
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ locale: string; slug?: string[] }>
+  params: Promise<{ locale: string; slug: string[] }>
 }) {
-  const { locale, slug = [] } = await params
+  const { locale, slug } = await params
   if (!hasLocale(routing.locales, locale)) return {}
   const dump = loadDump(locale, slug)
   if (!dump) return { title: 'TDYU Endowment Fund' }
@@ -22,9 +22,9 @@ export async function generateMetadata({
 export default async function DumpCatchAllPage({
   params,
 }: {
-  params: Promise<{ locale: string; slug?: string[] }>
+  params: Promise<{ locale: string; slug: string[] }>
 }) {
-  const { locale, slug = [] } = await params
+  const { locale, slug } = await params
   if (!hasLocale(routing.locales, locale)) notFound()
   setRequestLocale(locale)
   const dump = loadDump(locale, slug)

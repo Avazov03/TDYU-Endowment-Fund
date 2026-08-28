@@ -13,11 +13,8 @@ const nextConfig: NextConfig = {
   async redirects() {
     const aliases: [string, string][] = [
       ['about', 'about-us'],
-      ['donate', 'apply-now'],
-      ['programs', 'all-programs'],
       ['privacy', 'privacy-policy'],
       ['news', 'blog'],
-      ['grants', 'scholarships'],
       ['projects', 'researches'],
       ['governance', 'vice-chancellor'],
       ['reports', 'tuition-fee'],
