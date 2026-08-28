@@ -53,6 +53,9 @@
     }
     var key = keyMap[kind]
     if (!key || !map[key]) return
+    // Homepage donate card is Elementor layout; injecting here stretches the form
+    // and breaks the contact-bg overlap. Keep CMS copy on inner pages only.
+    if (kind === 'home') return
     var block = map[key]
     var panel = ensurePanel('tdyu-cms-content', block.title || '')
     panel.querySelector('.tdyu-cms-title').textContent = block.title || ''

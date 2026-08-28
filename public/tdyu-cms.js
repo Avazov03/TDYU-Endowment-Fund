@@ -53,6 +53,7 @@
     }
     var key = keyMap[kind]
     if (!key || !map[key]) return
+    if (kind === 'home') return
     var block = map[key]
     var panel = ensurePanel('tdyu-cms-content', block.title || '')
     panel.querySelector('.tdyu-cms-title').textContent = block.title || ''

@@ -417,7 +417,14 @@
     })
   }
 
+  function revealLazyBackgrounds() {
+    document.querySelectorAll('.e-con.e-parent').forEach(function (el) {
+      el.classList.add('e-lazyloaded')
+    })
+  }
+
   function boot() {
+    revealLazyBackgrounds()
     wireForms()
     wireSearch()
     fixPrivacyLinks()

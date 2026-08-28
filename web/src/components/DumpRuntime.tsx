@@ -19,6 +19,7 @@ export function DumpRuntime({
     document.body.className = bodyClass
     document.body.setAttribute('data-tdyu-lang', locale)
     document.documentElement.lang = locale
+    revealLazyBackgrounds()
 
     bootPromise = (async () => {
       for (const s of scripts) await loadScript(s)
@@ -27,6 +28,7 @@ export function DumpRuntime({
     const t = window.setTimeout(hidePreloader, 2500)
     void bootPromise.then(() => {
       hidePreloader()
+      revealLazyBackgrounds()
       mountLang(locale)
       bindDumpNav()
       swapPlaceholderSeals()
@@ -60,6 +62,12 @@ function bindDumpNav() {
     },
     true,
   )
+}
+
+function revealLazyBackgrounds() {
+  document.querySelectorAll('.e-con.e-parent').forEach((el) => {
+    el.classList.add('e-lazyloaded')
+  })
 }
 
 function hidePreloader() {
