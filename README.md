@@ -1,38 +1,76 @@
 # TDYU Endowment Fund
 
-**Muhim:** Saytning ko‘rinishi — **asl Cyan universitet HTML/CSS/JS** (`public/cyan/`). Qayta chizilgan React dizayn emas.
+**Kelishilgan stack (27 Aug 2026):** Next.js 15 App Router + React 19 + Tailwind + next-intl; API keyin Route Handlers; Prisma; DB hozir SQLite, keyin PostgreSQL.
 
-## Ishga tushirish
+Hozir ishlayotgan kod: public — Elementor HTML dump (`public/cyan`, `public/ru`, `public/en`); backend — Express + Prisma + SQLite; admin — React (`/admin`). Ko‘chirish **parallel** (eski o‘chmaydi).
+
+To‘liq TZ va xavfsiz yo‘l: [TZ-STACK.md](./TZ-STACK.md).
+
+## Tezkor start
 
 ```bash
 cd tdyu-endowment
+cp .env.example .env          # kerak bo‘lsa
 npm install
-npm run personalize   # bir marta / yangilashda
-npm run dev
+npx prisma migrate deploy --schema server/prisma/schema.prisma
+npm run db:seed
+npm run dev:all
 ```
 
-Brauzerda ochiladi: **`/cyan/index.html`** (asl layout + o‘zbekcha matnlar).
+- Public sayt: http://localhost:5173/cyan/index.html  
+- Admin: http://localhost:5173/admin/login  
+- API: http://localhost:8787/api/health  
 
-Tarjimani qayta qo‘llash:
-```bash
-npm run translate
-```
+### Demo login
+- Email: `admin@tdyu-endowment.uz`
+- Parol: `Admin123!`
 
-## Sahifa xaritasi (asl fayllar)
+## Skriptlar
 
-| URL | Asl fayl |
-|-----|----------|
-| Bosh | `public/cyan/index.html` |
-| Missiya | `public/cyan/about-us/index.html` |
-| Dasturlar | `public/cyan/all-programs/index.html` |
-| Alumni | `public/cyan/alumni/index.html` |
-| Grantlar | `public/cyan/scholarships/index.html` |
-| Yangiliklar | `public/cyan/blog/index.html` |
-| Yordam | `public/cyan/apply-now/index.html` |
-| Aloqa | `public/cyan/contact/index.html` |
+| Buyruq | Vazifa |
+|--------|--------|
+| `npm run server` | FAQAT API (8787) |
+| `npm run dev` | FAQAT Vite |
+| `npm run dev:all` | API + Vite birga |
+| `npm run db:seed` | Admin + sozlamalar + namuna e’lonlar |
+| `npm run build` | Admin SPA build (`dist/`) |
 
-CSS: `public/cyan/wp-content/.../siteground-optimizer-combined-css-*.css`  
-Rasmlar: `public/cyan/wp-content/uploads/...`  
-Shriftlar: lokal `public/fonts` + `tdyu-local-fonts.css` (Google CDN yo‘q).
+## Admin da nima boshqariladi (to‘liq)
 
-Eski “o‘zim yozgan” React UI olib tashlangan; `src/` faqat `/cyan/` ga yo‘naltiradi.
+| Bo‘lim | Vazifa |
+|--------|--------|
+| Dashboard | Holat + tezkor amallar |
+| Murojaatlar / Xayriya / Grantlar | Detail panel, status, ichki izoh |
+| Sayt kontenti | Asosiy matnlar (UZ/RU/EN) |
+| Yangiliklar | E’lonlar CRUD |
+| Hujjatlar | PDF/DOC yuklash (hisobotlar) |
+| Axborotnoma | Email ro‘yxat + CSV |
+| Sozlamalar | Aloqa, bank, privacy, social |
+| Hisob | Admin parolini almashtirish |
+
+**Chegara:** Elementor sahifalarni vizual drag-drop CMS emas. Matn/blok/hujjat/formalar to‘liq boshqariladi.
+
+## Deploy (Node + SQLite)
+
+1. Serverda `npm install --omit=dev` (yoki to‘liq) + `npm run build`
+2. `.env`: `DATABASE_URL`, `JWT_SECRET`, `ADMIN_*`, `PORT`
+3. `npx prisma migrate deploy --schema server/prisma/schema.prisma && npm run db:seed`
+4. `node server/src/index.mjs` — API + `dist` + `public` bir portda
+
+SQLite fayl: `server/prisma/dev.db` (backup qiling).
+
+## Nima yo‘q (ochiq)
+
+- Click / Payme onlayn to‘lov gateway
+- Elementor sahifalarni vizual CMS sifatida tahrirlash
+
+Xayriya: bank o‘tkazmasi + admin da ariza statusi.
+
+## Sahifa xaritasi
+
+| URL | Fayl |
+|-----|------|
+| Bosh | `/cyan/index.html` |
+| Aloqa | `/cyan/contact/index.html` |
+| Xayriya | `/cyan/apply-now/index.html` |
+| Admin | `/admin` |

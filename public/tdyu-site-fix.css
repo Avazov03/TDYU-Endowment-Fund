@@ -1,0 +1,127 @@
+/* TDYU site UX: forms, search, toast, donate helpers */
+.tdyu-toast {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 100000;
+  max-width: min(420px, calc(100vw - 32px));
+  background: #0c5776;
+  color: #fff;
+  padding: 14px 16px;
+  border-radius: 4px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  font-family: "Maitree", "Bitter", Georgia, serif;
+  font-size: 14px;
+  line-height: 1.45;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  pointer-events: none;
+}
+.tdyu-toast.is-on {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+.tdyu-toast strong {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 15px;
+}
+
+.tdyu-search-panel {
+  position: fixed;
+  inset: 0;
+  z-index: 100001;
+  background: rgba(12, 87, 118, 0.45);
+  display: none;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 10vh 16px 24px;
+}
+.tdyu-search-panel.is-on {
+  display: flex;
+}
+.tdyu-search-card {
+  width: min(640px, 100%);
+  background: #f6f4ee;
+  border: 1px solid rgba(12, 87, 118, 0.15);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+  padding: 18px 18px 12px;
+}
+.tdyu-search-card h3 {
+  margin: 0 0 10px;
+  color: #0c5776;
+  font-family: "Maitree", "Bitter", Georgia, serif;
+  font-size: 18px;
+}
+.tdyu-search-card input[type="search"] {
+  width: 100%;
+  border: 1px solid rgba(12, 87, 118, 0.25);
+  background: #fff;
+  padding: 10px 12px;
+  font-size: 15px;
+  margin-bottom: 12px;
+}
+.tdyu-search-results {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: 50vh;
+  overflow: auto;
+}
+.tdyu-search-results li a {
+  display: block;
+  padding: 10px 8px;
+  text-decoration: none;
+  color: #0c5776;
+  border-bottom: 1px solid rgba(12, 87, 118, 0.08);
+  font-family: "Maitree", "Bitter", Georgia, serif;
+}
+.tdyu-search-results li a:hover {
+  background: rgba(0, 173, 226, 0.1);
+}
+.tdyu-search-results .meta {
+  display: block;
+  color: #4a6670;
+  font-size: 12px;
+  margin-top: 2px;
+}
+.tdyu-search-empty {
+  color: #4a6670;
+  padding: 12px 4px;
+  font-size: 14px;
+}
+.tdyu-search-close {
+  float: right;
+  border: 0;
+  background: transparent;
+  color: #0c5776;
+  font-size: 22px;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.tdyu-bank-box {
+  margin: 18px 0 8px;
+  padding: 16px 18px;
+  background: #f6f4ee;
+  border-left: 4px solid #00ade2;
+  color: #0c5776;
+  font-family: "Maitree", "Bitter", Georgia, serif;
+  font-size: 14px;
+  line-height: 1.55;
+}
+.tdyu-bank-box h4 {
+  margin: 0 0 8px;
+  font-size: 16px;
+}
+.tdyu-bank-box code {
+  background: rgba(12, 87, 118, 0.08);
+  padding: 1px 6px;
+}
+
+.wpcf7 form.tdyu-form-busy {
+  opacity: 0.7;
+  pointer-events: none;
+}

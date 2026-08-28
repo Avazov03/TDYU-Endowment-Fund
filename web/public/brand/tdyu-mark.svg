@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none" role="img" aria-label="TDYU Endowment Fund">
+  <title>TDYU Endowment Fund</title>
+  <path d="M18 102V18h84" stroke="#0C5776" stroke-width="14" stroke-linecap="square"/>
+  <path d="M36 90V36h66" stroke="#2F6D8A" stroke-width="12" stroke-linecap="square"/>
+  <path d="M52 78V50h42" stroke="#00ADE2" stroke-width="10" stroke-linecap="square"/>
+  <rect x="68" y="68" width="16" height="16" transform="rotate(45 76 76)" fill="#00ADE2"/>
+</svg>

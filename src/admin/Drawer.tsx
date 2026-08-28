@@ -1,0 +1,47 @@
+import { useEffect, useState } from 'react'
+import type { ReactNode } from 'react'
+
+export function Drawer({
+  open,
+  title,
+  onClose,
+  children,
+  footer,
+}: {
+  open: boolean
+  title: string
+  onClose: () => void
+  children: ReactNode
+  footer?: ReactNode
+}) {
+  useEffect(() => {
+    if (!open) return
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose()
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [open, onClose])
+
+  if (!open) return null
+  return (
+    <div className="drawer-root" role="dialog" aria-modal="true">
+      <button type="button" className="drawer-backdrop" aria-label="Yopish" onClick={onClose} />
+      <aside className="drawer-panel">
+        <div className="drawer-head">
+          <h2>{title}</h2>
+          <button type="button" className="btn ghost sm" onClick={onClose}>
+            ✕
+          </button>
+        </div>
+        <div className="drawer-body">{children}</div>
+        {footer ? <div className="drawer-foot">{footer}</div> : null}
+      </aside>
+    </div>
+  )
+}
+
+export function useBusy() {
+  const [busy, setBusy] = useState(false)
+  return { busy, setBusy }
+}

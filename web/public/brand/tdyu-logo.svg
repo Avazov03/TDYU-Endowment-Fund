@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 110" fill="none" role="img" aria-label="TDYU Endowment Fund">
+  <title>TDYU Endowment Fund</title>
+  <!-- Nested corner mark -->
+  <path d="M22 92V20h72" stroke="#0C5776" stroke-width="13" stroke-linecap="square"/>
+  <path d="M38 82V36h58" stroke="#2F6D8A" stroke-width="11" stroke-linecap="square"/>
+  <path d="M52 72V48h36" stroke="#00ADE2" stroke-width="9" stroke-linecap="square"/>
+  <rect x="62" y="64" width="13" height="13" transform="rotate(45 68.5 70.5)" fill="#00ADE2"/>
+  <rect x="122" y="26" width="2" height="58" fill="#8FBFCF"/>
+  <text x="144" y="54" font-family="Montserrat, Arial, Helvetica, sans-serif" font-size="36" font-weight="700" fill="#0C5776" letter-spacing="0.5">TDYU</text>
+  <text x="144" y="82" font-family="Montserrat, Arial, Helvetica, sans-serif" font-size="13" font-weight="600" fill="#3D7A94" letter-spacing="3.5">ENDOWMENT FUND</text>
+</svg>

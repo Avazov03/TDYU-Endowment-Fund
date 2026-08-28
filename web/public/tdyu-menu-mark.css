@@ -1,0 +1,27 @@
+/* TDYU IA: marked / unnecessary menu items
+ * Inventory: _archive/hidden-ia-items.json
+ * To show again: comment out .tdyu-ia-hide rule below.
+ */
+.menu-item-text[style*="dc2626"]{color:#dc2626!important;font-weight:700!important}
+
+/* Hidden from public nav/footer — HTML kept for possible restore */
+.tdyu-ia-hide{display:none!important}
+
+/* If a parent’s children are all hidden, hide empty dropdown caret/panel */
+.menu-item-has-children:not(:has(> .sub-menu > .menu-item:not(.tdyu-ia-hide))) > a > .sub-menu-icon{
+  display:none!important
+}
+.menu-item-has-children:not(:has(> .sub-menu > .menu-item:not(.tdyu-ia-hide))) > .sub-menu{
+  display:none!important;
+  visibility:hidden!important;
+  pointer-events:none!important
+}
+
+/* Home Xayriya: description was under contact-bg (ea9f495 z-index:2) */
+.elementor-51 .elementor-element-7be2985 .elementor-element-0a5ccfb{
+  position:relative!important;
+  z-index:3!important;
+}
+.elementor-51 .elementor-element-7be2985 .elementor-element-be99211 .descripti{
+  margin-bottom:10px;
+}

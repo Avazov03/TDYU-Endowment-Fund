@@ -1,0 +1,14 @@
+html,
+body {
+  margin: 0;
+}
+
+/* Wrapper must not become a layout box — dump HTML is body-level, like the original. */
+#tdyu-dump-root {
+  display: contents;
+}
+
+/* Next.js dev chrome is not part of the original site. */
+nextjs-portal {
+  display: none !important;
+}

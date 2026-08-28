@@ -1,18 +1,25 @@
-import { useEffect } from 'react'
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
+import AdminApp from './admin/AdminApp'
 
-/**
- * Asosiy sayt — asl Cyan HTML/CSS/JS (`public/cyan/`).
- * React faqat kirish nuqtasi; dizayn qayta chizilmagan.
- */
-export default function App() {
-  useEffect(() => {
+function PublicRedirect() {
+  if (typeof window !== 'undefined') {
     window.location.replace('/cyan/index.html')
-  }, [])
-
+  }
   return (
     <p style={{ fontFamily: 'system-ui', padding: 24 }}>
-      Asl sayt yuklanmoqda…{' '}
-      <a href="/cyan/index.html">/cyan/index.html</a>
+      Sayt yuklanmoqda… <a href="/cyan/index.html">/cyan/index.html</a>
     </p>
+  )
+}
+
+export default function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/admin/*" element={<AdminApp />} />
+        <Route path="/" element={<PublicRedirect />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </BrowserRouter>
   )
 }

@@ -5,8 +5,28 @@ export default defineConfig({
   plugins: [react()],
   server: {
     open: '/cyan/index.html',
+    proxy: {
+      '/api': {
+        target: 'http://localhost:8787',
+        changeOrigin: true,
+      },
+      '/uploads': {
+        target: 'http://localhost:8787',
+        changeOrigin: true,
+      },
+    },
   },
   preview: {
     open: '/cyan/index.html',
+    proxy: {
+      '/api': {
+        target: 'http://localhost:8787',
+        changeOrigin: true,
+      },
+      '/uploads': {
+        target: 'http://localhost:8787',
+        changeOrigin: true,
+      },
+    },
   },
 })

@@ -1,0 +1,124 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model AdminUser {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  name         String   @default("Admin")
+  createdAt    DateTime @default(now())
+}
+
+model ContactMessage {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  phone     String?
+  subject   String?
+  message   String
+  lang      String   @default("uz")
+  page      String?
+  payload   String?
+  adminNote String?
+  status    String   @default("new") // new | in_progress | closed
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Donation {
+  id            String   @id @default(cuid())
+  firstName     String
+  lastName      String?
+  email         String
+  phone         String?
+  amount        String?
+  currency      String?  @default("UZS")
+  donorType     String?
+  frequency     String?
+  note          String?
+  lang          String   @default("uz")
+  payload       String?
+  adminNote     String?
+  paymentMethod String?  // bank | humo | uzcard | visa
+  paymentDemo   Boolean  @default(false)
+  paymentStatus String?  // pending | success | failed
+  cardLast4     String?
+  status        String   @default("pending") // pending | confirmed | cancelled
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model GrantApplication {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  phone     String?
+  program   String?
+  message   String?
+  lang      String   @default("uz")
+  payload   String?
+  adminNote String?
+  status    String   @default("new") // new | reviewing | accepted | rejected
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model NewsletterSubscriber {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  lang      String   @default("uz")
+  createdAt DateTime @default(now())
+}
+
+model Announcement {
+  id        String   @id @default(cuid())
+  title     String
+  excerpt   String?
+  dateLabel String?
+  lang      String   @default("uz")
+  published Boolean  @default(true)
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ContentBlock {
+  id        String   @id @default(cuid())
+  key       String
+  lang      String   @default("uz")
+  title     String?
+  body      String
+  page      String?
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+
+  @@unique([key, lang])
+}
+
+model Document {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  category    String   @default("report") // report | legal | media | other
+  lang        String   @default("uz")
+  fileName    String
+  storedName  String
+  mimeType    String?
+  size        Int      @default(0)
+  published   Boolean  @default(true)
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Setting {
+  id    String @id @default(cuid())
+  key   String @unique
+  value String
+}
