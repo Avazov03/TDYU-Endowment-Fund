@@ -463,12 +463,49 @@
     true,
   )
 
+  function fixFacultySocialIcons() {
+    var labels = {
+      uz: { share: 'Ulashish', facebook: 'Facebook', x: 'X (Twitter)', instagram: 'Instagram', linkedin: 'LinkedIn' },
+      ru: { share: 'Поделиться', facebook: 'Facebook', x: 'X (Twitter)', instagram: 'Instagram', linkedin: 'LinkedIn' },
+      en: { share: 'Share', facebook: 'Facebook', x: 'X (Twitter)', instagram: 'Instagram', linkedin: 'LinkedIn' },
+    }
+    var L = labels[LANG] || labels.uz
+    var icons = [
+      ['ri-share-line', L.share, 'M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z'],
+      ['ri-facebook-fill', L.facebook, 'M14 9h3V6h-3c-1.7 0-3 1.3-3 3v2H9v3h2v8h3v-8h3l1-3h-4V9c0-.6.4-1 1-1z'],
+      ['ri-twitter-x-fill', L.x, 'M17.75 3h3.1l-6.76 7.73L22 21h-6.17l-4.82-6.3L5.3 21H2.17l7.24-8.27L2 3h6.33l4.36 5.8L17.75 3zm-1.08 16.2h1.72L7.4 4.7H5.55l11.12 14.5z'],
+      ['ri-instagram-line', L.instagram, 'M7 3h10a4 4 0 0 1 4 4v10a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V7a4 4 0 0 1 4-4zm0 2a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2H7zm10.2 1.3a1.2 1.2 0 1 1 0 2.4 1.2 1.2 0 0 1 0-2.4zM12 8.2A3.8 3.8 0 1 1 12 15.8 3.8 3.8 0 0 1 12 8.2zm0 2a1.8 1.8 0 1 0 0 3.6 1.8 1.8 0 0 0 0-3.6z'],
+      ['ri-linkedin-fill', L.linkedin, 'M6.5 9H4v12h2.5V9zM5.25 3A1.75 1.75 0 1 0 5.25 6.5 1.75 1.75 0 0 0 5.25 3zM20 21h-2.5v-6.35c0-1.51-.03-3.45-2.1-3.45-2.1 0-2.42 1.64-2.42 3.34V21H10.5V9h2.4v1.64h.03c.33-.63 1.15-1.3 2.37-1.3 2.54 0 3.01 1.67 3.01 3.84V21z'],
+    ]
+    document.querySelectorAll('.faculty-member .social-icon').forEach(function (el) {
+      var ic = el.querySelector('i')
+      if (!ic) return
+      var cls = ic.className || ''
+      var hit = icons.filter(function (row) {
+        return cls.indexOf(row[0]) !== -1
+      })[0]
+      if (!hit) return
+      ic.innerHTML =
+        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="#0C5776" d="' +
+        hit[2] +
+        '"></path></svg>'
+      el.setAttribute('aria-label', hit[1])
+      el.setAttribute('title', hit[1])
+      if ((el.getAttribute('href') || '') === '#') {
+        el.addEventListener('click', function (e) {
+          e.preventDefault()
+        })
+      }
+    })
+  }
+
   function boot() {
     revealLazyBackgrounds()
     swapYoutubeVideos()
     wireForms()
     wireSearch()
     fixPrivacyLinks()
+    fixFacultySocialIcons()
     hydrateAnnouncements()
     loadSettings().then(function (settings) {
       injectBankBox(settings)

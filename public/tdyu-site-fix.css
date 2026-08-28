@@ -129,3 +129,33 @@
 .rs-notice-widget .notice-excerpt {
   color: #ffffff !important;
 }
+
+/* Faculty hover social: remixicon webfont often missing in dump → draw SVG instead */
+.faculty-member .social-links .social-icon {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  color: #0c5776;
+}
+.faculty-member .social-links .social-icon i {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  font-size: 0 !important;
+  line-height: 0 !important;
+}
+.faculty-member .social-links .social-icon i::before {
+  content: none !important;
+}
+.faculty-member .social-links .social-icon i svg {
+  display: block;
+  width: 16px;
+  height: 16px;
+}
+.faculty-member .social-links .initial-icon i svg path {
+  fill: #fff !important;
+}
