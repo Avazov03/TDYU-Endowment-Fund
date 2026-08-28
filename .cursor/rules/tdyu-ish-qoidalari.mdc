@@ -1,0 +1,32 @@
+---
+description: TDYU — ruxsatsiz amallar, hisobot formati, ish oqimi
+alwaysApply: true
+---
+
+# Ish qoidalari (har sessiya)
+
+Loyiha: TDYU Endowment Fund. Repo: `https://github.com/Avazov03/TDYU-Endowment-Fund`. Tillar: UZ/RU/EN. To‘liq TZ: `tdyu-endowment/TZ-STACK.md`.
+
+Eski Elementor dump (`public/cyan|ru|en`) va yangi Next.js **parallel**. `public/` ni o‘chirmang/buzmang, aniq buyruq bo‘lmasa.
+
+## So‘ramasdan QILMANG
+
+- `git commit`, `git push`, production deploy
+- `npx prisma migrate`, `server/prisma/dev.db` ni to‘g‘ridan-to‘g‘ri o‘zgartirish
+- `.env` dagi `JWT_SECRET`, `ADMIN_*`, `DATABASE_URL`
+- Demo admin (`admin@tdyu-endowment.uz` / `Admin123!`) ni productionda qoldirish — faqat dev; deploy oldidan ogohlantiring
+- Eski `public/` sahifalarini o‘chirish/qayta yozish
+
+Tasdiq: "Men X ni qilmoqchiman, sabab Y, natija Z bo‘ladi. Davom etaymi?"
+
+## Har o‘zgarishdan keyin hisobot
+
+NIMA QILINDI / QAYSI FAYLLAR / NEGA / QANDAY TEKSHIRILDI (real test) / XAVF (past|o‘rta|yuqori) / KEYINGI QADAM (commit/push/deploy — alohida ruxsat).
+
+"100% tayyor" faqat real testdan keyin.
+
+## Prompt tahlili
+
+1) Aniq talab 2) Aytilmagan talablar (validatsiya, xato, i18n) 3) Admin/public/API ta’siri 4) Eng kam o‘zgarish 5) Noaniq bo‘lsa — taxmin qilmang, qisqa savol.
+
+To‘xtang: noaniq talab; qaytarib bo‘lmaydigan yuqori xavf; bir necha urinishdan keyin ildiz sabab topilmasa — aylanib o‘tmang.

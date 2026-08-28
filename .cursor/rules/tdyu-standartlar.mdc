@@ -1,0 +1,28 @@
+---
+description: TDYU — xavfsizlik, validatsiya, sirlar, test (majburiy)
+alwaysApply: true
+---
+
+# Standartlar (tanlangan)
+
+## Auth
+
+Himoyalangan route’da JWT tekshiruvi shart. Parol faqat hash (bcrypt/argon2). Token expiry bo‘lsin, abadiy token yo‘q. Demo parolni productionga chiqarmang — eslatma bering.
+
+## Validatsiya
+
+Formalar (murojaat, xayriya, aloqa, hujjat) — **backend** majburiy validatsiya. Fayl: tur, hajm, nom; path traversal yo‘q. Matn XSS’dan himoyalangan (React default; `dangerouslySetInnerHTML` ehtiyot). Prisma raw query — parametrlashtirilgan.
+
+## Rate limit va idempotentlik
+
+Admin login: muvaffaqiyatsiz urinishlar cheki. Ommaviy formalar: IP bo‘yicha limit. Xayriya/murojaat: ikki marta yozuv yo‘q (debounce + unique so‘rov id).
+
+## Sirlar va backup
+
+Sirlar faqat `.env` (`.env.example`da namuna). `.gitignore`da `.env` tekshiring. Chat/commitda haqiqiy kalit/parol yo‘q. SQLite `dev.db`: productionda kunlik backup tavsiya. Migratsiyadan oldin baza nusxasi. Postgres’ga o‘tishda ma’lumotni yo‘qotmaslik reja. Schema: SQLite+Postgres mos turlar. Prisma migration fayllarini har doim versiyalab, tartib bilan saqlang — qo‘lda schema o‘zgartirmang. `npx prisma migrate` va schema o‘zgarishi — alohida ruxsatsiz qilinmasin.
+
+## Test, log, health
+
+Yangi endpoint/forma: happy path + bitta xato holati. Avtomatik test yozish imkoni bo‘lmasa, kamida qo‘lda tekshirib, natijani hisobotda aniq ko‘rsating — tekshirmasdan "ishlaydi" deyish taqiqlanadi. `npm run dev:all` va real so‘rov (curl/forma) majburiy. `/api/health` ni buzmang. Muhim xatolar server log’ga yozilsin.
+
+Admin funksiya: faqat autentifikatsiyalangan admin. Yangi npm paket: keng tarqalgan va yangilanganini tekshiring.

@@ -1,0 +1,18 @@
+---
+description: TDYU — UI DNK, backend xavfsiz o‘zgarish, chalkashlik ogohlantirish
+alwaysApply: true
+---
+
+# UI / backend
+
+## UI/UX
+
+Yangi komponentdan oldin shu qismdagi 2–3 o‘xshashni ko‘ring. Ikki dizayn: public (Elementor/eski) va admin (React/Tailwind) — aralashtirmang. Yangi matn: UZ + RU + EN. "Boshqa sahifa qatorida begona ko‘rinadimi?" tekshiring. Next Image (yoki ekvivalent) — oddiy `<img>` emas. Semantik HTML.
+
+## Backend
+
+Faqat so‘ralgan narsa. Prisma model/endpoint ishlatilishini toping, eslatmasdan qoldirmang. Bo‘sh forma, noto‘g‘ri fayl, 404 hisobga oling. Boshqa modulga ta’sir — hisobotda. Schema: ma’lumotga ta’sir, rollback, avval local.
+
+## Ogohlantiring
+
+Frontend/backend validatsiya farqi; bir tilda matn yangilanib qolgani; uzoq qolgan TODO; Elementor vs Next mantiqiy nomuvofiqlik.
