@@ -62,3 +62,12 @@
   font-display: swap;
   src: local("Roboto"), url("/fonts/inter-latin-500-normal.woff2") format("woff2");
 }
+
+/* Remixicon: dump CSS points at univet.rstheme.com (403) and the webfont was not in HTTrack */
+@font-face {
+  font-family: remixicon;
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/remixicon.woff2") format("woff2");
+}
