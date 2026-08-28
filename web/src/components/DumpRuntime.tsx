@@ -179,6 +179,9 @@ function mountLang(locale: Locale) {
     host.appendChild(a)
   })
 
+  document.getElementById('tdyu-lang-switcher-mobile')?.remove()
+  document.querySelectorAll('#menu-main-menu > .tdyu-lang-item, #menu-mobile-menu > .tdyu-lang-item').forEach((el) => el.remove())
+
   const topMenu =
     document.querySelector('#menu-topbar-menu') ||
     document.querySelector('.elementor-element-2acc95d .primary-menu') ||

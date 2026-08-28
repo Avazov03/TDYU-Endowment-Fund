@@ -54,7 +54,7 @@ export function loadDump(locale: Locale, slug: string[]): DumpDoc | null {
   const bodyClass = /class=["']([^"']*)["']/i.exec(bodyOpen)?.[1] ?? ''
   const lang = /data-tdyu-lang=["']([^"']*)["']/i.exec(bodyOpen)?.[1] ?? locale
   const bodyInner = html.match(/<body[^>]*>([\s\S]*)<\/body>/i)?.[1] ?? ''
-  const title = head.match(/<title>([^<]+)<\/title>/i)?.[1]?.trim() ?? 'TDYU Endowment Fund'
+  const title = fixMojibake(head.match(/<title>([^<]+)<\/title>/i)?.[1]?.trim() ?? 'TDYU Endowment Fund')
 
   const stylesheets = [...head.matchAll(/<link\b[^>]*>/gi)]
     .map((m) => m[0])
@@ -84,7 +84,7 @@ export function loadDump(locale: Locale, slug: string[]): DumpDoc | null {
     title,
     bodyClass,
     lang,
-    bodyHtml: rewriteHtml(stripScripts(bodyInner), locale, dumpDir),
+    bodyHtml: rewriteHtml(stripScripts(fixMojibake(bodyInner)), locale, dumpDir),
     stylesheets: [...new Set(stylesheets)],
     inlineStyles,
     scripts,
@@ -93,6 +93,33 @@ export function loadDump(locale: Locale, slug: string[]): DumpDoc | null {
 
 function stripScripts(html: string) {
   return html.replace(/<script\b[\s\S]*?<\/script>/gi, '')
+}
+
+/** UTF-8 bytes (’ — “) mis-read as Windows-1252 then saved as UTF-8: taвЂ™lim → ta'lim */
+export function fixMojibake(html: string) {
+  const pairs: [string, string][] = [
+    ['вЂ™', "'"],
+    ['вЂ', "'"],
+    ['вЂњ', '"'],
+    ['вЂќ', '"'],
+    ['вЂ“', '–'],
+    ['вЂ”', '—'],
+    ['вЂ¦', '…'],
+    ['вЂ«', '«'],
+    ['вЂ»', '»'],
+    ['В·', '·'],
+    ['В©', '©'],
+    ['â€™', "'"],
+    ['â€˜', "'"],
+    ['â€œ', '"'],
+    ['â€�', '"'],
+    ['â€“', '–'],
+    ['â€”', '—'],
+    ['â€¦', '…'],
+  ]
+  let out = html
+  for (const [from, to] of pairs) out = out.split(from).join(to)
+  return out
 }
 
 function rewriteCssUrls(css: string, locale: Locale, dumpDir: string) {

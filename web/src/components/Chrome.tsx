@@ -54,7 +54,7 @@ export function Header() {
       <div className="tdyu-navbar">
         <div className="tdyu-wrap tdyu-navbar-inner">
           <Link className="tdyu-brand" href="/" onClick={() => setOpen(false)}>
-            <img src="/brand/tdyu-logo.svg" alt={brand.name} height={48} />
+            <img src="/brand/tdyu-logo.svg" alt={brand.name} height={56} />
           </Link>
           <nav className="tdyu-nav" aria-label={t('menu')}>
             {NAV.map((item) => (

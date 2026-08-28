@@ -125,3 +125,7 @@
   opacity: 0.7;
   pointer-events: none;
 }
+
+.rs-notice-widget .notice-excerpt {
+  color: #ffffff !important;
+}

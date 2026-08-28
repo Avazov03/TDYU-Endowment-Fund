@@ -125,3 +125,8 @@
   opacity: 0.7;
   pointer-events: none;
 }
+
+/* Announcements on dark teal: body gray text was invisible */
+.rs-notice-widget .notice-excerpt {
+  color: #ffffff !important;
+}

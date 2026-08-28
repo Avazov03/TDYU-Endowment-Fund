@@ -17,8 +17,13 @@
   height: 72px !important;
   max-width: 120px !important;
 }
+header .rstb-site-logo {
+  margin-top: -4px;
+  margin-bottom: -4px;
+}
 header .rstb-site-logo img {
-  height: 48px !important;
+  height: 56px !important;
+  max-height: 56px !important;
 }
 
 /* Official TDYU seal in the same img boxes as the Univet placeholders.

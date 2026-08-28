@@ -16,7 +16,9 @@
   list-style: none !important;
   display: inline-flex !important;
   align-items: center !important;
-  margin-left: 10px !important;
+  margin-left: 28px !important;
+  padding-left: 16px !important;
+  border-left: 1px solid rgba(255, 255, 255, 0.28);
 }
 
 .tdyu-lang-item::before,
@@ -49,7 +51,6 @@
   padding: 0 1px;
 }
 
-/* Dark cyan top bar: force readable light text */
 .elementor-element-ece0dc7 .tdyu-lang,
 .elementor-element-ece0dc7 .tdyu-lang a,
 .elementor-element-ece0dc7 .tdyu-lang .sep {
@@ -62,7 +63,6 @@
   color: #ffffff !important;
 }
 
-/* Fixed fallback (only if top menu missing) */
 .tdyu-lang-fixed {
   position: fixed;
   top: 12px;

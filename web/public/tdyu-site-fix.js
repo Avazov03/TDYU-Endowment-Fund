@@ -386,7 +386,12 @@
       })
       .then(function (rows) {
         if (!rows || !rows.length) return
-        host.innerHTML = rows
+        var clean = rows.filter(function (a) {
+          var t = String((a && a.title) || '') + ' ' + String((a && a.excerpt) || '')
+          return !/E2E\s*yangilik|Playwright orqali/i.test(t)
+        })
+        if (!clean.length) return
+        host.innerHTML = clean
           .slice(0, 6)
           .map(function (a) {
             return (
