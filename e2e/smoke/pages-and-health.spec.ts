@@ -1,14 +1,25 @@
 import { expect, test } from '@playwright/test'
-import { API, waitDumpReady } from '../helpers'
+import { API } from '../helpers'
 
 test.describe('smoke — pages + health', () => {
   test('asosiy sahifalar ochiladi', async ({ page }) => {
-    const paths = ['/uz', '/uz/contact', '/uz/apply-now', '/uz/about-us']
+    const paths = [
+      '/uz',
+      '/uz/contact',
+      '/uz/donate',
+      '/uz/about-us',
+      '/uz/news',
+      '/uz/reports',
+      '/uz/governance',
+      '/uz/transparency',
+      '/uz/privacy',
+      '/uz/faq',
+    ]
     for (const path of paths) {
       const res = await page.goto(path, { waitUntil: 'domcontentloaded' })
       expect(res?.ok(), `${path} HTTP ${res?.status()}`).toBeTruthy()
-      await waitDumpReady(page)
-      const text = await page.locator('#tdyu-dump-root').innerText()
+      await expect(page.locator('.live-root')).toBeVisible()
+      const text = await page.locator('.live-root').innerText()
       expect(text.replace(/\s+/g, ' ').trim().length, `${path} bo‘sh`).toBeGreaterThan(80)
     }
   })

@@ -2,7 +2,7 @@
 set -euo pipefail
 
 # TDYU only. Does not edit other nginx site files or other PM2 apps.
-# Packing: exclude ONLY server/uploads (admin files), NEVER public/*/wp-content/uploads.
+# Packing: exclude ONLY server/uploads (admin files).
 
 APP=/opt/tdyu-endowment
 ARCHIVE=/tmp/tdyu-endowment.tgz

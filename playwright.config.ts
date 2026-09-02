@@ -2,17 +2,13 @@ import { defineConfig, devices } from '@playwright/test'
 
 const WEB = process.env.E2E_WEB_URL || 'http://127.0.0.1:3000'
 const API = process.env.E2E_API_URL || 'http://127.0.0.1:8787'
-const ADMIN = process.env.E2E_ADMIN_URL || 'http://localhost:5173'
+const ADMIN = process.env.E2E_ADMIN_URL || WEB
 
 for (const url of [WEB, API, ADMIN]) {
   if (/yuritta\.uz|yuretta\.uz|52\.59\.209\.166/i.test(url)) {
     throw new Error(`E2E must target local dev only, got: ${url}`)
   }
 }
-
-const argv = process.argv.join(' ')
-const projectScoped = argv.includes('--project=')
-const needsVite = !projectScoped || argv.includes('--project=admin')
 
 export default defineConfig({
   testDir: './e2e',
@@ -64,15 +60,5 @@ export default defineConfig({
       reuseExistingServer: true,
       timeout: 180_000,
     },
-    ...(needsVite
-      ? [
-          {
-            command: 'npm run dev',
-            url: `${ADMIN}/cyan/index.html`,
-            reuseExistingServer: true,
-            timeout: 120_000,
-          },
-        ]
-      : []),
   ],
 })

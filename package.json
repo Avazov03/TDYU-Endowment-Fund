@@ -4,15 +4,9 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "personalize": "node scripts/personalize.mjs && node scripts/patch-home.mjs",
-    "translate": "node scripts/translate-uz.mjs && node scripts/fix-uz.mjs && node scripts/translate-uz-pass2.mjs && node scripts/fix-final.mjs && node scripts/translate-uz-pass3.mjs && node scripts/translate-extra.mjs && node scripts/translate-leftovers.mjs",
-    "fix:assets": "node scripts/repair-paths.mjs && node scripts/polish.mjs && node scripts/verify-and-patch.mjs",
-    "inject": "node scripts/inject-endowment.mjs",
-    "i18n": "node scripts/fix-remaining-en.mjs && node scripts/fix-uz-hybrids.mjs && node scripts/fix-broken-features.mjs && node scripts/build-i18n.mjs",
-    "finish": "node scripts/fix-broken-features.mjs && node scripts/fix-programs-links.mjs && node scripts/build-i18n.mjs",
-    "dev": "vite",
+    "dev": "npm run dev:next",
     "server": "node server/src/index.mjs",
-    "dev:all": "concurrently -k -n api,web -c cyan,magenta \"npm run server\" \"npm run dev\"",
+    "dev:all": "npm run dev:new",
     "dev:next": "npm run dev --prefix web",
     "dev:new": "concurrently -k -n api,next -c cyan,green \"npm run server\" \"npm run dev:next\"",
     "test:e2e": "playwright test",
@@ -25,8 +19,8 @@
     "db:generate": "prisma generate --schema server/prisma/schema.prisma",
     "db:migrate": "prisma migrate deploy --schema server/prisma/schema.prisma",
     "db:seed": "node server/prisma/seed.mjs",
-    "build": "tsc && vite build",
-    "preview": "vite preview"
+    "build": "npm run build --prefix web",
+    "preview": "npm run start --prefix web"
   },
   "prisma": {
     "schema": "server/prisma/schema.prisma"

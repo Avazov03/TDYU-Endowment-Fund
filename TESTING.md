@@ -6,7 +6,7 @@ To‘liq TZ: [TZ-STACK.md](./TZ-STACK.md).
 
 ## Ishga tushirish
 
-Avval API (`:8787`) va public Next (`:3000`) kerak. Admin E2E uchun qo‘shimcha Vite (`:5173`).
+Avval API (`:8787`) va public Next (`:3000`) kerak.
 
 ```bash
 cd tdyu-endowment
@@ -14,7 +14,7 @@ npx playwright install chromium   # bir marta
 npm run test:unit                 # Vitest, test.db (dev.db ga tegilmaydi)
 npm run test:e2e:smoke            # asosiy sahifalar + /api/health
 npm run test:e2e:forms
-npm run test:e2e:admin            # Vite admin
+npm run test:e2e:admin            # Next /admin
 npm run test:e2e:i18n
 npm run test:e2e                  # barcha Playwright loyihalari
 ```
@@ -56,7 +56,7 @@ Quyidagisiz PR/o‘zgarish “tayyor” deb hisoblanmasin:
 2. **Auth** — to‘g‘ri JWT; token yo‘q (401); yaroqsiz/muddati o‘tgan token.
 3. **Fayl yuklash** — ruxsat etilgan tur (PDF/DOC/XLS); hajm limiti; path traversal (`../`).
 4. **Health** — `GET /api/health` (`ok: true`).
-5. **i18n** — `/uz` `/ru` `/en` ochiladi, dump matni bo‘sh emas.
+5. **i18n** — `/uz` `/ru` `/en` ochiladi, matn bo‘sh emas.
 
 Hali yo‘q (keyinroq): GitHub Actions CI, rate limit unit test (kodda alohida funksiya yo‘q), to‘lov gateway, Express’ni Next Route Handlers ga yutish.
 

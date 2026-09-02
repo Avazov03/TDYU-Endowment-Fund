@@ -1,6 +1,6 @@
 # TZ — kelishilgan texnologiya va xavfsiz ko‘chirish
 
-**Holat:** qabul qilingan · 27 Aug 2026 · **bosqich A–D boshlandi** (`web/` Next.js yonma-yon, eski tizim saqlangan)  
+**Holat:** qabul qilingan · 2 Sep 2026 · **bosqich A–F yakunlandi** (public + `/admin` native Next.js)  
 **Loyha:** TDYU Endowment Fund  
 **Qoida:** stack o‘zgarmaydi, toki yangi TZ yozilmaguncha.
 
@@ -11,7 +11,7 @@
 | Qatlam | Tanlov | Izoh |
 |---|---|---|
 | Public + Admin UI | **Next.js 15 (App Router) + React 19** | Bitta ilova. Public SSG/ISR, admin `/admin`. |
-| Stillar | **Tailwind CSS** + brand tokenlar | Elementor CSS olib o‘tilmaydi. |
+| Stillar | **Tailwind CSS** + brand tokenlar | Eski shablon CSS olib o‘tilmaydi. |
 | i18n | **next-intl** | URL: `/uz` `/ru` `/en`. 3 ta HTML dump yo‘q. |
 | API (maqsad) | **Next.js Route Handlers** + TypeScript | Express vaqtincha saqlanadi, keyin yutiladi. |
 | ORM | **Prisma** (mavjud `server/prisma/schema.prisma`) | Modellarni qayta ixtiro qilmang. |
@@ -23,7 +23,7 @@
 
 ### Tanlanmagan (qayta ochilmaydi)
 
-WordPress/Elementor · Vite SPA public · Vue/Angular · NestJS/Go/Rust “tezlik uchun” · MongoDB · Laravel/Django · Fastify ni alohida ushlab turish.
+Eski shablon CMS · Vite SPA public · Vue/Angular · NestJS/Go/Rust “tezlik uchun” · MongoDB · Laravel/Django · Fastify ni alohida ushlab turish.
 
 ---
 
@@ -57,19 +57,19 @@ Bu **muzlatilgan aktivlar**. Next.js da qayta ishlatiladi, o‘zgartirilmaydi to
 
 **Saqlanmaydi (bu “dizayn” emas, shablon qarz)**
 
-- `public/cyan|ru|en` Elementor/HTTrack dump
+- Eski `public/cyan|ru|en` statik HTML dump (o‘chirilgan)
 - Revolution Slider
 - SiteGround combined CSS/JS
 - Universitet demo sahifalari (faculty, tuition, vice-chancellor, CSE/Nursing…)
 - 393 ta HTML fayl
 
-Dump **o‘chirilmaydi** toki Next public qabul qilinmaguncha. U fallback.
+Dump **o‘chirildi** — public faqat native Next sahifalar.
 
 ---
 
 ## 3. Xavfsiz ko‘chirish printsipi
 
-**Strangler fig:** yangi Next.js ilova parallel yuradi. Eski Vite + Express + dump **bir kunda o‘chirilmaydi**.
+**Strangler fig yakunlandi:** public + admin Next.js da. Express + SQLite saqlanadi (G/H).
 
 ```
 HOZIR (o‘zgarmaydi)          YANGI (yonma-yon)
@@ -88,7 +88,7 @@ SQLite                   ←   o‘zgarmaydi
 | # | Ish | Eski tizimga ta’sir | Chiqish sharti |
 |---|---|---|---|
 | **A** | `web/` da Next.js 15 skelet: Tailwind tokenlar, next-intl, `/api` → `:8787` proxy | Nol. `npm run dev:all` ishlayveradi | `:3000/uz` bo‘sh layout + logo + ranglar |
-| **B** | Dizayn tokenlarini `web/app/globals.css` + `tailwind.config` ga ko‘chirish. Logo/font copy. Elementor CSS **import qilinmasin** | Nol | Vizual “brand sheet” sahifasi |
+| **B** | Dizayn tokenlarini `web/app/globals.css` + `tailwind.config` ga ko‘chirish. Logo/font copy. Eski shablon CSS **import qilinmasin** | Nol | Vizual “brand sheet” sahifasi |
 | **C** | Sahifa-sahifa rebuild: header/footer → home → donate → contact → grants → news → reports → about. Har biri `:3000` da, `:5173` bilan solishtiriladi | Nol | Har sahifa uchun OK (dizayn + forma) |
 | **D** | Formalar mavjud `/api/forms` ga ulanadi (yangi backend yo‘q) | Nol | Murojaat/xayriya/grant eski admin da ko‘rinadi |
 | **E** | Default URL ni Next ga o‘tkazish (Nginx yoki Vite redirect). Dump `public/_legacy` ga | Faqat kirish nuqtasi | 1 hafta fallback |
@@ -104,11 +104,11 @@ Bosqich C tugaguncha **G/H/I ochilmaydi**.
 ## 5. Nima qilish mumkin emas (zarar yo‘llari)
 
 1. Eski `public/cyan` ni Next ichiga HTML/CSS sifatida olib o‘tish — sekinlik qaytadi, dizayn ham fondniki emas.
-2. Elementor combined CSS ni `@import` qilish.
+2. Eski shablon combined CSS ni `@import` qilish.
 3. Ildizdagi Vite ni 1-kunda Next ga almashtirish.
 4. Front bilan birga Express ni o‘chirish.
 5. Front bilan birga SQLite ni almashtirish.
-6. Dump ni “tozalash” uchun o‘chirish (fallback yo‘qoladi).
+6. Statik dump ni qayta qo‘shish.
 7. Admin va public ni bir sprint da qayta yozish.
 8. Tailwind default ko‘k/kulrang palitrasi — faqat §2 tokenlari.
 
@@ -125,24 +125,23 @@ Universitet demo marshrutlari (faculty, tuition, researches-CSE…) **qayta yara
 ## 7. Dev buyruqlar (ko‘chirish davrida)
 
 ```bash
-npm run dev:all          # eski: API 8787 + Vite 5173  (ISHLAYVERADI)
-cd web && npm run dev    # yangi: Next 3000             (QO‘SHILADI)
+npm run dev:new          # API 8787 + Next 3000
+cd web && npm run dev    # faqat Next
 ```
 
 Tekshiruv:
 
-- Eski: http://localhost:5173/cyan/index.html
-- Yangi: http://localhost:3000/uz
-- Admin (eski, F gacha): http://localhost:5173/admin/login
+- Public: http://localhost:3000/uz
+- Admin: http://localhost:3000/admin/login
 - API: http://localhost:8787/api/health
 
 ---
 
 ## 8. Qabul qilish mezonlari (public cutover)
 
-- LCP sezilarli past (Slider/Elementor yo‘q)
+- LCP sezilarli past (og‘ir slayder yo‘q)
 - UZ/RU/EN URL da ishlaydi
 - Formalar admin da ko‘rinadi
 - Logo, cyan/sky/cream, Maitree+Inter saqlangan
-- `/admin` eski yoki yangi — login ishlaydi
-- `public/cyan` hali diskda (kamida 1 hafta)
+- `/admin` Next da — login ishlaydi
+- Statik dump diskda yo‘q

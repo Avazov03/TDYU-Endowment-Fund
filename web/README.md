@@ -1,15 +1,10 @@
-# Yangi public sayt (Next.js)
-
-Bu papka **yonma-yon** ishlaydi. Eski Vite + Express + `public/cyan` **o‘zgarmagan**.
+# Public + admin (Next.js)
 
 ```bash
-# ildizdan (tdyu-endowment)
-npm run server          # eski API :8787
-npm run dev:next        # yangi sayt :3000
-# yoki ikkalasi:
-npm run dev:new
+cd tdyu-endowment
+npm run dev:all
 ```
 
-- Yangi: http://localhost:3000/uz
-- Eski: http://localhost:5173/cyan/index.html  (`npm run dev`)
-- Admin: http://localhost:5173/admin/login
+- Public: http://localhost:3000/uz
+- Admin: http://localhost:3000/admin/login
+- API: http://localhost:8787/api/health

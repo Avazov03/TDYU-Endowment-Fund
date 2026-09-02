@@ -1,10 +1,10 @@
 # TDYU Endowment Fund
 
-**Kelishilgan stack (27 Aug 2026):** Next.js 15 App Router + React 19 + Tailwind + next-intl; API keyin Route Handlers; Prisma; DB hozir SQLite, keyin PostgreSQL.
+**Kelishilgan stack:** Next.js 15 App Router + React 19 + Tailwind + next-intl; API hozir Express (keyin Route Handlers); Prisma; DB hozir SQLite, keyin PostgreSQL.
 
-Hozir ishlayotgan kod: public — Elementor HTML dump (`public/cyan`, `public/ru`, `public/en`); backend — Express + Prisma + SQLite; admin — React (`/admin`). Ko‘chirish **parallel** (eski o‘chmaydi).
+Public va admin — native Next.js (`web/`). Backend — Express + Prisma + SQLite.
 
-To‘liq TZ va xavfsiz yo‘l: [TZ-STACK.md](./TZ-STACK.md). Testlar: [TESTING.md](./TESTING.md).
+To‘liq TZ: [TZ-STACK.md](./TZ-STACK.md). Testlar: [TESTING.md](./TESTING.md).
 
 ## Tezkor start
 
@@ -17,11 +17,12 @@ npm run db:seed
 npm run dev:all
 ```
 
-- Public sayt: http://localhost:5173/cyan/index.html  
-- Admin: http://localhost:5173/admin/login  
-- API: http://localhost:8787/api/health  
+- Public sayt: http://localhost:3000/uz
+- Admin: http://localhost:3000/admin/login
+- API: http://localhost:8787/api/health
 
-### Demo login
+### Demo login (faqat local)
+
 - Email: `admin@tdyu-endowment.uz`
 - Parol: `Admin123!`
 
@@ -30,11 +31,10 @@ npm run dev:all
 | Buyruq | Vazifa |
 |--------|--------|
 | `npm run server` | FAQAT API (8787) |
-| `npm run dev` | FAQAT Vite |
-| `npm run dev:all` | API + Vite birga |
-| `npm run dev:new` | API + Next (`:3000`) |
+| `npm run dev` | FAQAT Next (`web/`) |
+| `npm run dev:all` | API + Next birga |
 | `npm run db:seed` | Admin + sozlamalar + namuna e’lonlar |
-| `npm run build` | Admin SPA build (`dist/`) |
+| `npm run build` | Next production build |
 | `npm run test:unit` | Vitest (`test.db`, `dev.db` ga tegilmaydi) |
 | `npm run test:e2e` | Barcha Playwright loyihalari |
 | `npm run test:e2e:smoke` | Sahifalar + `/api/health` |
@@ -56,29 +56,28 @@ npm run dev:all
 | Sozlamalar | Aloqa, bank, privacy, social |
 | Hisob | Admin parolini almashtirish |
 
-**Chegara:** Elementor sahifalarni vizual drag-drop CMS emas. Matn/blok/hujjat/formalar to‘liq boshqariladi.
+**Chegara:** vizual drag-drop sahifa tahriri yo‘q. Matn/blok/hujjat/formalar to‘liq boshqariladi.
 
 ## Deploy (Node + SQLite)
 
 1. Serverda `npm install --omit=dev` (yoki to‘liq) + `npm run build`
 2. `.env`: `DATABASE_URL`, `JWT_SECRET`, `ADMIN_*`, `PORT`
 3. `npx prisma migrate deploy --schema server/prisma/schema.prisma && npm run db:seed`
-4. `node server/src/index.mjs` — API + `dist` + `public` bir portda
+4. Next `web/` standalone + Express API (Nginx reverse proxy)
 
 SQLite fayl: `server/prisma/dev.db` (backup qiling).
 
 ## Nima yo‘q (ochiq)
 
 - Click / Payme onlayn to‘lov gateway
-- Elementor sahifalarni vizual CMS sifatida tahrirlash
 
 Xayriya: bank o‘tkazmasi + admin da ariza statusi.
 
 ## Sahifa xaritasi
 
-| URL | Fayl |
-|-----|------|
-| Bosh | `/cyan/index.html` |
-| Aloqa | `/cyan/contact/index.html` |
-| Xayriya | `/cyan/apply-now/index.html` |
+| URL | Marshrut |
+|-----|----------|
+| Bosh | `/uz` |
+| Aloqa | `/uz/contact` |
+| Xayriya | `/uz/donate` |
 | Admin | `/admin` |

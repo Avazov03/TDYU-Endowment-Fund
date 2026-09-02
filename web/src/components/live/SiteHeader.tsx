@@ -80,6 +80,9 @@ export function SiteHeader() {
                 { href: '/projects', label: t(locale, 'Loyihalar', 'Проекты', 'Projects') },
                 { href: '/grants', label: t(locale, 'Grantlar', 'Гранты', 'Grants') },
                 { href: '/news', label: t(locale, 'Tadbirlar', 'События', 'Events') },
+                { href: '/faq', label: 'FAQ' },
+                { href: '/transparency', label: t(locale, 'Shaffoflik', 'Прозрачность', 'Transparency') },
+                { href: '/privacy', label: t(locale, 'Maxfiylik', 'Конфиденциальность', 'Privacy') },
               ]}
             />
             <Drop

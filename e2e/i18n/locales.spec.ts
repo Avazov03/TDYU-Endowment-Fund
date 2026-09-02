@@ -1,5 +1,4 @@
 import { expect, test } from '@playwright/test'
-import { waitDumpReady } from '../helpers'
 
 const locales = [
   { code: 'uz', marker: /Bosh|Missiya|Aloqa|Xayriya/ },
@@ -10,41 +9,37 @@ const locales = [
 test.describe('i18n — UZ / RU / EN', () => {
   test('uchta tilda asosiy sahifalar ochiladi va matn bo‘sh emas', async ({ page }) => {
     for (const loc of locales) {
-      for (const slug of ['', '/contact', '/apply-now']) {
+      for (const slug of ['', '/contact', '/donate']) {
         const path = `/${loc.code}${slug}`
         const res = await page.goto(path, { waitUntil: 'domcontentloaded' })
         expect(res?.ok(), `${path} HTTP ${res?.status()}`).toBeTruthy()
         await expect(page.locator('html')).toHaveAttribute('lang', loc.code)
-        await waitDumpReady(page)
-        const text = (await page.locator('#tdyu-dump-root').innerText()).replace(/\s+/g, ' ').trim()
-        expect(text.length, `${path} dump matni bo‘sh`).toBeGreaterThan(80)
+        const text = (await page.locator('.live-root').innerText()).replace(/\s+/g, ' ').trim()
+        expect(text.length, `${path} matni bo‘sh`).toBeGreaterThan(80)
         expect(text, `${path} tarjima kaliti ochiq qolgan`).not.toMatch(/\{\{|nav\.|forms\.|undefined/)
+        expect(text, `${path} til belgisi`).toMatch(loc.marker)
       }
     }
   })
 
   test('til almashtirgich UZ/RU/EN ko‘rinadi', async ({ page }) => {
     await page.goto('/uz', { waitUntil: 'domcontentloaded' })
-    await waitDumpReady(page)
-    const switcher = page.locator('#tdyu-lang-switcher, .tdyu-lang').first()
+    const switcher = page.getByRole('navigation', { name: 'Language' })
     await expect(switcher).toBeVisible()
     await expect(switcher).toContainText(/O'Z|O‘Z/i)
     await expect(switcher).toContainText(/РУ/)
     await expect(switcher).toContainText(/EN/)
   })
 
-  test('RU va EN dump matnlari UZ dan farq qiladi', async ({ page }) => {
+  test('RU va EN matnlari UZ dan farq qiladi', async ({ page }) => {
     await page.goto('/uz', { waitUntil: 'domcontentloaded' })
-    await waitDumpReady(page)
-    const uz = await page.locator('#tdyu-dump-root').innerText()
+    const uz = await page.locator('.live-root').innerText()
 
     await page.goto('/ru', { waitUntil: 'domcontentloaded' })
-    await waitDumpReady(page)
-    const ru = await page.locator('#tdyu-dump-root').innerText()
+    const ru = await page.locator('.live-root').innerText()
 
     await page.goto('/en', { waitUntil: 'domcontentloaded' })
-    await waitDumpReady(page)
-    const en = await page.locator('#tdyu-dump-root').innerText()
+    const en = await page.locator('.live-root').innerText()
 
     expect(ru).not.toEqual(uz)
     expect(en).not.toEqual(uz)
