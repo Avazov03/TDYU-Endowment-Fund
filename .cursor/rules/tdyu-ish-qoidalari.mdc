@@ -11,16 +11,18 @@ Public UI: Next.js (`web/`) native React+Tailwind. Eski WP/cyan dump yo‘q — 
 
 ## So‘ramasdan QILMANG
 
-- `git commit`, `git push`, production deploy
+- `git commit`, `git push`, production deploy — **so‘rang** (qarang: `tdyu-git-deploy.mdc`)
 - `npx prisma migrate`, `server/prisma/dev.db` ni to‘g‘ridan-to‘g‘ri o‘zgartirish
 - `.env` dagi `JWT_SECRET`, `ADMIN_*`, `DATABASE_URL`
 - Demo admin (`admin@tdyu-endowment.uz` / `Admin123!`) ni productionda qoldirish — faqat dev; deploy oldidan ogohlantiring
+
+Kod o‘zgargach: «commit + push + server deploy qilaymi?» Deploy = `deploy/deploy-live.sh` (`/opt/tdyu-fresh`), **emas** `/opt/tdyu-endowment` da `git pull`.
 
 Tasdiq: "Men X ni qilmoqchiman, sabab Y, natija Z bo‘ladi. Davom etaymi?"
 
 ## Har o‘zgarishdan keyin hisobot
 
-NIMA QILINDI / QAYSI FAYLLAR / NEGA / QANDAY TEKSHIRILDI (real test) / XAVF (past|o‘rta|yuqori) / KEYINGI QADAM (commit/push/deploy — alohida ruxsat).
+NIMA QILINDI / QAYSI FAYLLAR / NEGA / QANDAY TEKSHIRILDI (real test) / XAVF (past|o‘rta|yuqori) / KEYINGI QADAM (savol: commit / push / deploy).
 
 "100% tayyor" faqat real testdan keyin.
 

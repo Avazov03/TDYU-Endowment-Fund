@@ -1,0 +1,46 @@
+---
+description: TDYU — o‘zgarishdan keyin so‘rash; commit/push/deploy tartibi (har chat)
+alwaysApply: true
+---
+
+# Git + server (har sessiya)
+
+Loyiha: `tdyu-endowment/`. Repo: `https://github.com/Avazov03/TDYU-Endowment-Fund` (`main`).
+
+## Har kod o‘zgarishidan KEYIN (majburiy savol)
+
+Kod yozib bo‘lgach, **o‘zingiz commit/push/deploy qilmang**. Bir savol:
+
+> Kod o‘zgardi. **git commit**, **git push** (`origin/main`) va **serverga deploy** qilaymi?
+
+- Ha / hammasini — commit → push → `deploy/deploy-live.sh` (pastdagi tartib).
+- Faqat commit / faqat push / faqat deploy — faqat shuni.
+- Yo‘q — hech narsa.
+
+Foydalanuvchi **shu xabarda** «commit», «push», «deploy» desagina darhol qiling (qayta so‘ramang).
+
+## Deploy qanday ishlaydi (adashmang)
+
+GitHub **avtomatik** serverga tushmaydi. `git pull` **`/opt/tdyu-endowment` da ishlamaydi** — u yerda `.git` yo‘q.
+
+| Nima | Qayerda |
+|------|---------|
+| Git clone (manba) | `/opt/tdyu-fresh` |
+| Live API (Express) | `/opt/tdyu-endowment` → PM2 `tdyu-endowment` → `127.0.0.1:18787` |
+| Live Next (standalone) | `/opt/tdyu-endowment/next` → PM2 `tdyu-next` → `127.0.0.1:13000` |
+| Nginx | `/` va `/admin` → Next; `/api` `/uploads` → Express |
+
+**To‘g‘ri deploy:** faqat `deploy/deploy-live.sh` ni serverda ishga tushiring.
+
+```text
+ssh -i %USERPROFILE%\.ssh\yuritta_tdyu ubuntu@52.59.209.166
+bash /opt/tdyu-fresh/deploy/deploy-live.sh
+```
+
+Skript: `git fetch/reset origin/main` → Next build (RAM 512MB) → standalone ni `/opt/tdyu-endowment/next` ga → `pm2 restart tdyu-next`. `server/` o‘zgarsa Express ham yangilanadi.
+
+**QILMANG:** `/opt/tdyu-endowment` da `git pull`; faqat `web/src` ni serverda tahrirlash; boshqa PM2; Docker; 80/443.
+
+Tekshiruv: `curl -sI http://127.0.0.1:13000/uz` → 200; live `https://tdyu.yuretta.uz/uz`.
+
+To‘liq: `deploy/DEPLOY.md`.
