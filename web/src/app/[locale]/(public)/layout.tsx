@@ -3,8 +3,7 @@ import { hasLocale } from 'next-intl'
 import { setRequestLocale } from 'next-intl/server'
 import { notFound } from 'next/navigation'
 import { routing, type Locale } from '@/i18n/routing'
-import { SiteHeader } from '@/components/live/SiteHeader'
-import { SiteFooter } from '@/components/live/SiteFooter'
+import { ChromeGate } from '@/components/live/ChromeGate'
 import '../../public-site.css'
 
 export default async function PublicLayout({
@@ -20,9 +19,7 @@ export default async function PublicLayout({
 
   return (
     <div className="live-root">
-      <SiteHeader />
-      <main>{children}</main>
-      <SiteFooter locale={locale as Locale} />
+      <ChromeGate locale={locale as Locale}>{children}</ChromeGate>
     </div>
   )
 }

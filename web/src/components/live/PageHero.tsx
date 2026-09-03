@@ -1,4 +1,3 @@
-import Image from 'next/image'
 import { Link } from '@/i18n/navigation'
 
 export function PageHero({
@@ -6,21 +5,39 @@ export function PageHero({
   crumbs,
   lead,
   image,
+  objectPosition = '0% 50%',
+  height = 441,
+  deco,
 }: {
   title: string
   crumbs: { href: string; label: string }[]
   lead?: string
   image: string
+  objectPosition?: string
+  height?: number
+  deco?: string
 }) {
   return (
-    <section className="relative min-h-[280px] md:min-h-[340px] text-white overflow-hidden">
-      <Image src={image} alt="" fill priority className="object-cover object-center" sizes="100vw" />
-      <div className="absolute inset-0 bg-gradient-to-r from-[#08384d]/80 via-[#0c5776]/45 to-black/10" />
-      <div className="live-wrap relative z-10 py-16 md:py-20">
-        <nav className="text-sm text-white/85 mb-3" aria-label="breadcrumb">
+    <section
+      className="relative text-white overflow-hidden bg-tdyu"
+      style={{
+        height,
+        backgroundImage: `url(${image})`,
+        backgroundPosition: objectPosition,
+        backgroundSize: 'cover',
+        backgroundRepeat: 'no-repeat',
+      }}
+    >
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{ backgroundImage: 'linear-gradient(rgba(0, 25, 44, 0) -3%, rgb(0, 25, 44) 133.75%)' }}
+        aria-hidden
+      />
+      <div className="live-wrap relative z-10 h-full pt-[110px] pb-[115px]">
+        <nav className="text-[16px] leading-7 text-white mb-5" aria-label="breadcrumb">
           {crumbs.map((c, i) => (
             <span key={c.href}>
-              {i > 0 ? <span className="px-2 opacity-70">»</span> : null}
+              {i > 0 ? <span className="px-2">{'>>'}</span> : null}
               {i === crumbs.length - 1 ? (
                 <span>{c.label}</span>
               ) : (
@@ -31,10 +48,13 @@ export function PageHero({
             </span>
           ))}
         </nav>
-        <h1 className="!text-white text-[clamp(2rem,4vw,3rem)] mb-3">{title}</h1>
-        <span className="block w-16 h-px bg-white/80 mb-4" aria-hidden />
-        {lead ? <p className="max-w-[42ch] text-white/95 text-[15px] leading-7">{lead}</p> : null}
+        <h1 className="!text-white font-[Bitter,Georgia,serif] text-[56px] leading-[66px] !font-medium" style={{ marginBottom: 20 }}>{title}</h1>
+        <span className="block w-[145px] h-[2px] bg-white" style={{ marginBottom: 25 }} aria-hidden />
+        {lead ? <p className="max-w-[560px] text-white/[0.9] text-[16px] leading-7 font-normal">{lead}</p> : null}
       </div>
+      {deco ? (
+        <img src={deco} alt="" className="page-hero-deco" aria-hidden />
+      ) : null}
     </section>
   )
 }
