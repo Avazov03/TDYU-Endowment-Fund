@@ -1,41 +1,41 @@
-import Image from 'next/image'
-import { getContent } from '@/content/site'
 import type { Locale } from '@/i18n/routing'
 import { PageHero } from './PageHero'
+import { NewsArchive } from './NewsArchive'
 import { loc } from './loc'
 
-export function NewsView({ locale }: { locale: Locale }) {
-  const c = getContent(locale)
-  const photos = ['/media/home/news-1.jpg', '/media/home/news-2.jpg', '/media/home/news-3.jpg']
-
+/** Dump /cyan/blog/ — Alumni arxivi bilan bir xil layout uslubi */
+export function NewsView({
+  locale,
+  page = 1,
+  initialQuery = '',
+  initialCat = null,
+}: {
+  locale: Locale
+  page?: number
+  initialQuery?: string
+  initialCat?: string | null
+}) {
   return (
     <>
       <PageHero
-        image="/media/about/hero.jpg"
+        image="/media/dump/page-bnr-img26-min.jpg"
+        height={413}
+        deco="/media/dump/news/bnr-arrow-1-1.png"
         title={loc(locale, 'Yangiliklar', 'Новости', 'News')}
-        lead={c.newsTitle}
+        lead={loc(
+          locale,
+          'TDYU Endowment Fund — bilim, grant va xalqaro imkoniyatlarga sarmoya.',
+          'TDYU Endowment Fund — инвестиции в знания, гранты и международные возможности.',
+          'TDYU Endowment Fund — an investment in knowledge, grants and international opportunity.',
+        )}
         crumbs={[
           { href: '/', label: loc(locale, 'Bosh', 'Главная', 'Home') },
           { href: '/news', label: loc(locale, 'Yangiliklar', 'Новости', 'News') },
         ]}
       />
-      <section className="bg-cream py-16">
-        <div className="live-wrap grid gap-6 md:grid-cols-3">
-          {c.news.map((n, i) => (
-            <article key={n.t} className="bg-white rounded-[16px] overflow-hidden shadow-[0_4px_30px_rgba(0,0,0,0.06)]">
-              <div className="relative h-[180px]">
-                <Image src={photos[i] || photos[0]} alt="" fill className="object-cover" sizes="33vw" />
-              </div>
-              <div className="p-5">
-                <p className="text-xs text-sky mb-2">
-                  {n.tag} · {n.date}
-                </p>
-                <h3 className="text-[1.1rem] mb-2">{n.t}</h3>
-                <p className="text-sm leading-6 m-0">{n.d}</p>
-              </div>
-            </article>
-          ))}
-        </div>
+
+      <section className="alumni-shell news-shell">
+        <NewsArchive locale={locale} page={page} initialQuery={initialQuery} initialCat={initialCat} />
       </section>
     </>
   )
