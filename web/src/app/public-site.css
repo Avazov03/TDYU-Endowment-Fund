@@ -7667,3 +7667,293 @@
 }
 
 
+
+/* -- Alumni country-piece map (TDYU DNA) -- */
+.live-root .alumni-map-section {
+  background: #f6f4ee;
+  padding: 70px 0 80px;
+}
+
+.live-root .alumni-map-intro {
+  margin-bottom: 28px;
+}
+
+.live-root .alumni-map-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 10px;
+  color: #0c5776;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.live-root .alumni-map-eyebrow svg {
+  color: #00ade2;
+}
+
+.live-root .alumni-map-intro-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px 40px;
+}
+
+.live-root .alumni-map-heading {
+  margin: 0;
+  max-width: 16ch;
+  color: #030303;
+  font-family: Maitree, Georgia, serif;
+  font-size: clamp(1.8rem, 3vw, 2.45rem);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.live-root .alumni-map-lead {
+  margin: 0;
+  max-width: 38ch;
+  color: #4c4c4c;
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+.live-root .alumni-map-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px 24px;
+  margin-bottom: 22px;
+}
+
+.live-root .alumni-map-stats {
+  display: flex;
+  gap: 28px;
+}
+
+.live-root .alumni-map-stats strong {
+  display: block;
+  color: #0c5776;
+  font-family: Maitree, Georgia, serif;
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.live-root .alumni-map-stats span {
+  display: block;
+  margin-top: 6px;
+  color: #777;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.live-root .alumni-map-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.live-root .alumni-map-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border: 0;
+  border-radius: 30px;
+  background: #fff;
+  color: #0c5776;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
+}
+
+.live-root .alumni-map-tab em {
+  font-style: normal;
+  opacity: 0.55;
+  font-size: 12px;
+}
+
+.live-root .alumni-map-tab.is-on {
+  background: #0c5776;
+  color: #fff;
+}
+
+.live-root .alumni-map-board {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #efece4;
+  border: 1px solid #e4dfd4;
+}
+
+.live-root .alumni-map-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  min-height: 360px;
+}
+
+.live-root .alumni-map-land {
+  fill: #ddd7cb;
+  stroke: #d0c9bb;
+  stroke-width: 1;
+  pointer-events: none;
+}
+
+.live-root .alumni-map-country {
+  stroke: #f6f4ee;
+  stroke-width: 2;
+  transition: fill 0.2s ease, transform 0.2s ease, filter 0.2s ease;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.live-root .alumni-map-country.is-idle {
+  fill: #cfc8ba;
+  pointer-events: none;
+}
+
+.live-root .alumni-map-country.is-active {
+  fill: #0c5776;
+}
+
+.live-root .alumni-map-country.is-active:hover,
+.live-root .alumni-map-country.is-focus {
+  fill: #00ade2;
+  filter: drop-shadow(0 6px 14px rgba(0, 173, 226, 0.35));
+}
+
+.live-root .alumni-map-count {
+  fill: #fff;
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  pointer-events: none;
+}
+
+.live-root .alumni-map-count.is-focus {
+  font-size: 16px;
+}
+
+.live-root .alumni-map-panel {
+  position: absolute;
+  left: 18px;
+  bottom: 18px;
+  width: min(300px, calc(100% - 36px));
+  padding: 18px 20px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid #e6e1d7;
+  box-shadow: 0 14px 40px rgba(12, 87, 118, 0.12);
+}
+
+.live-root .alumni-map-panel-country {
+  margin: 0;
+  color: #0c5776;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.live-root .alumni-map-panel-count {
+  margin: 6px 0 12px;
+  color: #777;
+  font-size: 13px;
+}
+
+.live-root .alumni-map-panel-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.live-root .alumni-map-panel-list li {
+  padding: 8px 0;
+  border-top: 1px solid #eeeae2;
+}
+
+.live-root .alumni-map-panel-list li:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.live-root .alumni-map-panel-list strong {
+  display: block;
+  color: #030303;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.live-root .alumni-map-panel-list span {
+  display: block;
+  margin-top: 2px;
+  color: #666;
+  font-size: 13px;
+}
+
+.live-root .alumni-map-panel-list em {
+  display: block;
+  margin-top: 2px;
+  color: #999;
+  font-size: 12px;
+  font-style: normal;
+}
+
+.live-root .alumni-map-panel-link,
+.live-root .alumni-map-panel-more {
+  display: inline-flex;
+  margin-top: 12px;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.live-root .alumni-map-panel-link {
+  padding: 10px 16px;
+  border-radius: 30px;
+  background: #0c5776;
+  color: #fff;
+}
+
+.live-root .alumni-map-panel-link:hover {
+  background: #00ade2;
+  color: #fff;
+}
+
+.live-root .alumni-map-panel-more {
+  margin-left: 14px;
+  color: #0c5776;
+}
+
+.live-root .alumni-map-panel-more:hover {
+  color: #00ade2;
+}
+
+.live-root .ap-shell .alumni-map-section {
+  background: transparent;
+  padding: 0 0 48px;
+}
+
+@media (max-width: 767px) {
+  .live-root .alumni-map-section {
+    padding: 48px 0 56px;
+  }
+
+  .live-root .alumni-map-panel {
+    position: relative;
+    left: auto;
+    bottom: auto;
+    width: auto;
+    margin: 0 12px 12px;
+  }
+
+  .live-root .alumni-map-heading {
+    max-width: none;
+  }
+}

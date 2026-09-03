@@ -82,7 +82,7 @@ export const ALUMNI_PEOPLE: AlumniPerson[] = [
     about: `Jerome Bell TDYU Endowment Fondining bitiruvchilar tashabbuslarida faol. U kasbiy rivojlanish treninglarini muvofiqlashtiradi va yosh mutaxassislarni amaliyot va ishga joylashishda qo‘llab-quvvatlaydi.`,
     aboutRu: `Jerome Bell активен в выпускнических инициативах TDYU Endowment Fund. Он координирует тренинги по профессиональному развитию и поддерживает молодых специалистов в практике и трудоустройстве.`,
     aboutEn: `Jerome Bell is active in TDYU Endowment Fund alumni initiatives. He coordinates professional development trainings and supports early-career specialists with internships and employability pathways.`,
-    mapCategory: 'international',
+    mapCategory: 'state',
     mapLocation: { lat: 41.2995, lng: 69.2401, label: 'Uzbekistan', demo: true },
     quals: [
       `TDYU bitiruvchisi`,

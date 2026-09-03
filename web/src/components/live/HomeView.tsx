@@ -1,6 +1,7 @@
 import type { Locale } from '@/i18n/routing'
 import { AboutFundSection } from './AboutFundSection'
 import { AlumniEventsSection } from './AlumniEventsSection'
+import { AlumniMapGate } from './AlumniMapGate'
 import { DonateSection } from './DonateSection'
 import { GalleryStrip } from './GalleryStrip'
 import { HomeHero } from './HomeHero'
@@ -56,6 +57,8 @@ export function HomeView({ locale }: { locale: Locale }) {
       </section>
 
       <ProgramsStrip locale={locale} />
+
+      <AlumniMapGate locale={locale} />
 
       <AboutFundSection locale={locale} />
 
