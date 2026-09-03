@@ -72,14 +72,14 @@ Dump **o‘chirildi** — public faqat native Next sahifalar.
 **Strangler fig yakunlandi:** public + admin Next.js da. Express + SQLite saqlanadi (G/H).
 
 ```
-HOZIR (o‘zgarmaydi)          YANGI (yonma-yon)
-Vite :5173  public dump  →   Next :3000  /uz /ru /en
-Vite :5173  /admin       →   keyinroq /admin
-Express :8787 /api       ←   Next rewrite bilan shu API ni chaqiradi
-SQLite                   ←   o‘zgarmaydi
+HOZIR
+Next :3000   /uz /ru /en + /admin
+Express :8787 /api (+ /uploads)
+SQLite (keyin Postgres — H)
+Media: web/public/media/  (WP/cyan dump o‘chirilgan)
 ```
 
-**Bir vaqtda faqat bitta xavf:** avval faqat public UI. API, DB, admin, to‘lov — keyingi bosqichlar.
+**A–F bajarildi.** Qolgan xavf: G (API Next ga), H (Postgres), I (to‘lov).
 
 ---
 

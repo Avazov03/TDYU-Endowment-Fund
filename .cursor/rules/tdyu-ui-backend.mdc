@@ -7,7 +7,7 @@ alwaysApply: true
 
 ## UI/UX
 
-Yangi komponentdan oldin shu qismdagi 2–3 o‘xshashni ko‘ring. Ikki dizayn: public (Elementor/eski) va admin (React/Tailwind) — aralashtirmang. Yangi matn: UZ + RU + EN. "Boshqa sahifa qatorida begona ko‘rinadimi?" tekshiring. Next Image (yoki ekvivalent) — oddiy `<img>` emas. Semantik HTML.
+Yangi komponentdan oldin shu qismdagi 2–3 o‘xshashni ko‘ring. Ikki dizayn: public (Tailwind live-root) va admin (`admin.css`) — aralashtirmang. Yangi matn: UZ + RU + EN. "Boshqa sahifa qatorida begona ko‘rinadimi?" tekshiring. Next Image (yoki ekvivalent) — oddiy `<img>` emas. Semantik HTML.
 
 ## Backend
 
@@ -15,4 +15,4 @@ Faqat so‘ralgan narsa. Prisma model/endpoint ishlatilishini toping, eslatmasda
 
 ## Ogohlantiring
 
-Frontend/backend validatsiya farqi; bir tilda matn yangilanib qolgani; uzoq qolgan TODO; Elementor vs Next mantiqiy nomuvofiqlik.
+Frontend/backend validatsiya farqi; bir tilda matn yangilanib qolgani; uzoq qolgan TODO; public vs admin dizayn aralashuvi.
