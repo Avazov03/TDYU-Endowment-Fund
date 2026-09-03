@@ -1,29 +1,29 @@
 ---
-description: Yuritta AWS server — TDYU deploy (sirlar YO‘Q)
+description: Yuritta/Lightsail AWS — TDYU deploy (sirlar YO‘Q)
 alwaysApply: true
 ---
 
-# Server (yuritta)
+# Server (TDYU live)
 
-- Public IPv4: `52.59.209.166`
-- Private IPv4: `172.26.3.33`
-- Public IPv6: `2a05:d014:1323:8d00:297e:3ab1:6038:2238`
-- Asosiy domen: `yuritta.uz`
-- TDYU subdomen: `tdyu.yuritta.uz` (A → `52.59.209.166`)
-- SSH kalit: `%USERPROFILE%\.ssh\yuritta_tdyu` (repoda YO‘Q)
-- SSH: `ssh -i %USERPROFILE%\\.ssh\\yuritta_tdyu ubuntu@52.59.209.166`
+## Hozirgi live (Lightsail)
+
+- Public IPv4: `3.79.57.253`
+- Private IPv4: `172.26.11.220`
+- Public IPv6: `2a05:d014:1091:2d00:768b:8b11:2d63:34ae`
+- SSH kalit: `%USERPROFILE%\.ssh\lightsail_tdyu.pem` (repoda YO‘Q)
+- SSH: `ssh -i %USERPROFILE%\\.ssh\\lightsail_tdyu.pem ubuntu@3.79.57.253`
 - Git manba: `/opt/tdyu-fresh` (GitHub `main`)
-- Live: `/opt/tdyu-endowment` (git emas). Next: `next/` PM2 `tdyu-next` → `127.0.0.1:13000`. API: Express PM2 `tdyu-endowment` → `127.0.0.1:18787`
-- Nginx: `/` va `/admin` → Next; `/api` `/uploads` → Express
-- Deploy: `bash /opt/tdyu-fresh/deploy/deploy-live.sh` (qarang `tdyu-git-deploy.mdc`)
-- URL: `https://tdyu.yuretta.uz/uz` (Next public UI; WP/cyan dump yo‘q)
-- RAM ~1 GB: Docker daemon ishlatilmaydi (boshqa saytlar OOM bo‘lmasin). Docker fayllar bor, keyin RAM oshganda.
-- Band portlar (tegilmasin): 80/443 nginx, 3000 daromad, 3010 next, 8000/8001 gunicorn
+- Live: `/opt/tdyu-endowment` (git emas). Next PM2 `tdyu-next` → `:13000`. API PM2 `tdyu-endowment` → `:18787`
+- Deploy: `bash /opt/tdyu-fresh/deploy/deploy-live.sh`
+- URL: `https://tdyu.yuretta.uz/uz` (DNS → `3.79.57.253` bo‘lgach)
+- Tekshiruv: `curl -sI -H "Host: tdyu.yuretta.uz" http://3.79.57.253/uz`
+
+## Eski server
+
+- `52.59.209.166` — faqat TDYU: `deploy/cleanup-old-tdyu.sh`
+- Boshqa PM2/nginx site tegilmasin
 
 # Qoidalar
 
-- Boshqa konteyner/nginx site/docker-compose loyhalariga tegilmasin
-- Faqat alohida katalog: `/opt/tdyu-endowment`
-- Hostda 80/443 ni egallamang — mavjud reverse proxy ga YANGI vhost qo‘shing
-- TDYU Docker faqat `127.0.0.1` ga bind (masalan `13000` Next, `18787` API)
-- Private key, `.env`, JWT ni gitga va chatga yozmang
+- Private key / `.env` / JWT gitga yo‘q
+- SSL: DNS dan keyin certbot

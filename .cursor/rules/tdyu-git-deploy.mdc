@@ -13,36 +13,28 @@ Kod yozib bo‘lgach, **o‘zingiz commit/push/deploy qilmang**. Bir savol:
 
 > Kod o‘zgardi. **git commit**, **git push** (`origin/main`) va **serverga deploy** qilaymi?
 
-- Ha / hammasini — commit → push → `deploy/deploy-live.sh` (pastdagi tartib).
+- Ha / hammasini — commit → push → `deploy/deploy-live.sh`.
 - Faqat commit / faqat push / faqat deploy — faqat shuni.
 - Yo‘q — hech narsa.
 
-Foydalanuvchi **shu xabarda** «commit», «push», «deploy» desagina darhol qiling (qayta so‘ramang).
+Foydalanuvchi **shu xabarda** «commit», «push», «deploy» desagina darhol qiling.
 
-## Deploy qanday ishlaydi (adashmang)
+## Deploy
 
-GitHub **avtomatik** serverga tushmaydi. `git pull` **`/opt/tdyu-endowment` da ishlamaydi** — u yerda `.git` yo‘q.
+GitHub avtomatik tushmaydi. `/opt/tdyu-endowment` da `.git` yo‘q.
 
 | Nima | Qayerda |
 |------|---------|
-| Git clone (manba) | `/opt/tdyu-fresh` |
-| Live API (Express) | `/opt/tdyu-endowment` → PM2 `tdyu-endowment` → `127.0.0.1:18787` |
-| Live Next (standalone) | `/opt/tdyu-endowment/next` → PM2 `tdyu-next` → `127.0.0.1:13000` |
-| Nginx | `/` va `/admin` → Next; `/api` `/uploads` → Express |
-
-**To‘g‘ri deploy:** faqat `deploy/deploy-live.sh` ni serverda ishga tushiring.
+| Git clone | `/opt/tdyu-fresh` |
+| Live API | `/opt/tdyu-endowment` → PM2 `tdyu-endowment` → `:18787` |
+| Live Next | `/opt/tdyu-endowment/next` → PM2 `tdyu-next` → `:13000` |
+| Host | `3.79.57.253` — qarang `yuritta-server.mdc` |
 
 ```text
-ssh -i %USERPROFILE%\.ssh\yuritta_tdyu ubuntu@52.59.209.166
+ssh -i %USERPROFILE%\.ssh\lightsail_tdyu.pem ubuntu@3.79.57.253
 bash /opt/tdyu-fresh/deploy/deploy-live.sh
 ```
 
-Skript: `git fetch/reset origin/main` → Next build (RAM 512MB) → standalone ni `/opt/tdyu-endowment/next` ga → `pm2 restart tdyu-next`. `server/` o‘zgarsa Express ham yangilanadi.
+Tekshiruv: `curl -sI http://127.0.0.1:13000/uz` → 200.
 
-**QILMANG:** `/opt/tdyu-endowment` da `git pull`; faqat `web/src` ni serverda tahrirlash; boshqa PM2; Docker; 80/443.
-
-Tekshiruv: `curl -sI http://127.0.0.1:13000/uz` → 200; live `https://tdyu.yuretta.uz/uz`.
-
-**SSH timeout:** ma’lumot yetishmasligi emas — tarmoq/firewall. Qayta urinish; server rekvizitlari: `yuritta-server.mdc`.
-
-To‘liq: `deploy/DEPLOY.md`.
+Eski `52.59.209.166` tozalash: `deploy/cleanup-old-tdyu.sh` (faqat TDYU).
