@@ -1,13 +1,11 @@
 'use client'
 
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import type { Locale } from '@/i18n/routing'
 import { Link } from '@/i18n/navigation'
 import type { AlumniMapCategoryId } from '@/content/alumni'
 import {
-  COUNTRY_PIECES,
   MAP_CATEGORIES,
-  MUTED_LANDS,
   getAlumniMapPins,
   localizeCountry,
   localizePin,
@@ -25,11 +23,27 @@ function EyebrowIcon() {
   )
 }
 
+type ChartPoint = { 'hc-key': string; value: number }
+
+function buildSeriesData(byCountry: Map<AlumniCountryId, AlumniMapPin[]>): ChartPoint[] {
+  return [...byCountry.entries()].map(([id, list]) => ({
+    'hc-key': id,
+    value: list.length,
+  }))
+}
+
 export function AlumniMap({ locale }: { locale: Locale }) {
   const pins = useMemo(() => getAlumniMapPins(), [])
   const [tab, setTab] = useState<'all' | AlumniMapCategoryId>('all')
-  const [hoverId, setHoverId] = useState<AlumniCountryId | null>(null)
   const [activeId, setActiveId] = useState<AlumniCountryId | null>('uz')
+  const [mapReady, setMapReady] = useState(false)
+  const [mapError, setMapError] = useState<string | null>(null)
+
+  const chartRef = useRef<HTMLDivElement>(null)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const chartApi = useRef<any>(null)
+  const byCountryRef = useRef<Map<AlumniCountryId, AlumniMapPin[]>>(new Map())
+  const localeRef = useRef(locale)
 
   const filtered = useMemo(() => {
     if (tab === 'all') return pins
@@ -46,15 +60,171 @@ export function AlumniMap({ locale }: { locale: Locale }) {
     return map
   }, [filtered])
 
+  byCountryRef.current = byCountry
+  localeRef.current = locale
+
   const activeCountries = useMemo(() => new Set(byCountry.keys()), [byCountry])
-
-  const focusId = (hoverId && activeCountries.has(hoverId) ? hoverId : null) || (activeId && activeCountries.has(activeId) ? activeId : null) || [...activeCountries][0] || null
-
+  const focusId =
+    (activeId && activeCountries.has(activeId) ? activeId : null) || [...activeCountries][0] || null
   const focusPins = focusId ? byCountry.get(focusId) || [] : []
-  const focusPiece = COUNTRY_PIECES.find((c) => c.id === focusId) || null
   const primary = focusPins[0] || null
-
   const countryCount = activeCountries.size
+
+  useEffect(() => {
+    let cancelled = false
+
+    async function boot() {
+      try {
+        const [{ default: Highcharts }, topoRes] = await Promise.all([
+          import('highcharts/highmaps'),
+          fetch('/maps/world.geo.json'),
+        ])
+        if (!topoRes.ok) throw new Error('world map load failed')
+        const topology = await topoRes.json()
+        if (cancelled || !chartRef.current) return
+
+        const chart = Highcharts.mapChart(chartRef.current, {
+          chart: {
+            map: topology,
+            backgroundColor: '#ffffff',
+            spacing: [12, 12, 12, 12],
+            style: { fontFamily: 'Inter, system-ui, sans-serif' },
+          },
+          title: { text: undefined },
+          credits: { enabled: false },
+          mapNavigation: {
+            enabled: true,
+            enableDoubleClickZoomTo: true,
+            buttonOptions: {
+              verticalAlign: 'top',
+              align: 'left',
+              theme: {
+                fill: '#ffffff',
+                stroke: '#e6e1d7',
+                'stroke-width': 1,
+                r: 8,
+                states: { hover: { fill: '#f6f4ee' } },
+              },
+            },
+          },
+          colorAxis: {
+            min: 0,
+            softMax: 3,
+            minColor: '#d4e8f2',
+            maxColor: '#0C5776',
+            labels: { style: { color: '#4c4c4c', fontSize: '11px' } },
+          },
+          legend: {
+            layout: 'horizontal',
+            align: 'left',
+            verticalAlign: 'bottom',
+            floating: true,
+            backgroundColor: 'rgba(255,255,255,0.92)',
+            borderRadius: 8,
+            padding: 10,
+            itemStyle: { color: '#0c5776', fontWeight: '500', fontSize: '12px' },
+            title: {
+              text: loc(localeRef.current, 'Alumni soni', 'Число alumni', 'Alumni count'),
+              style: { color: '#0c5776', fontWeight: '700', fontSize: '11px' },
+            },
+          },
+          tooltip: {
+            useHTML: true,
+            backgroundColor: '#ffffff',
+            borderColor: '#e6e1d7',
+            borderRadius: 10,
+            shadow: true,
+            style: { color: '#030303', fontSize: '13px' },
+            formatter() {
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              const self = this as any
+              const p = self.point || self
+              const locNow = localeRef.current
+              const mapNow = byCountryRef.current
+              const key = String(p['hc-key'] || '').toLowerCase() as AlumniCountryId
+              const list = mapNow.get(key) || []
+              const name = localizeCountry(key, locNow)
+              const alumniWord = loc(locNow, 'alumni', 'alumni', 'alumni')
+              if (!list.length) {
+                return `<b>${p.name || name}</b><br/>0 ${alumniWord}`
+              }
+              const rows = list
+                .slice(0, 3)
+                .map((pin: AlumniMapPin) => {
+                  const L = localizePin(pin, locNow)
+                  return `<div style="margin-top:4px"><b>${L.name}</b><br/><span style="color:#666">${L.role}</span></div>`
+                })
+                .join('')
+              return `<b>${name}</b><br/><span style="color:#0c5776">${list.length} ${alumniWord}</span>${rows}<div style="margin-top:8px;color:#00ade2;font-size:12px">${loc(
+                locNow,
+                'Bosing — batafsil',
+                'Нажмите — подробнее',
+                'Click for details',
+              )}</div>`
+            },
+          },
+          series: [
+            {
+              type: 'map',
+              name: loc(localeRef.current, 'Alumni', 'Alumni', 'Alumni'),
+              mapData: topology,
+              data: buildSeriesData(byCountryRef.current),
+              joinBy: 'hc-key',
+              nullColor: '#eef2f5',
+              borderColor: '#ffffff',
+              borderWidth: 0.75,
+              states: {
+                hover: { color: '#f59a23', borderColor: '#ffffff' },
+                select: { color: '#00ade2' },
+              },
+              dataLabels: { enabled: false },
+              point: {
+                events: {
+                  click() {
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    const key = String((this as any)['hc-key'] || '').toLowerCase() as AlumniCountryId
+                    if (byCountryRef.current.has(key)) setActiveId(key)
+                  },
+                },
+              },
+            },
+          ],
+        })
+
+        chartApi.current = chart
+        setMapReady(true)
+      } catch (e) {
+        setMapError(e instanceof Error ? e.message : 'map error')
+      }
+    }
+
+    void boot()
+    return () => {
+      cancelled = true
+      if (chartApi.current) {
+        chartApi.current.destroy()
+        chartApi.current = null
+      }
+    }
+  }, [])
+
+  useEffect(() => {
+    const chart = chartApi.current
+    if (!chart?.series?.[0]) return
+    const data = buildSeriesData(byCountry)
+    const max = Math.max(1, ...data.map((d) => d.value), 3)
+    chart.series[0].setData(data, true)
+    if (chart.colorAxis?.[0]) {
+      chart.colorAxis[0].update({ max, softMax: max }, false)
+    }
+    chart.redraw()
+  }, [byCountry])
+
+  useEffect(() => {
+    if (focusId && activeId && !activeCountries.has(activeId)) {
+      setActiveId([...activeCountries][0] || null)
+    }
+  }, [activeCountries, activeId, focusId])
 
   return (
     <section className="alumni-map-section" aria-labelledby="alumni-map-heading">
@@ -71,9 +241,9 @@ export function AlumniMap({ locale }: { locale: Locale }) {
             <p className="alumni-map-lead">
               {loc(
                 locale,
-                'Har bir davlat — alohida bo‘lak. Ustiga boring: rang o‘zgaradi va alumni ma’lumoti chiqadi.',
-                'Каждая страна — отдельный фрагмент. Наведите: цвет меняется и появляется информация об alumni.',
-                'Each country is a separate piece. Hover to highlight and see alumni details.',
+                'Haqiqiy dunyo xaritasi (Highcharts Maps). Davlat ustiga boring yoki bosing — alumni soni va ismlar chiqadi.',
+                'Настоящая карта мира (Highcharts Maps). Наведите или нажмите на страну — число и имена alumni.',
+                'Real world map (Highcharts Maps). Hover or click a country to see alumni counts and names.',
               )}
             </p>
           </div>
@@ -115,58 +285,24 @@ export function AlumniMap({ locale }: { locale: Locale }) {
           </div>
         </div>
 
-        <div className="alumni-map-board">
-          <svg viewBox="0 0 1000 480" className="alumni-map-svg" role="img" aria-label={loc(locale, 'Dunyo xaritasi', 'Карта мира', 'World map')}>
-            <rect width="1000" height="480" fill="#f6f4ee" />
+        <div className="alumni-map-board alumni-map-board--hc">
+          <div
+            ref={chartRef}
+            className="alumni-map-hc"
+            aria-label={loc(locale, 'Dunyo xaritasi', 'Карта мира', 'World map')}
+          />
+          {!mapReady && !mapError && (
+            <p className="alumni-map-loading">{loc(locale, 'Xarita yuklanmoqda…', 'Карта загружается…', 'Loading map…')}</p>
+          )}
+          {mapError && (
+            <p className="alumni-map-loading" role="alert">
+              {loc(locale, 'Xarita yuklanmadi.', 'Карта не загрузилась.', 'Map failed to load.')} {mapError}
+            </p>
+          )}
 
-            {MUTED_LANDS.map((d, i) => (
-              <path key={i} d={d} className="alumni-map-land" />
-            ))}
-
-            {COUNTRY_PIECES.map((piece) => {
-              const has = activeCountries.has(piece.id)
-              const isFocus = focusId === piece.id
-              const count = byCountry.get(piece.id)?.length || 0
-              return (
-                <g key={piece.id}>
-                  <path
-                    d={piece.d}
-                    className={[
-                      'alumni-map-country',
-                      has ? 'is-active' : 'is-idle',
-                      isFocus ? 'is-focus' : '',
-                    ]
-                      .filter(Boolean)
-                      .join(' ')}
-                    onMouseEnter={() => has && setHoverId(piece.id)}
-                    onMouseLeave={() => setHoverId(null)}
-                    onClick={() => has && setActiveId(piece.id)}
-                    style={{ cursor: has ? 'pointer' : 'default' }}
-                  >
-                    <title>
-                      {localizeCountry(piece, locale)}
-                      {has ? ` · ${count}` : ''}
-                    </title>
-                  </path>
-                  {has && (
-                    <text
-                      x={piece.labelX}
-                      y={piece.labelY}
-                      className={`alumni-map-count${isFocus ? ' is-focus' : ''}`}
-                      textAnchor="middle"
-                      dominantBaseline="middle"
-                    >
-                      {count}
-                    </text>
-                  )}
-                </g>
-              )
-            })}
-          </svg>
-
-          {focusPiece && primary && (
+          {focusId && primary && (
             <aside className="alumni-map-panel" aria-live="polite">
-              <p className="alumni-map-panel-country">{localizeCountry(focusPiece, locale)}</p>
+              <p className="alumni-map-panel-country">{localizeCountry(focusId, locale)}</p>
               <p className="alumni-map-panel-count">
                 {focusPins.length} {loc(locale, 'alumni', 'alumni', 'alumni')}
               </p>

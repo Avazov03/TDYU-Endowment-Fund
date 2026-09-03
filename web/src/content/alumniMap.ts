@@ -1,6 +1,7 @@
 import type { Locale } from '@/i18n/routing'
 import { ALUMNI_PEOPLE, type AlumniMapCategoryId } from './alumni'
 
+/** ISO2 lower = Highcharts world.geo.json `hc-key` */
 export type AlumniCountryId =
   | 'uz'
   | 'us'
@@ -27,114 +28,23 @@ export type AlumniMapPin = {
   demo?: boolean
 }
 
-export type CountryPiece = {
+export type AlumniCountryMeta = {
   id: AlumniCountryId
-  /** SVG path(s) — alohida davlat bo‘lagi */
-  d: string
-  labelX: number
-  labelY: number
   uz: string
   ru: string
   en: string
 }
 
-/**
- * Stilizatsiya qilingan davlat-bo‘laklar (puzzle).
- * Geo-aniqlik emas — TDYU DNA: krem fon, bo‘laklar, hover.
- * viewBox 0 0 1000 480
- */
-export const COUNTRY_PIECES: CountryPiece[] = [
-  {
-    id: 'us',
-    d: 'M95 95 L175 78 L230 95 L255 140 L240 195 L195 220 L145 205 L110 165 L95 125 Z',
-    labelX: 165,
-    labelY: 145,
-    uz: 'AQSH',
-    ru: 'США',
-    en: 'USA',
-  },
-  {
-    id: 'gb',
-    d: 'M445 95 L470 88 L488 102 L482 128 L458 138 L442 120 Z',
-    labelX: 465,
-    labelY: 108,
-    uz: 'Buyuk Britaniya',
-    ru: 'Великобритания',
-    en: 'United Kingdom',
-  },
-  {
-    id: 'fr',
-    d: 'M455 145 L490 138 L508 160 L495 195 L462 200 L448 172 Z',
-    labelX: 475,
-    labelY: 168,
-    uz: 'Fransiya',
-    ru: 'Франция',
-    en: 'France',
-  },
-  {
-    id: 'de',
-    d: 'M505 118 L535 112 L552 135 L540 165 L512 168 L498 142 Z',
-    labelX: 525,
-    labelY: 140,
-    uz: 'Germaniya',
-    ru: 'Германия',
-    en: 'Germany',
-  },
-  {
-    id: 'pl',
-    d: 'M545 108 L575 105 L590 128 L578 155 L548 152 L538 128 Z',
-    labelX: 562,
-    labelY: 128,
-    uz: 'Polsha',
-    ru: 'Польша',
-    en: 'Poland',
-  },
-  {
-    id: 'uz',
-    d: 'M620 155 L670 148 L705 168 L695 205 L650 218 L615 195 Z',
-    labelX: 655,
-    labelY: 180,
-    uz: "O'zbekiston",
-    ru: 'Узбекистан',
-    en: 'Uzbekistan',
-  },
-  {
-    id: 'jp',
-    d: 'M820 145 L848 138 L868 158 L860 195 L835 205 L815 178 Z',
-    labelX: 840,
-    labelY: 170,
-    uz: 'Yaponiya',
-    ru: 'Япония',
-    en: 'Japan',
-  },
-  {
-    id: 'sg',
-    d: 'M740 285 L758 280 L768 292 L760 305 L742 302 Z',
-    labelX: 754,
-    labelY: 292,
-    uz: 'Singapur',
-    ru: 'Сингапур',
-    en: 'Singapore',
-  },
-  {
-    id: 'au',
-    d: 'M780 320 L860 308 L905 345 L880 395 L805 405 L760 360 Z',
-    labelX: 830,
-    labelY: 355,
-    uz: 'Avstraliya',
-    ru: 'Австралия',
-    en: 'Australia',
-  },
-]
-
-/** Fon qit’alari — faol emas, faqat kontekst */
-export const MUTED_LANDS = [
-  'M90 90 L250 70 L280 150 L250 230 L160 240 L100 180 Z',
-  'M210 265 L270 255 L295 330 L270 410 L230 430 L205 360 Z',
-  'M440 90 L580 85 L600 170 L560 200 L470 185 Z',
-  'M470 200 L575 190 L600 280 L560 360 L490 340 Z',
-  'M580 90 L810 85 L850 180 L780 240 L620 220 Z',
-  'M760 300 L910 290 L940 360 L900 420 L780 420 Z',
+export const ALUMNI_COUNTRIES: AlumniCountryMeta[] = [
+  { id: 'uz', uz: "O'zbekiston", ru: 'Узбекистан', en: 'Uzbekistan' },
+  { id: 'us', uz: 'AQSH', ru: 'США', en: 'USA' },
+  { id: 'gb', uz: 'Buyuk Britaniya', ru: 'Великобритания', en: 'United Kingdom' },
+  { id: 'de', uz: 'Germaniya', ru: 'Германия', en: 'Germany' },
+  { id: 'fr', uz: 'Fransiya', ru: 'Франция', en: 'France' },
+  { id: 'pl', uz: 'Polsha', ru: 'Польша', en: 'Poland' },
+  { id: 'jp', uz: 'Yaponiya', ru: 'Япония', en: 'Japan' },
+  { id: 'au', uz: 'Avstraliya', ru: 'Австралия', en: 'Australia' },
+  { id: 'sg', uz: 'Singapur', ru: 'Сингапур', en: 'Singapore' },
 ]
 
 export const MAP_CATEGORIES: Array<{
@@ -247,8 +157,10 @@ export function localizePin(pin: AlumniMapPin, locale: Locale) {
   return { name: pin.name, role: pin.role }
 }
 
-export function localizeCountry(piece: CountryPiece, locale: Locale) {
-  if (locale === 'ru') return piece.ru
-  if (locale === 'en') return piece.en
-  return piece.uz
+export function localizeCountry(id: AlumniCountryId, locale: Locale) {
+  const meta = ALUMNI_COUNTRIES.find((c) => c.id === id)
+  if (!meta) return id.toUpperCase()
+  if (locale === 'ru') return meta.ru
+  if (locale === 'en') return meta.en
+  return meta.uz
 }

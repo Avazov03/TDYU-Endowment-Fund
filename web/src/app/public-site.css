@@ -7668,7 +7668,7 @@
 
 
 
-/* -- Alumni country-piece map (TDYU DNA) -- */
+/* -- Alumni Highcharts Maps (real world choropleth) -- */
 .live-root .alumni-map-section {
   background: #f6f4ee;
   padding: 70px 0 80px;
@@ -7787,57 +7787,30 @@
   position: relative;
   border-radius: 16px;
   overflow: hidden;
-  background: #efece4;
+  background: #ffffff;
   border: 1px solid #e4dfd4;
+  box-shadow: 0 18px 50px rgba(12, 87, 118, 0.08);
 }
 
-.live-root .alumni-map-svg {
-  display: block;
+.live-root .alumni-map-board--hc {
+  min-height: 480px;
+}
+
+.live-root .alumni-map-hc {
   width: 100%;
-  height: auto;
-  min-height: 360px;
+  height: 520px;
 }
 
-.live-root .alumni-map-land {
-  fill: #ddd7cb;
-  stroke: #d0c9bb;
-  stroke-width: 1;
+.live-root .alumni-map-loading {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  margin: 0;
   pointer-events: none;
-}
-
-.live-root .alumni-map-country {
-  stroke: #f6f4ee;
-  stroke-width: 2;
-  transition: fill 0.2s ease, transform 0.2s ease, filter 0.2s ease;
-  transform-box: fill-box;
-  transform-origin: center;
-}
-
-.live-root .alumni-map-country.is-idle {
-  fill: #cfc8ba;
-  pointer-events: none;
-}
-
-.live-root .alumni-map-country.is-active {
-  fill: #0c5776;
-}
-
-.live-root .alumni-map-country.is-active:hover,
-.live-root .alumni-map-country.is-focus {
-  fill: #00ade2;
-  filter: drop-shadow(0 6px 14px rgba(0, 173, 226, 0.35));
-}
-
-.live-root .alumni-map-count {
-  fill: #fff;
-  font-family: Inter, system-ui, sans-serif;
+  color: #0c5776;
   font-size: 14px;
-  font-weight: 700;
-  pointer-events: none;
-}
-
-.live-root .alumni-map-count.is-focus {
-  font-size: 16px;
+  background: rgba(255, 255, 255, 0.55);
 }
 
 .live-root .alumni-map-panel {
