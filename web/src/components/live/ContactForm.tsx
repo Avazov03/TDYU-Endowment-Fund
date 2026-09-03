@@ -15,11 +15,24 @@ export function ContactForm({ page = 'contact' }: { page?: string }) {
     e.preventDefault()
     const form = e.currentTarget
     const fd = new FormData(form)
-    const name = String(fd.get('name') || '').trim()
+    const first = String(fd.get('name') || '').trim()
+    const last = String(fd.get('lastName') || '').trim()
+    const name = [first, last].filter(Boolean).join(' ')
     const email = String(fd.get('email') || '').trim()
     const message = String(fd.get('message') || '').trim()
-    if (!name || !email || !message) {
+    const consent = fd.get('consent') === '1'
+    if (!first || !email || !message) {
       setErr(locale === 'en' ? 'Required fields' : locale === 'ru' ? 'Обязательные поля' : 'Majburiy maydonlar')
+      return
+    }
+    if (!consent) {
+      setErr(
+        locale === 'en'
+          ? 'Please accept the privacy policy'
+          : locale === 'ru'
+            ? 'Примите политику конфиденциальности'
+            : 'Maxfiylik siyosatiga rozilik bering',
+      )
       return
     }
     setBusy(true)
@@ -29,8 +42,8 @@ export function ContactForm({ page = 'contact' }: { page?: string }) {
       await postForm('/api/forms/contact', {
         name,
         email,
-        phone: String(fd.get('phone') || ''),
-        subject: String(fd.get('subject') || ''),
+        phone: '',
+        subject: '',
         message,
         lang: locale,
         page,
@@ -46,23 +59,49 @@ export function ContactForm({ page = 'contact' }: { page?: string }) {
 
   const L =
     locale === 'ru'
-      ? { name: 'Имя', email: 'Email', phone: 'Телефон', subject: 'Тема', msg: 'Сообщение', send: 'Отправить' }
+      ? {
+          first: 'Имя*',
+          last: 'Фамилия*',
+          email: 'Электронная почта*',
+          msg: 'Ваше сообщение...*',
+          consent: 'Согласен с политикой конфиденциальности',
+          send: 'Отправить',
+        }
       : locale === 'en'
-        ? { name: 'Name', email: 'Email', phone: 'Phone', subject: 'Subject', msg: 'Message', send: 'Send' }
-        : { name: 'Ism', email: 'Elektron pochta', phone: 'Telefon', subject: 'Mavzu', msg: 'Xabar', send: 'Yuborish' }
+        ? {
+            first: 'First name*',
+            last: 'Last name*',
+            email: 'Email*',
+            msg: 'Your message...*',
+            consent: 'I agree to the privacy policy',
+            send: 'Send',
+          }
+        : {
+            first: 'Ism*',
+            last: 'Familiya*',
+            email: 'Elektron pochta*',
+            msg: 'Xabaringiz...*',
+            consent: 'Maxfiylik siyosatiga roziman',
+            send: 'Yuborish',
+          }
 
   return (
-    <form className="grid gap-3" onSubmit={onSubmit} id="contact-form">
-      <input name="name" required placeholder={L.name} className="rounded-xl border border-[#e5e5e5] px-3 py-2.5" />
-      <input name="email" required type="email" placeholder={L.email} className="rounded-xl border border-[#e5e5e5] px-3 py-2.5" />
-      <input name="phone" placeholder={L.phone} className="rounded-xl border border-[#e5e5e5] px-3 py-2.5" />
-      <input name="subject" placeholder={L.subject} className="rounded-xl border border-[#e5e5e5] px-3 py-2.5" />
-      <textarea name="message" required placeholder={L.msg} rows={5} className="rounded-xl border border-[#e5e5e5] px-3 py-2.5" />
-      <button disabled={busy} className="rounded-[30px] bg-sky text-white font-semibold py-3 disabled:opacity-60" type="submit">
+    <form className="contact-form" onSubmit={onSubmit} id="contact-form" noValidate={false}>
+      <div className="contact-form-row">
+        <input name="name" type="text" required placeholder={L.first} autoComplete="given-name" />
+        <input name="lastName" type="text" required placeholder={L.last} autoComplete="family-name" />
+      </div>
+      <input name="email" required type="email" placeholder={L.email} autoComplete="email" />
+      <textarea name="message" required placeholder={L.msg} rows={6} />
+      <label className="contact-form-consent">
+        <input type="checkbox" name="consent" value="1" required />
+        <span>{L.consent}</span>
+      </label>
+      <button disabled={busy} className="contact-form-submit" type="submit">
         {busy ? '…' : L.send}
       </button>
-      {ok ? <p className="text-tdyu m-0">{ok}</p> : null}
-      {err ? <p className="text-red-700 m-0">{err}</p> : null}
+      {ok ? <p className="contact-form-ok">{ok}</p> : null}
+      {err ? <p className="contact-form-err">{err}</p> : null}
     </form>
   )
 }
