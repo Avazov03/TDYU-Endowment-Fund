@@ -22,6 +22,26 @@ playwright-report
 blob-report
 playwright/.cache
 deploy/.env.production
+_legacy-ref/
+_legacy-dump.zip
+_visual-compare/
+_proof/
+_tmp*/
+_tmp_*
+site/
+scripts/extract-*.mjs
+scripts/compare-*.mjs
+scripts/measure-*.mjs
+scripts/debug-*.mjs
+scripts/peek-*.mjs
+scripts/tmp-*.mjs
+scripts/try-*.mjs
+scripts/steal-*.mjs
+scripts/heatmap-*.mjs
+scripts/region-*.mjs
+scripts/crop-*.mjs
+scripts/check-home-viewport.mjs
+scripts/visual-compare.mjs
 
 # Editor directories and files
 .vscode/*
