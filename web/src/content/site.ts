@@ -3,6 +3,8 @@ import type { Locale } from '@/i18n/routing'
 export const brand = {
   name: 'TDYU Endowment Fund',
   email: 'info@tdyu-endowment.uz',
+  phone: '+998 71 233-66-36',
+  phoneHref: 'tel:+998712336636',
   registrar: {
     uz: "O'zbekiston Respublikasi Adliya vazirligi",
     ru: 'Министерство юстиции Республики Узбекистан',
