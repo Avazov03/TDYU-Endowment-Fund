@@ -14,24 +14,24 @@ const TABS = [
 
 const CARDS = [
   [
-    { t: 'Xalqaro stajirovka', ru: 'Зарубежная стажировка', en: 'Overseas internship', img: '/media/dump/grants/card-1.jpg' },
-    { t: 'Stipendiya va grant', ru: 'Стипендия и грант', en: 'Scholarship and grant', img: '/media/dump/grants/card-2.jpg' },
-    { t: 'Tanlov va musobaqa', ru: 'Конкурс и соревнование', en: 'Contest and competition', img: '/media/dump/grants/card-3.jpg' },
+    { t: 'Xalqaro stajirovka', ru: 'Зарубежная стажировка', en: 'Overseas internship', img: '/media/grants/card-1.jpg' },
+    { t: 'Stipendiya va grant', ru: 'Стипендия и грант', en: 'Scholarship and grant', img: '/media/grants/card-2.jpg' },
+    { t: 'Tanlov va musobaqa', ru: 'Конкурс и соревнование', en: 'Contest and competition', img: '/media/grants/card-3.jpg' },
   ],
   [
-    { t: 'Ilmiy loyiha', ru: 'Научный проект', en: 'Research project', img: '/media/dump/grants/card-2.jpg' },
-    { t: 'Xalqaro tadbir', ru: 'Международное мероприятие', en: 'International event', img: '/media/dump/grants/card-3.jpg' },
-    { t: 'Infratuzilma', ru: 'Инфраструктура', en: 'Infrastructure', img: '/media/dump/grants/card-1.jpg' },
+    { t: 'Ilmiy loyiha', ru: 'Научный проект', en: 'Research project', img: '/media/grants/card-2.jpg' },
+    { t: 'Xalqaro tadbir', ru: 'Международное мероприятие', en: 'International event', img: '/media/grants/card-3.jpg' },
+    { t: 'Infratuzilma', ru: 'Инфраструктура', en: 'Infrastructure', img: '/media/grants/card-1.jpg' },
   ],
   [
-    { t: 'Nashr va tarjima', ru: 'Издание и перевод', en: 'Publishing and translation', img: '/media/dump/grants/card-3.jpg' },
-    { t: 'Alumni qo‘llab-quvvatlash', ru: 'Поддержка выпускников', en: 'Alumni support', img: '/media/dump/grants/card-1.jpg' },
-    { t: 'Malaka oshirish', ru: 'Повышение квалификации', en: 'Professional development', img: '/media/dump/grants/card-2.jpg' },
+    { t: 'Nashr va tarjima', ru: 'Издание и перевод', en: 'Publishing and translation', img: '/media/grants/card-3.jpg' },
+    { t: 'Alumni qo‘llab-quvvatlash', ru: 'Поддержка выпускников', en: 'Alumni support', img: '/media/grants/card-1.jpg' },
+    { t: 'Malaka oshirish', ru: 'Повышение квалификации', en: 'Professional development', img: '/media/grants/card-2.jpg' },
   ],
   [
-    { t: 'Xorijiy delegatsiya', ru: 'Зарубежная делегация', en: 'Foreign delegation', img: '/media/dump/grants/card-1.jpg' },
-    { t: 'Protokol xizmati', ru: 'Протокольная служба', en: 'Protocol service', img: '/media/dump/grants/card-2.jpg' },
-    { t: 'TSUL brendi', ru: 'Бренд TSUL', en: 'TSUL brand', img: '/media/dump/grants/card-3.jpg' },
+    { t: 'Xorijiy delegatsiya', ru: 'Зарубежная делегация', en: 'Foreign delegation', img: '/media/grants/card-1.jpg' },
+    { t: 'Protokol xizmati', ru: 'Протокольная служба', en: 'Protocol service', img: '/media/grants/card-2.jpg' },
+    { t: 'TSUL brendi', ru: 'Бренд TSUL', en: 'TSUL brand', img: '/media/grants/card-3.jpg' },
   ],
 ] as const
 

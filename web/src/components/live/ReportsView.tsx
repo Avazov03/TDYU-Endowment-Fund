@@ -158,9 +158,9 @@ export function ReportsView({ locale }: { locale: Locale }) {
   return (
     <>
       <PageHero
-        image="/media/dump/page-bnr-img22-min.jpg"
+        image="/media/page-bnr-img22-min.jpg"
         height={413}
-        deco="/media/dump/reports/bnr-arrow-1-1.png"
+        deco="/media/reports/bnr-arrow-1-1.png"
         title={loc(locale, 'Hisobotlar', 'Отчёты', 'Reports')}
         lead={loc(
           locale,
@@ -179,7 +179,7 @@ export function ReportsView({ locale }: { locale: Locale }) {
           <div className="reports-feature">
             <div className="reports-feature-media">
               <Image
-                src="/media/dump/reports/e-event-img-2-min.jpg"
+                src="/media/reports/e-event-img-2-min.jpg"
                 alt=""
                 width={560}
                 height={360}

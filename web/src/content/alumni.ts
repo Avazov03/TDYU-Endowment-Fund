@@ -20,7 +20,7 @@ export type AlumniPerson = {
 export const ALUMNI_PEOPLE: AlumniPerson[] = [
   {
     slug: 'esther-howard',
-    img: '/media/dump/alumni/alamni-team-3.jpg',
+    img: '/media/alumni/alamni-team-3.jpg',
     name: `Esther Howard`,
     nameRu: `Esther Howard`,
     nameEn: `Esther Howard`,
@@ -57,7 +57,7 @@ export const ALUMNI_PEOPLE: AlumniPerson[] = [
   },
   {
     slug: 'jerome-bell',
-    img: '/media/dump/alumni/alamni-team-2.jpg',
+    img: '/media/alumni/alamni-team-2.jpg',
     name: `Jerome Bell`,
     nameRu: `Jerome Bell`,
     nameEn: `Jerome Bell`,
@@ -94,7 +94,7 @@ export const ALUMNI_PEOPLE: AlumniPerson[] = [
   },
   {
     slug: 'arlene-mccoy',
-    img: '/media/dump/alumni/alamni-team-1.jpg',
+    img: '/media/alumni/alamni-team-1.jpg',
     name: `Arlene McCoy`,
     nameRu: `Arlene McCoy`,
     nameEn: `Arlene McCoy`,
@@ -131,7 +131,7 @@ export const ALUMNI_PEOPLE: AlumniPerson[] = [
   },
   {
     slug: 'david-thomas',
-    img: '/media/dump/alumni/e-viva-img3-min.jpg',
+    img: '/media/alumni/e-viva-img3-min.jpg',
     name: `David Thomas`,
     nameRu: `David Thomas`,
     nameEn: `David Thomas`,
@@ -168,7 +168,7 @@ export const ALUMNI_PEOPLE: AlumniPerson[] = [
   },
   {
     slug: 'margaret-johnson',
-    img: '/media/dump/alumni/e-viva-img2-min.jpg',
+    img: '/media/alumni/e-viva-img2-min.jpg',
     name: `Margaret Johnson`,
     nameRu: `Margaret Johnson`,
     nameEn: `Margaret Johnson`,
@@ -205,7 +205,7 @@ export const ALUMNI_PEOPLE: AlumniPerson[] = [
   },
   {
     slug: 'leslie-alexander',
-    img: '/media/dump/alumni/e-viva-img1-min.jpg',
+    img: '/media/alumni/e-viva-img1-min.jpg',
     name: `Leslie Alexander`,
     nameRu: `Leslie Alexander`,
     nameEn: `Leslie Alexander`,

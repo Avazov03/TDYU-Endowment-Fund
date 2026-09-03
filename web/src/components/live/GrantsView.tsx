@@ -160,9 +160,9 @@ export function GrantsView({ locale }: { locale: Locale }) {
   return (
     <>
       <PageHero
-        image="/media/dump/grants/page-bnr-img1-6-min.jpg"
+        image="/media/grants/page-bnr-img1-6-min.jpg"
         objectPosition="center center"
-        deco="/media/dump/grants/bnr-arrow-1-1.png"
+        deco="/media/grants/bnr-arrow-1-1.png"
         title={loc(locale, 'Grantlar', 'Гранты', 'Grants')}
         lead={loc(
           locale,
@@ -192,7 +192,7 @@ export function GrantsView({ locale }: { locale: Locale }) {
             </p>
             <div className="grants-intro-img">
               <Image
-                src="/media/dump/grants/scholarship-main-img1-min.jpg"
+                src="/media/grants/scholarship-main-img1-min.jpg"
                 alt=""
                 width={1280}
                 height={520}

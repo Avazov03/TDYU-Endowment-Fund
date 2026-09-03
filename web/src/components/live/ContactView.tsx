@@ -11,7 +11,7 @@ const MAP_SRC =
 
 const CARDS = [
   {
-    icon: '/media/dump/contact/icon-mail.svg',
+    icon: '/media/contact/icon-mail.svg',
     iconW: 40,
     iconH: 29,
     tUz: 'Elektron pochta',
@@ -20,7 +20,7 @@ const CARDS = [
     kind: 'email' as const,
   },
   {
-    icon: '/media/dump/contact/icon-phone.svg',
+    icon: '/media/contact/icon-phone.svg',
     iconW: 35,
     iconH: 34,
     tUz: 'Telefon',
@@ -29,7 +29,7 @@ const CARDS = [
     kind: 'phone' as const,
   },
   {
-    icon: '/media/dump/contact/icon-pin.svg',
+    icon: '/media/contact/icon-pin.svg',
     iconW: 32,
     iconH: 36,
     tUz: 'Manzil',
@@ -38,7 +38,7 @@ const CARDS = [
     kind: 'address' as const,
   },
   {
-    icon: '/media/dump/contact/icon-partner.svg',
+    icon: '/media/contact/icon-partner.svg',
     iconW: 34,
     iconH: 38,
     tUz: 'Hamkorlik',
@@ -52,9 +52,9 @@ export function ContactView({ locale }: { locale: Locale }) {
   return (
     <>
       <PageHero
-        image="/media/dump/page-bnr-img17-min.jpg"
+        image="/media/page-bnr-img17-min.jpg"
         height={413}
-        deco="/media/dump/contact/bnr-arrow-1-1.png"
+        deco="/media/contact/bnr-arrow-1-1.png"
         title={loc(locale, 'Aloqa', 'Контакты', 'Contact')}
         lead={loc(
           locale,

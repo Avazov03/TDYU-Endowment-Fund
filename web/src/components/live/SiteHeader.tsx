@@ -298,7 +298,7 @@ function Mega({ label, locale }: { label: string; locale: Locale }) {
                 </span>
               </span>
               <Image
-                src="/media/dump/inside-thumb-1.png"
+                src="/media/inside-thumb-1.png"
                 alt=""
                 width={420}
                 height={420}

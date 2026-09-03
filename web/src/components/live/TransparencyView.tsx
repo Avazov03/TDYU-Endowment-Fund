@@ -10,7 +10,7 @@ export function TransparencyView({ locale }: { locale: Locale }) {
   return (
     <>
       <PageHero
-        image="/media/dump/page-bnr-img1-10-min.jpg"
+        image="/media/page-bnr-img1-10-min.jpg"
         height={413}
         title={loc(locale, 'Shaffoflik', 'Прозрачность', 'Transparency')}
         lead={loc(
@@ -43,7 +43,7 @@ export function TransparencyView({ locale }: { locale: Locale }) {
             </Link>
           </div>
           <Image
-            src="/media/dump/viva-group-bg1-min.jpg"
+            src="/media/viva-group-bg1-min.jpg"
             alt=""
             width={575}
             height={226}

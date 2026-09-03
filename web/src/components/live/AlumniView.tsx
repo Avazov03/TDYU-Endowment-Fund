@@ -7,7 +7,7 @@ import { NEWS_POSTS, localizePost } from '@/content/news'
 import { PageHero } from './PageHero'
 import { loc } from './loc'
 
-const INTRO_IMG = '/media/dump/alumni/alamni-single-thumb-1.jpg'
+const INTRO_IMG = '/media/alumni/alamni-single-thumb-1.jpg'
 
 const STORY_ROWS = [
   {
@@ -19,7 +19,7 @@ const STORY_ROWS = [
       'Студенты преодолевают трудности и находят свой путь благодаря практическому обучению и грантам. Эти истории отражают дух нашего сообщества.',
     leadEn:
       'Students overcome challenges and find their path through hands-on learning and grants. These stories reflect the spirit of our community.',
-    img: '/media/dump/alumni/alamni-single-thumb-2.jpg',
+    img: '/media/alumni/alamni-single-thumb-2.jpg',
   },
   {
     title: 'Alumni muvaffaqiyat tarixlari',
@@ -30,7 +30,7 @@ const STORY_ROWS = [
       'Выпускники задают тон в инновациях, исследованиях и лидерстве по всему миру — сеть фонда поддерживает эту связь.',
     leadEn:
       'Alumni lead in innovation, research and leadership worldwide — the fund’s network keeps them connected.',
-    img: '/media/dump/alumni/alamni-single-thumb-3.jpg',
+    img: '/media/alumni/alamni-single-thumb-3.jpg',
   },
 ] as const
 
@@ -56,12 +56,12 @@ const STORY_BULLETS = {
 } as const
 
 const GALLERY = [
-  '/media/dump/alumni/e-sports-img1-min.jpg',
-  '/media/dump/alumni/e-sports-img2-min.jpg',
-  '/media/dump/alumni/e-sports-img3-min.jpg',
-  '/media/dump/alumni/e-sports-img4-min.jpg',
-  '/media/dump/alumni/e-sports-img5-min.jpg',
-  '/media/dump/alumni/e-sports-img6-min.jpg',
+  '/media/alumni/e-sports-img1-min.jpg',
+  '/media/alumni/e-sports-img2-min.jpg',
+  '/media/alumni/e-sports-img3-min.jpg',
+  '/media/alumni/e-sports-img4-min.jpg',
+  '/media/alumni/e-sports-img5-min.jpg',
+  '/media/alumni/e-sports-img6-min.jpg',
 ] as const
 
 const HOME_EVENTS = ALL_EVENTS.slice(0, 4)
@@ -120,9 +120,9 @@ export function AlumniView({ locale }: { locale: Locale }) {
   return (
     <>
       <PageHero
-        image="/media/dump/alumni/page-bnr-img25-min.jpg"
+        image="/media/alumni/page-bnr-img25-min.jpg"
         objectPosition="center right"
-        deco="/media/dump/alumni/bnr-arrow-1-1.png"
+        deco="/media/alumni/bnr-arrow-1-1.png"
         title="Alumni"
         lead={loc(
           locale,

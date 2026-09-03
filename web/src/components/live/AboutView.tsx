@@ -94,7 +94,7 @@ export function AboutView({ locale }: { locale: Locale }) {
   return (
     <>
       <PageHero
-        image="/media/dump/about-remote.jpg"
+        image="/media/about-remote.jpg"
         title={loc(locale, 'Missiya', 'Миссия', 'Mission')}
         lead={loc(
           locale,

@@ -29,7 +29,7 @@ export function HomeHero({ locale }: { locale: Locale }) {
       <div className="absolute inset-0 overflow-hidden" aria-hidden>
         <div
           className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: 'url(/media/dump/home-remote.jpg)' }}
+          style={{ backgroundImage: 'url(/media/home-remote.jpg)' }}
         />
         <div
           className="absolute inset-0 pointer-events-none"

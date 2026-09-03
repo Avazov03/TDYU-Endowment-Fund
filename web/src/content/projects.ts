@@ -18,7 +18,7 @@ export type ProjectItem = {
 export const PROJECTS: ProjectItem[] = [
   {
     slug: 'philip-c-jessup-moot-court',
-    img: '/media/dump/projects/acc-16-min.jpg',
+    img: '/media/projects/acc-16-min.jpg',
     date: 'Noyabr 11, 2024',
     dateRu: '11 ноября 2024',
     dateEn: 'November 11, 2024',
@@ -44,7 +44,7 @@ export const PROJECTS: ProjectItem[] = [
   },
   {
     slug: 'korea-economic-law-textbook',
-    img: '/media/dump/projects/acc-16-min.jpg',
+    img: '/media/projects/acc-16-min.jpg',
     date: 'Mart 15, 2025',
     dateRu: '15 марта 2025',
     dateEn: 'March 15, 2025',
@@ -70,7 +70,7 @@ export const PROJECTS: ProjectItem[] = [
   },
   {
     slug: 'turkic-world-young-scholars-congress',
-    img: '/media/dump/projects/acc-16-min.jpg',
+    img: '/media/projects/acc-16-min.jpg',
     date: 'May 20, 2025',
     dateRu: '20 мая 2025',
     dateEn: 'May 20, 2025',
@@ -96,7 +96,7 @@ export const PROJECTS: ProjectItem[] = [
   },
   {
     slug: 'westminster-teaching-learning',
-    img: '/media/dump/projects/acc-16-min.jpg',
+    img: '/media/projects/acc-16-min.jpg',
     date: 'Mart 28, 2025',
     dateRu: '28 марта 2025',
     dateEn: 'March 28, 2025',
@@ -122,7 +122,7 @@ export const PROJECTS: ProjectItem[] = [
   },
   {
     slug: 'tsul-shop-infrastructure',
-    img: '/media/dump/projects/acc-16-min.jpg',
+    img: '/media/projects/acc-16-min.jpg',
     date: 'Sentabr 10, 2024',
     dateRu: '10 сентября 2024',
     dateEn: 'September 10, 2024',
@@ -148,7 +148,7 @@ export const PROJECTS: ProjectItem[] = [
   },
   {
     slug: 'overseas-internship-programs',
-    img: '/media/dump/projects/acc-16-min.jpg',
+    img: '/media/projects/acc-16-min.jpg',
     date: 'Iyul 5, 2025',
     dateRu: '5 июля 2025',
     dateEn: 'July 5, 2025',

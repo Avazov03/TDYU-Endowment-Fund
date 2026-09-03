@@ -25,7 +25,7 @@ export type NewsPost = {
 export const NEWS_POSTS: NewsPost[] = [
   {
     slug: 'turk-dunyosi-kongressi',
-    img: '/media/dump/news/e-bl-img1-8-min-1024x614.jpg',
+    img: '/media/news/e-bl-img1-8-min-1024x614.jpg',
     tag: 'Loyihalar',
     tagRu: 'Проекты',
     tagEn: 'Projects',
@@ -56,7 +56,7 @@ export const NEWS_POSTS: NewsPost[] = [
   },
   {
     slug: 'koreya-darsligi',
-    img: '/media/dump/news/e-bl-img1-10-min-1024x614.jpg',
+    img: '/media/news/e-bl-img1-10-min-1024x614.jpg',
     tag: "Ta'lim",
     tagRu: 'Образование',
     tagEn: 'Education',
@@ -87,7 +87,7 @@ export const NEWS_POSTS: NewsPost[] = [
   },
   {
     slug: 'westminster-dasturi',
-    img: '/media/dump/news/e-bl-img1-11-min-1024x614.jpg',
+    img: '/media/news/e-bl-img1-11-min-1024x614.jpg',
     tag: 'Alumni',
     tagRu: 'Alumni',
     tagEn: 'Alumni',
@@ -118,7 +118,7 @@ export const NEWS_POSTS: NewsPost[] = [
   },
   {
     slug: 'alumni-tarmog',
-    img: '/media/dump/news/e-bl-img1-12-min-1024x614.jpg',
+    img: '/media/news/e-bl-img1-12-min-1024x614.jpg',
     tag: 'Alumni',
     tagRu: 'Alumni',
     tagEn: 'Alumni',
@@ -149,7 +149,7 @@ export const NEWS_POSTS: NewsPost[] = [
   },
   {
     slug: 'xorijiy-stajirovka',
-    img: '/media/dump/news/e-bl-img1-9-min-1024x614.jpg',
+    img: '/media/news/e-bl-img1-9-min-1024x614.jpg',
     tag: 'Alumni',
     tagRu: 'Alumni',
     tagEn: 'Alumni',
@@ -180,7 +180,7 @@ export const NEWS_POSTS: NewsPost[] = [
   },
   {
     slug: 'grant-arizalari',
-    img: '/media/dump/news/e-bl-img1-7-min-1024x614.jpg',
+    img: '/media/news/e-bl-img1-7-min-1024x614.jpg',
     tag: "Ta'lim",
     tagRu: 'Образование',
     tagEn: 'Education',
@@ -211,7 +211,7 @@ export const NEWS_POSTS: NewsPost[] = [
   },
   {
     slug: 'yillik-hisobot',
-    img: '/media/dump/news/e-bl-img1-6-min-1024x614.jpg',
+    img: '/media/news/e-bl-img1-6-min-1024x614.jpg',
     tag: "Ta'lim",
     tagRu: 'Образование',
     tagEn: 'Education',
@@ -242,7 +242,7 @@ export const NEWS_POSTS: NewsPost[] = [
   },
   {
     slug: 'tsul-shop',
-    img: '/media/dump/news/e-bl-img1-5-min-1024x614.jpg',
+    img: '/media/news/e-bl-img1-5-min-1024x614.jpg',
     tag: "Ta'lim",
     tagRu: 'Образование',
     tagEn: 'Education',
@@ -273,7 +273,7 @@ export const NEWS_POSTS: NewsPost[] = [
   },
   {
     slug: 'ilmiy-nashr-granti',
-    img: '/media/dump/news/e-bl-img1-4-min-1024x614.jpg',
+    img: '/media/news/e-bl-img1-4-min-1024x614.jpg',
     tag: 'Alumni',
     tagRu: 'Alumni',
     tagEn: 'Alumni',
@@ -304,7 +304,7 @@ export const NEWS_POSTS: NewsPost[] = [
   },
   {
     slug: 'jessup-jamoasi',
-    img: '/media/dump/news/e-bl-img1-3-min-1024x614.jpg',
+    img: '/media/news/e-bl-img1-3-min-1024x614.jpg',
     tag: 'Onlayn',
     tagRu: 'Онлайн',
     tagEn: 'Online',
@@ -335,7 +335,7 @@ export const NEWS_POSTS: NewsPost[] = [
   },
   {
     slug: 'hamkorlik-memorandumi',
-    img: '/media/dump/news/e-bl-img1-2-min-1024x614.jpg',
+    img: '/media/news/e-bl-img1-2-min-1024x614.jpg',
     tag: 'TDYU',
     tagRu: 'ТГЮУ',
     tagEn: 'TSUL',
@@ -366,7 +366,7 @@ export const NEWS_POSTS: NewsPost[] = [
   },
   {
     slug: 'yuridik-klinika',
-    img: '/media/dump/news/e-bl-img1-1-min-1024x614.jpg',
+    img: '/media/news/e-bl-img1-1-min-1024x614.jpg',
     tag: 'Loyihalar',
     tagRu: 'Проекты',
     tagEn: 'Projects',

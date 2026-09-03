@@ -224,9 +224,9 @@ export function FaqView({ locale }: { locale: Locale }) {
   return (
     <>
       <PageHero
-        image="/media/dump/page-bnr-img17-min.jpg"
+        image="/media/page-bnr-img17-min.jpg"
         objectPosition="center center"
-        deco="/media/dump/faq/bnr-arrow-1-1.png"
+        deco="/media/faq/bnr-arrow-1-1.png"
         title={loc(locale, 'Savol-javob', 'Вопросы и ответы', 'FAQ')}
         lead={loc(
           locale,

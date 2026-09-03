@@ -22,7 +22,7 @@ export const BOARD_DETAIL: BoardMember[] = [
   {
     id: 'vasiylik-kengashi',
     slug: 'kathryn-murphy',
-    img: '/media/dump/board/e-bl-team-6-min.jpg',
+    img: '/media/board/e-bl-team-6-min.jpg',
     name: `Vasiylik kengashi`,
     nameRu: `Попечительский совет`,
     nameEn: `Board of Trustees`,
@@ -60,7 +60,7 @@ export const BOARD_DETAIL: BoardMember[] = [
   {
     id: 'boshqaruv-kengashi',
     slug: 'savannah-nguyen',
-    img: '/media/dump/board/e-bl-team-5-min.jpg',
+    img: '/media/board/e-bl-team-5-min.jpg',
     name: `Boshqaruv kengashi`,
     nameRu: `Правление`,
     nameEn: `Management Board`,
@@ -98,7 +98,7 @@ export const BOARD_DETAIL: BoardMember[] = [
   {
     id: 'taftish-komissiyasi',
     slug: 'brooklyn-simmons',
-    img: '/media/dump/board/e-bl-team-4-min.jpg',
+    img: '/media/board/e-bl-team-4-min.jpg',
     name: `Taftish komissiyasi`,
     nameRu: `Ревизионная комиссия`,
     nameEn: `Audit Commission`,
@@ -136,7 +136,7 @@ export const BOARD_DETAIL: BoardMember[] = [
   {
     id: 'vasiylik-azosi',
     slug: 'darlene-robertson',
-    img: '/media/dump/board/e-bl-team-3-min.jpg',
+    img: '/media/board/e-bl-team-3-min.jpg',
     name: `Vasiylik a’zosi`,
     nameRu: `Член попечительского совета`,
     nameEn: `Trustee member`,
@@ -174,7 +174,7 @@ export const BOARD_DETAIL: BoardMember[] = [
   {
     id: 'boshqaruv-azosi',
     slug: 'cameron-williamson',
-    img: '/media/dump/board/e-bl-team-2-min.jpg',
+    img: '/media/board/e-bl-team-2-min.jpg',
     name: `Boshqaruv a’zosi`,
     nameRu: `Член правления`,
     nameEn: `Board member`,
@@ -212,7 +212,7 @@ export const BOARD_DETAIL: BoardMember[] = [
   {
     id: 'taftish-azosi',
     slug: 'leslie-alexander',
-    img: '/media/dump/board/e-bl-team-1-min.jpg',
+    img: '/media/board/e-bl-team-1-min.jpg',
     name: `Taftish a’zosi`,
     nameRu: `Член ревизионной комиссии`,
     nameEn: `Audit member`,

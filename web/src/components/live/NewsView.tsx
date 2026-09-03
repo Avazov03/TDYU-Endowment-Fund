@@ -18,9 +18,9 @@ export function NewsView({
   return (
     <>
       <PageHero
-        image="/media/dump/page-bnr-img26-min.jpg"
+        image="/media/page-bnr-img26-min.jpg"
         height={413}
-        deco="/media/dump/news/bnr-arrow-1-1.png"
+        deco="/media/news/bnr-arrow-1-1.png"
         title={loc(locale, 'Yangiliklar', 'Новости', 'News')}
         lead={loc(
           locale,

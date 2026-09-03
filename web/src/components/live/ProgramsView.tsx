@@ -126,7 +126,7 @@ export function ProgramsView({ locale }: { locale: Locale }) {
   return (
     <>
       <PageHero
-        image="/media/dump/page-bnr-img22-min.jpg"
+        image="/media/page-bnr-img22-min.jpg"
         height={413}
         deco="/brand/tdyu-mark.svg"
         title={loc(locale, 'Dasturlar', 'Программы', 'Programs')}

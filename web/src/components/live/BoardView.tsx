@@ -8,28 +8,28 @@ import { loc } from './loc'
 /** Dump all-faculty-members (page-id 7604) — e-bl-team order. */
 export const BOARD_MEMBERS = {
   uz: [
-    { id: 'vasiylik-kengashi', img: '/media/dump/board/e-bl-team-6-min.jpg', t: 'Vasiylik kengashi', r: 'Mentor' },
-    { id: 'boshqaruv-kengashi', img: '/media/dump/board/e-bl-team-5-min.jpg', t: 'Boshqaruv kengashi', r: 'Maslahatchi' },
-    { id: 'taftish-komissiyasi', img: '/media/dump/board/e-bl-team-4-min.jpg', t: 'Taftish komissiyasi', r: 'Yordamchi' },
-    { id: 'vasiylik-azosi', img: '/media/dump/board/e-bl-team-3-min.jpg', t: 'Vasiylik a’zosi', r: 'Maslahatchi' },
-    { id: 'boshqaruv-azosi', img: '/media/dump/board/e-bl-team-2-min.jpg', t: 'Boshqaruv a’zosi', r: 'Tadqiqotchi' },
-    { id: 'taftish-azosi', img: '/media/dump/board/e-bl-team-1-min.jpg', t: 'Taftish a’zosi', r: 'Yordamchi o‘qituvchi' },
+    { id: 'vasiylik-kengashi', img: '/media/board/e-bl-team-6-min.jpg', t: 'Vasiylik kengashi', r: 'Mentor' },
+    { id: 'boshqaruv-kengashi', img: '/media/board/e-bl-team-5-min.jpg', t: 'Boshqaruv kengashi', r: 'Maslahatchi' },
+    { id: 'taftish-komissiyasi', img: '/media/board/e-bl-team-4-min.jpg', t: 'Taftish komissiyasi', r: 'Yordamchi' },
+    { id: 'vasiylik-azosi', img: '/media/board/e-bl-team-3-min.jpg', t: 'Vasiylik a’zosi', r: 'Maslahatchi' },
+    { id: 'boshqaruv-azosi', img: '/media/board/e-bl-team-2-min.jpg', t: 'Boshqaruv a’zosi', r: 'Tadqiqotchi' },
+    { id: 'taftish-azosi', img: '/media/board/e-bl-team-1-min.jpg', t: 'Taftish a’zosi', r: 'Yordamchi o‘qituvchi' },
   ],
   ru: [
-    { id: 'vasiylik-kengashi', img: '/media/dump/board/e-bl-team-6-min.jpg', t: 'Попечительский совет', r: 'Наставник' },
-    { id: 'boshqaruv-kengashi', img: '/media/dump/board/e-bl-team-5-min.jpg', t: 'Правление', r: 'Советник' },
-    { id: 'taftish-komissiyasi', img: '/media/dump/board/e-bl-team-4-min.jpg', t: 'Ревизионная комиссия', r: 'Помощник' },
-    { id: 'vasiylik-azosi', img: '/media/dump/board/e-bl-team-3-min.jpg', t: 'Член попечительского совета', r: 'Советник' },
-    { id: 'boshqaruv-azosi', img: '/media/dump/board/e-bl-team-2-min.jpg', t: 'Член правления', r: 'Исследователь' },
-    { id: 'taftish-azosi', img: '/media/dump/board/e-bl-team-1-min.jpg', t: 'Член ревизионной комиссии', r: 'Помощник преподавателя' },
+    { id: 'vasiylik-kengashi', img: '/media/board/e-bl-team-6-min.jpg', t: 'Попечительский совет', r: 'Наставник' },
+    { id: 'boshqaruv-kengashi', img: '/media/board/e-bl-team-5-min.jpg', t: 'Правление', r: 'Советник' },
+    { id: 'taftish-komissiyasi', img: '/media/board/e-bl-team-4-min.jpg', t: 'Ревизионная комиссия', r: 'Помощник' },
+    { id: 'vasiylik-azosi', img: '/media/board/e-bl-team-3-min.jpg', t: 'Член попечительского совета', r: 'Советник' },
+    { id: 'boshqaruv-azosi', img: '/media/board/e-bl-team-2-min.jpg', t: 'Член правления', r: 'Исследователь' },
+    { id: 'taftish-azosi', img: '/media/board/e-bl-team-1-min.jpg', t: 'Член ревизионной комиссии', r: 'Помощник преподавателя' },
   ],
   en: [
-    { id: 'vasiylik-kengashi', img: '/media/dump/board/e-bl-team-6-min.jpg', t: 'Board of Trustees', r: 'Mentor' },
-    { id: 'boshqaruv-kengashi', img: '/media/dump/board/e-bl-team-5-min.jpg', t: 'Management Board', r: 'Adviser' },
-    { id: 'taftish-komissiyasi', img: '/media/dump/board/e-bl-team-4-min.jpg', t: 'Audit Commission', r: 'Assistant' },
-    { id: 'vasiylik-azosi', img: '/media/dump/board/e-bl-team-3-min.jpg', t: 'Trustee member', r: 'Adviser' },
-    { id: 'boshqaruv-azosi', img: '/media/dump/board/e-bl-team-2-min.jpg', t: 'Board member', r: 'Researcher' },
-    { id: 'taftish-azosi', img: '/media/dump/board/e-bl-team-1-min.jpg', t: 'Audit member', r: 'Teaching assistant' },
+    { id: 'vasiylik-kengashi', img: '/media/board/e-bl-team-6-min.jpg', t: 'Board of Trustees', r: 'Mentor' },
+    { id: 'boshqaruv-kengashi', img: '/media/board/e-bl-team-5-min.jpg', t: 'Management Board', r: 'Adviser' },
+    { id: 'taftish-komissiyasi', img: '/media/board/e-bl-team-4-min.jpg', t: 'Audit Commission', r: 'Assistant' },
+    { id: 'vasiylik-azosi', img: '/media/board/e-bl-team-3-min.jpg', t: 'Trustee member', r: 'Adviser' },
+    { id: 'boshqaruv-azosi', img: '/media/board/e-bl-team-2-min.jpg', t: 'Board member', r: 'Researcher' },
+    { id: 'taftish-azosi', img: '/media/board/e-bl-team-1-min.jpg', t: 'Audit member', r: 'Teaching assistant' },
   ],
 } as const
 
@@ -102,7 +102,7 @@ export function BoardView({ locale }: { locale: Locale }) {
   return (
     <>
       <PageHero
-        image="/media/dump/page-bnr-img1-1-min.jpg"
+        image="/media/page-bnr-img1-1-min.jpg"
         title={loc(locale, 'Boshqaruv', 'Управление', 'Governance')}
         lead={loc(
           locale,

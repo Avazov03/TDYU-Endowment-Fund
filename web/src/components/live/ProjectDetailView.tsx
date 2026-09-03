@@ -12,7 +12,7 @@ export function ProjectDetailView({ locale, project }: { locale: Locale; project
   return (
     <>
       <PageHero
-        image="/media/dump/projects/page-bnr-img19-min.jpg"
+        image="/media/projects/page-bnr-img19-min.jpg"
         objectPosition="left center"
         title={L.title}
         lead={L.body[0]?.slice(0, 140)}

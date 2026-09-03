@@ -5,7 +5,7 @@ import { PROJECTS, localizeProject } from '@/content/projects'
 import { PageHero } from './PageHero'
 import { loc } from './loc'
 
-const PDF = '/media/dump/projects/semester_exam_schedule_notice.pdf'
+const PDF = '/media/projects/semester_exam_schedule_notice.pdf'
 
 const SHARED_BULLETS = {
   uz: [
@@ -52,7 +52,7 @@ const DIRECTIONS = [
 
 const FEATURES = [
   {
-    icon: '/media/dump/projects/icon-westminster.svg',
+    icon: '/media/projects/icon-westminster.svg',
     title: 'Westminster Teaching & Learning',
     titleRu: 'Westminster Teaching & Learning',
     titleEn: 'Westminster Teaching & Learning',
@@ -61,7 +61,7 @@ const FEATURES = [
     descEn: 'About 48% of funds go to education, scholarships and grants.',
   },
   {
-    icon: '/media/dump/projects/icon-tsul-shop.svg',
+    icon: '/media/projects/icon-tsul-shop.svg',
     title: 'TSUL SHOP',
     titleRu: 'TSUL SHOP',
     titleEn: 'TSUL SHOP',
@@ -70,7 +70,7 @@ const FEATURES = [
     descEn: 'International events, academic publications and infrastructure — with transparent reporting.',
   },
   {
-    icon: '/media/dump/projects/icon-internship.svg',
+    icon: '/media/projects/icon-internship.svg',
     title: 'Xorijiy stajirovka dasturlari',
     titleRu: 'Программы зарубежных стажировок',
     titleEn: 'Overseas internship programs',
@@ -118,7 +118,7 @@ export function ProjectsView({ locale }: { locale: Locale }) {
   return (
     <>
       <PageHero
-        image="/media/dump/projects/page-bnr-img19-min.jpg"
+        image="/media/projects/page-bnr-img19-min.jpg"
         objectPosition="left center"
         title={loc(locale, 'Loyihalar', 'Проекты', 'Projects')}
         lead={loc(
@@ -191,7 +191,7 @@ export function ProjectsView({ locale }: { locale: Locale }) {
 
           <div className="projects-lab">
             <Image
-              src="/media/dump/projects/research-img1-min.jpg"
+              src="/media/projects/research-img1-min.jpg"
               alt=""
               width={1280}
               height={458}

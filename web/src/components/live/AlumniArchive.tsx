@@ -23,7 +23,7 @@ type AlumniCard = {
 const CARDS: AlumniCard[] = [
   {
     id: 'aziz',
-    image: '/media/dump/alumni/alamni-team-3.jpg',
+    image: '/media/alumni/alamni-team-3.jpg',
     author: 'tanvir',
     date: 'Dekabr 15, 2025',
     title: 'Aziz Karimov',
@@ -36,7 +36,7 @@ const CARDS: AlumniCard[] = [
   },
   {
     id: 'nilufar',
-    image: '/media/dump/alumni/alamni-team-2.jpg',
+    image: '/media/alumni/alamni-team-2.jpg',
     author: 'tanvir',
     date: 'Dekabr 15, 2025',
     title: 'Nilufar Rashidova',
@@ -49,7 +49,7 @@ const CARDS: AlumniCard[] = [
   },
   {
     id: 'zulfiya',
-    image: '/media/dump/alumni/alamni-team-1.jpg',
+    image: '/media/alumni/alamni-team-1.jpg',
     author: 'tanvir',
     date: 'Dekabr 15, 2025',
     title: 'Zulfiya Ergasheva',
@@ -62,7 +62,7 @@ const CARDS: AlumniCard[] = [
   },
   {
     id: 'network',
-    image: '/media/dump/alumni/e-viva-img3-min.jpg',
+    image: '/media/alumni/e-viva-img3-min.jpg',
     author: 'TDYU',
     date: 'Dekabr 9, 2025',
     title: 'TDYU Alumni',
@@ -75,7 +75,7 @@ const CARDS: AlumniCard[] = [
   },
   {
     id: 'grad',
-    image: '/media/dump/alumni/e-viva-img2-min.jpg',
+    image: '/media/alumni/e-viva-img2-min.jpg',
     author: 'TDYU',
     date: 'Dekabr 9, 2025',
     title: 'TDYU bitiruvchisi',
@@ -88,7 +88,7 @@ const CARDS: AlumniCard[] = [
   },
   {
     id: 'audit',
-    image: '/media/dump/alumni/e-viva-img1-min.jpg',
+    image: '/media/alumni/e-viva-img1-min.jpg',
     author: 'TDYU',
     date: 'Dekabr 9, 2025',
     title: 'Taftish a’zosi',
@@ -111,21 +111,21 @@ const CATEGORIES = [
 
 const LATEST = [
   {
-    image: '/media/dump/alumni/e-bl-img1-8-min.jpg',
+    image: '/media/alumni/e-bl-img1-8-min.jpg',
     date: 'Dekabr 9, 2025',
     title: 'II Turk dunyosi yosh akademiklar kongressi',
     titleRu: 'II Конгресс молодых академиков тюркского мира',
     titleEn: 'II Turkic World Young Academics Congress',
   },
   {
-    image: '/media/dump/alumni/e-bl-img1-10-min.jpg',
+    image: '/media/alumni/e-bl-img1-10-min.jpg',
     date: 'Dekabr 9, 2025',
     title: 'Koreya iqtisodiy huquqi darsligi nashr etildi',
     titleRu: 'Издан учебник корейского экономического права',
     titleEn: 'Korean economic law textbook published',
   },
   {
-    image: '/media/dump/alumni/e-bl-img1-11-min.jpg',
+    image: '/media/alumni/e-bl-img1-11-min.jpg',
     date: 'Dekabr 9, 2025',
     title: '42 o‘qituvchi Westminster dasturini yakunladi',
     titleRu: '42 преподавателя завершили программу Westminster',

@@ -4600,7 +4600,7 @@
 
 .live-root .contact-card {
   position: relative;
-  background: #fff url('/media/dump/contact/e-ac-shape-1-1.png') no-repeat 0 95%;
+  background: #fff url('/media/contact/e-ac-shape-1-1.png') no-repeat 0 95%;
   border-radius: 12px;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.02);
   padding: 38px 40px;
@@ -6744,7 +6744,7 @@
   flex-direction: column;
   position: relative;
   background-color: #fffbfb;
-  background-image: url('/media/dump/events/blog-shape.png');
+  background-image: url('/media/events/blog-shape.png');
   background-position: 100% 98%;
   background-repeat: no-repeat;
   padding: 10px;
@@ -7127,7 +7127,7 @@
   padding: 12px;
   border-radius: 12px;
   background: #fffbfb;
-  background-image: url('/media/dump/alumni/blog-shape.png');
+  background-image: url('/media/alumni/blog-shape.png');
   background-position: 100% 92%;
   background-repeat: no-repeat;
 }

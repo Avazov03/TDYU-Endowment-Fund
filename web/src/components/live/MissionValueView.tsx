@@ -70,7 +70,7 @@ export function MissionValueView({ locale }: { locale: Locale }) {
   return (
     <>
       <PageHero
-        image="/media/dump/page-bnr-img1-1-min.jpg"
+        image="/media/page-bnr-img1-1-min.jpg"
         title={title6}
         lead={loc(
           locale,

@@ -12,7 +12,7 @@ export function DonateView({ locale }: { locale: Locale }) {
   return (
     <>
       <PageHero
-        image="/media/dump/page-bnr-img18-min.jpg"
+        image="/media/page-bnr-img18-min.jpg"
         height={413}
         title={loc(locale, 'Xayriya', 'Пожертвование', 'Donate')}
         lead={loc(
@@ -41,7 +41,7 @@ export function DonateView({ locale }: { locale: Locale }) {
             )}
           </p>
           <Image
-            src="/media/dump/e-apply-img-1-1-min.jpg"
+            src="/media/e-apply-img-1-1-min.jpg"
             alt=""
             width={1280}
             height={458}

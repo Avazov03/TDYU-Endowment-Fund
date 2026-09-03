@@ -8,7 +8,7 @@ export function GrantsHelpCard({ locale }: { locale: Locale }) {
   return (
     <aside className="grants-help">
       <Image
-        src="/media/dump/grants/apply-side-img1-min.jpg"
+        src="/media/grants/apply-side-img1-min.jpg"
         alt=""
         fill
         className="object-cover"

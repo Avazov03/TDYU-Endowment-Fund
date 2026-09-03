@@ -24,7 +24,7 @@ export const PROGRAMS: Program[] = [
     direction: '01',
     audiences: ['talaba', 'xodim', 'doktorant'],
     funding: ['full', 'partial'],
-    img: '/media/dump/programs/acc-1-min.jpg',
+    img: '/media/programs/acc-1-min.jpg',
     relatedHref: '/grants',
     relatedLabel: { uz: 'Grantlarga o‘tish', ru: 'К грантам', en: 'Go to grants' },
     uz: {
@@ -63,7 +63,7 @@ export const PROGRAMS: Program[] = [
     direction: '02',
     audiences: ['talaba', 'xodim', 'alumni'],
     funding: ['full', 'partial', 'donate'],
-    img: '/media/dump/programs/acc-2-min.jpg',
+    img: '/media/programs/acc-2-min.jpg',
     relatedHref: '/grants',
     relatedLabel: { uz: 'Grant arizasi', ru: 'Заявка на грант', en: 'Grant application' },
     uz: {
@@ -102,7 +102,7 @@ export const PROGRAMS: Program[] = [
     direction: '03',
     audiences: ['talaba', 'doktorant'],
     funding: ['partial', 'donate'],
-    img: '/media/dump/programs/acc-3-min.jpg',
+    img: '/media/programs/acc-3-min.jpg',
     relatedHref: '/events',
     relatedLabel: { uz: 'Tadbirlar', ru: 'Мероприятия', en: 'Events' },
     uz: {
@@ -141,7 +141,7 @@ export const PROGRAMS: Program[] = [
     direction: '04',
     audiences: ['xodim', 'doktorant', 'talaba'],
     funding: ['full', 'partial'],
-    img: '/media/dump/programs/acc-4-min.jpg',
+    img: '/media/programs/acc-4-min.jpg',
     relatedHref: '/projects',
     relatedLabel: { uz: 'Loyihalar', ru: 'Проекты', en: 'Projects' },
     uz: {
@@ -180,7 +180,7 @@ export const PROGRAMS: Program[] = [
     direction: '05',
     audiences: ['hamkor', 'alumni', 'xodim'],
     funding: ['partial', 'donate'],
-    img: '/media/dump/programs/acc-5-min.jpg',
+    img: '/media/programs/acc-5-min.jpg',
     relatedHref: '/events',
     relatedLabel: { uz: 'Tadbirlar', ru: 'Мероприятия', en: 'Events' },
     uz: {
@@ -219,7 +219,7 @@ export const PROGRAMS: Program[] = [
     direction: '06',
     audiences: ['hamkor', 'alumni'],
     funding: ['donate', 'partial'],
-    img: '/media/dump/programs/acc-6-min.jpg',
+    img: '/media/programs/acc-6-min.jpg',
     relatedHref: '/projects',
     relatedLabel: { uz: 'Loyihalar', ru: 'Проекты', en: 'Projects' },
     uz: {

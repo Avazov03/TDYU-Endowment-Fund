@@ -8,7 +8,7 @@ export function GovernanceView({ locale }: { locale: Locale }) {
   return (
     <>
       <PageHero
-        image="/media/dump/page-bnr-img1-1-min.jpg"
+        image="/media/page-bnr-img1-1-min.jpg"
         title={loc(locale, 'Boshqaruv', 'Управление', 'Governance')}
         lead={loc(
           locale,
@@ -28,7 +28,7 @@ export function GovernanceView({ locale }: { locale: Locale }) {
             <div className="gov-profile-card">
               <div className="gov-profile-photo">
                 <Image
-                  src="/media/dump/founder-img1-min.png"
+                  src="/media/founder-img1-min.png"
                   alt="N. Salayev"
                   width={276}
                   height={298}

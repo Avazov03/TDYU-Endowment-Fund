@@ -214,7 +214,7 @@ const WAYS = [
       ru: 'Поддержите фонд пожертвованием — средства распределяются прозрачно.',
       en: 'Support the fund with a donation — funds are allocated transparently.',
     },
-    img: '/media/dump/legal/inner-cat-img1-min.jpg',
+    img: '/media/legal/inner-cat-img1-min.jpg',
     href: '/donate' as const,
     cta: { uz: 'Xayriya', ru: 'Пожертвовать', en: 'Donate' },
   },
@@ -225,7 +225,7 @@ const WAYS = [
       ru: 'Устав фонда и внутренние документы — на странице «Отчёты».',
       en: 'Fund charter and internal documents — on the Reports page.',
     },
-    img: '/media/dump/legal/inner-cat-img2-min.jpg',
+    img: '/media/legal/inner-cat-img2-min.jpg',
     href: '/reports' as const,
     cta: { uz: 'Hisobotlar', ru: 'Отчёты', en: 'Reports' },
   },
@@ -236,7 +236,7 @@ const WAYS = [
       ru: 'По правовым вопросам — info@tdyu-endowment.uz или форма контактов.',
       en: 'For legal questions — info@tdyu-endowment.uz or the contact form.',
     },
-    img: '/media/dump/legal/inner-cat-img3-min.jpg',
+    img: '/media/legal/inner-cat-img3-min.jpg',
     href: '/contact' as const,
     cta: { uz: 'Aloqa', ru: 'Связаться', en: 'Contact' },
   },
@@ -277,9 +277,9 @@ export function LegalView({ locale }: { locale: Locale }) {
   return (
     <>
       <PageHero
-        image="/media/dump/page-bnr-img15-min.jpg"
+        image="/media/page-bnr-img15-min.jpg"
         height={413}
-        deco="/media/dump/legal/bnr-arrow-1-1.png"
+        deco="/media/legal/bnr-arrow-1-1.png"
         title={loc(locale, 'Huquqiy asos', 'Правовая основа', 'Legal basis')}
         lead={loc(
           locale,
@@ -298,7 +298,7 @@ export function LegalView({ locale }: { locale: Locale }) {
           <div className="legal-gallery">
             <div className="legal-gallery-img">
               <Image
-                src="/media/dump/legal/blue-inner-img1-2-min.jpg"
+                src="/media/legal/blue-inner-img1-2-min.jpg"
                 alt=""
                 width={633}
                 height={384}
@@ -307,7 +307,7 @@ export function LegalView({ locale }: { locale: Locale }) {
             </div>
             <div className="legal-gallery-img">
               <Image
-                src="/media/dump/legal/blue-inner-img1-1-min.jpg"
+                src="/media/legal/blue-inner-img1-1-min.jpg"
                 alt=""
                 width={633}
                 height={384}
@@ -316,7 +316,7 @@ export function LegalView({ locale }: { locale: Locale }) {
             </div>
             <div className="legal-gallery-seal" aria-hidden>
               <Image
-                src="/media/dump/legal/cyan-m-logo1.png"
+                src="/media/legal/cyan-m-logo1.png"
                 alt=""
                 width={90}
                 height={90}

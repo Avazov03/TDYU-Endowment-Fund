@@ -12,9 +12,9 @@ export function AlumniDetailView({ locale, person }: { locale: Locale; person: A
   return (
     <>
       <PageHero
-        image="/media/dump/alumni/page-bnr-img25-min.jpg"
+        image="/media/alumni/page-bnr-img25-min.jpg"
         objectPosition="center right"
-        deco="/media/dump/alumni/bnr-arrow-1-1.png"
+        deco="/media/alumni/bnr-arrow-1-1.png"
         title={L.name}
         lead={L.role}
         crumbs={[

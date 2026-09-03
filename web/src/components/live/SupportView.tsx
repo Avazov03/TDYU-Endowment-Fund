@@ -73,7 +73,7 @@ const WAYS = [
       ru: 'Поддержите фонд через пожертвование, грант или партнёрство.',
       en: 'Support the fund through a donation, grant or partnership.',
     },
-    img: '/media/dump/support/inner-cat-img1-min.jpg',
+    img: '/media/support/inner-cat-img1-min.jpg',
     href: '/donate' as const,
     cta: { uz: 'Xayriya', ru: 'Пожертвовать', en: 'Donate' },
   },
@@ -84,7 +84,7 @@ const WAYS = [
       ru: 'Открытые программы и гранты для alumni, сотрудников и студентов.',
       en: 'Open programmes and grants for alumni, staff and students.',
     },
-    img: '/media/dump/support/inner-cat-img2-min.jpg',
+    img: '/media/support/inner-cat-img2-min.jpg',
     href: '/grants' as const,
     cta: { uz: 'Ariza berish', ru: 'Подать заявку', en: 'Apply' },
   },
@@ -95,7 +95,7 @@ const WAYS = [
       ru: 'Вопросы и предложения — на info@tdyu-endowment.uz.',
       en: 'For questions and proposals write to info@tdyu-endowment.uz.',
     },
-    img: '/media/dump/support/inner-cat-img3-min.jpg',
+    img: '/media/support/inner-cat-img3-min.jpg',
     href: '/contact' as const,
     cta: { uz: 'Aloqa', ru: 'Связаться', en: 'Contact' },
   },
@@ -121,9 +121,9 @@ export function SupportView({ locale }: { locale: Locale }) {
   return (
     <>
       <PageHero
-        image="/media/dump/page-bnr-img17-min.jpg"
+        image="/media/page-bnr-img17-min.jpg"
         height={413}
-        deco="/media/dump/support/bnr-arrow-1-1.png"
+        deco="/media/support/bnr-arrow-1-1.png"
         title={loc(locale, 'Yordam', 'Помощь', 'Support')}
         lead={loc(
           locale,
@@ -161,7 +161,7 @@ export function SupportView({ locale }: { locale: Locale }) {
             </div>
             <div className="support-feature-media">
               <Image
-                src="/media/dump/support/e-event-img-1-min.jpg"
+                src="/media/support/e-event-img-1-min.jpg"
                 alt=""
                 width={640}
                 height={400}
@@ -175,7 +175,7 @@ export function SupportView({ locale }: { locale: Locale }) {
             <div className="support-process-media">
               <div className="support-process-photo">
                 <Image
-                  src="/media/dump/support/apply-img1-1-min.jpg"
+                  src="/media/support/apply-img1-1-min.jpg"
                   alt=""
                   width={560}
                   height={560}
@@ -185,7 +185,7 @@ export function SupportView({ locale }: { locale: Locale }) {
               </div>
               <div className="support-process-seal" aria-hidden>
                 <Image
-                  src="/media/dump/support/marquee-logo.png"
+                  src="/media/support/marquee-logo.png"
                   alt=""
                   width={140}
                   height={140}

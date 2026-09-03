@@ -24,7 +24,7 @@ export type EventItem = {
 export const EVENTS: EventItem[] = [
   {
     slug: 'philip-c-jessup-moot-court',
-    img: '/media/dump/events/e-event-img-1-min.jpg',
+    img: '/media/events/e-event-img-1-min.jpg',
     date: 'Avgust 4, 2025',
     dateRu: '4 августа 2025',
     dateEn: 'August 4, 2025',
@@ -74,7 +74,7 @@ export const EVENTS: EventItem[] = [
   },
   {
     slug: 'westminster-teaching-learning',
-    img: '/media/dump/events/e-event-img-2-min.jpg',
+    img: '/media/events/e-event-img-2-min.jpg',
     date: 'Avgust 4, 2025',
     dateRu: '4 августа 2025',
     dateEn: 'August 4, 2025',
@@ -124,7 +124,7 @@ export const EVENTS: EventItem[] = [
   },
   {
     slug: 'tsul-shop-infrastructure',
-    img: '/media/dump/events/e-event-img-3-min.jpg',
+    img: '/media/events/e-event-img-3-min.jpg',
     date: 'Avgust 4, 2025',
     dateRu: '4 августа 2025',
     dateEn: 'August 4, 2025',
@@ -174,7 +174,7 @@ export const EVENTS: EventItem[] = [
   },
   {
     slug: 'overseas-internship-programs',
-    img: '/media/dump/events/e-event-img-4-min.jpg',
+    img: '/media/events/e-event-img-4-min.jpg',
     date: 'Avgust 4, 2025',
     dateRu: '4 августа 2025',
     dateEn: 'August 4, 2025',
@@ -224,7 +224,7 @@ export const EVENTS: EventItem[] = [
   },
   {
     slug: 'transformational-leadership-holistic-student-development-forum',
-    img: '/media/dump/events/e-event-img-5-min.jpg',
+    img: '/media/events/e-event-img-5-min.jpg',
     date: 'Avgust 4, 2025',
     dateRu: '4 августа 2025',
     dateEn: 'August 4, 2025',
@@ -274,7 +274,7 @@ export const EVENTS: EventItem[] = [
   },
   {
     slug: 'entrepreneurial-vision-business-innovation-startup-summit',
-    img: '/media/dump/events/e-event-img-6-min.jpg',
+    img: '/media/events/e-event-img-6-min.jpg',
     date: 'Avgust 4, 2025',
     dateRu: '4 августа 2025',
     dateEn: 'August 4, 2025',
@@ -324,7 +324,7 @@ export const EVENTS: EventItem[] = [
   },
   {
     slug: 'education-global-learning-cultural-exchange-conference',
-    img: '/media/dump/events/e-event-img-7-min.jpg',
+    img: '/media/events/e-event-img-7-min.jpg',
     date: 'Avgust 4, 2025',
     dateRu: '4 августа 2025',
     dateEn: 'August 4, 2025',
@@ -374,7 +374,7 @@ export const EVENTS: EventItem[] = [
   },
   {
     slug: 'academic-recognition-student-achievement-ceremony',
-    img: '/media/dump/events/e-event-img-8-min.jpg',
+    img: '/media/events/e-event-img-8-min.jpg',
     date: 'Avgust 4, 2025',
     dateRu: '4 августа 2025',
     dateEn: 'August 4, 2025',
@@ -424,7 +424,7 @@ export const EVENTS: EventItem[] = [
   },
   {
     slug: 'community-engagement-social-impact-excellence-summit',
-    img: '/media/dump/events/e-event-img-9-min.jpg',
+    img: '/media/events/e-event-img-9-min.jpg',
     date: 'Avgust 4, 2025',
     dateRu: '4 августа 2025',
     dateEn: 'August 4, 2025',

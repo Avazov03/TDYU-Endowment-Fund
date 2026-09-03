@@ -12,7 +12,7 @@ export function BoardDetailView({ locale, member }: { locale: Locale; member: Bo
   return (
     <>
       <PageHero
-        image="/media/dump/page-bnr-img1-1-min.jpg"
+        image="/media/page-bnr-img1-1-min.jpg"
         title={L.name}
         lead={L.role}
         crumbs={[

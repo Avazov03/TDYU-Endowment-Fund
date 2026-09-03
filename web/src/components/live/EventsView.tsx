@@ -11,9 +11,9 @@ export function EventsView({ locale }: { locale: Locale }) {
   return (
     <>
       <PageHero
-        image="/media/dump/page-bnr-img1-1-min.jpg"
+        image="/media/page-bnr-img1-1-min.jpg"
         objectPosition="center left"
-        deco="/media/dump/events/bnr-arrow-1-1.png"
+        deco="/media/events/bnr-arrow-1-1.png"
         title={loc(locale, 'Tadbirlar', 'Мероприятия', 'Events')}
         lead={loc(
           locale,
