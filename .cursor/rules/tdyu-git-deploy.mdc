@@ -43,4 +43,6 @@ Skript: `git fetch/reset origin/main` → Next build (RAM 512MB) → standalone 
 
 Tekshiruv: `curl -sI http://127.0.0.1:13000/uz` → 200; live `https://tdyu.yuretta.uz/uz`.
 
+**SSH timeout:** ma’lumot yetishmasligi emas — tarmoq/firewall. Qayta urinish; server rekvizitlari: `yuritta-server.mdc`.
+
 To‘liq: `deploy/DEPLOY.md`.
