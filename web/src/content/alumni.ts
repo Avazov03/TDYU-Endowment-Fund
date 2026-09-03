@@ -15,7 +15,20 @@ export type AlumniPerson = {
   quals: string[]
   qualsRu: string[]
   qualsEn: string[]
+  /**
+   * Map uchun metadata (demo/placeholder bo‘lishi mumkin).
+   * Real loyihada bu maydonlar backend/DBdan keladi.
+   */
+  mapCategory?: AlumniMapCategoryId
+  mapLocation?: {
+    lat: number
+    lng: number
+    label?: string
+    demo?: boolean
+  }
 }
+
+export type AlumniMapCategoryId = 'law' | 'state' | 'academia' | 'international'
 
 export const ALUMNI_PEOPLE: AlumniPerson[] = [
   {
@@ -30,6 +43,8 @@ export const ALUMNI_PEOPLE: AlumniPerson[] = [
     about: `Esther Howard — TDYU bitiruvchisi. U endowment fondi qo‘llab-quvvatlagan ta’lim dasturlarida ishtirok etgan va hozir o‘quv materiallarini ishlab chiqish orqali talabalarga yordam beradi. Esther bitiruvchilar tarmog‘ida mentorlik va tajriba almashishni rivojlantiradi.`,
     aboutRu: `Esther Howard — выпускница TDYU. Она участвовала в образовательных программах при поддержке эндаумент-фонда и сейчас помогает студентам, разрабатывая учебные материалы. Esther развивает менторство и обмен опытом в сети выпускников.`,
     aboutEn: `Esther Howard is a TDYU graduate. She took part in educational programmes backed by the endowment fund and now supports students by designing learning materials. Esther advances mentoring and peer exchange across the alumni network.`,
+    mapCategory: 'academia',
+    mapLocation: { lat: 51.5074, lng: -0.1278, label: 'UK', demo: true },
     quals: [
       `TDYU bitiruvchisi`,
       `O‘quv dasturlari dizayni`,
@@ -67,6 +82,8 @@ export const ALUMNI_PEOPLE: AlumniPerson[] = [
     about: `Jerome Bell TDYU Endowment Fondining bitiruvchilar tashabbuslarida faol. U kasbiy rivojlanish treninglarini muvofiqlashtiradi va yosh mutaxassislarni amaliyot va ishga joylashishda qo‘llab-quvvatlaydi.`,
     aboutRu: `Jerome Bell активен в выпускнических инициативах TDYU Endowment Fund. Он координирует тренинги по профессиональному развитию и поддерживает молодых специалистов в практике и трудоустройстве.`,
     aboutEn: `Jerome Bell is active in TDYU Endowment Fund alumni initiatives. He coordinates professional development trainings and supports early-career specialists with internships and employability pathways.`,
+    mapCategory: 'international',
+    mapLocation: { lat: 41.2995, lng: 69.2401, label: 'Uzbekistan', demo: true },
     quals: [
       `TDYU bitiruvchisi`,
       `Kasbiy treninglar koordinatsiyasi`,
@@ -104,6 +121,8 @@ export const ALUMNI_PEOPLE: AlumniPerson[] = [
     about: `Arlene McCoy TDYU da o‘qigan va endowment dasturlari ta’sirini o‘rganishga qiziqadi. U bitiruvchilar natijalarini tahlil qilib, fondning ta’lim yo‘nalishlarini yaxshilashga hissa qo‘shadi.`,
     aboutRu: `Arlene McCoy училась в TDYU и интересуется изучением влияния эндаумент-программ. Она анализирует результаты выпускников и помогает улучшать образовательные направления фонда.`,
     aboutEn: `Arlene McCoy studied at TDYU and focuses on the impact of endowment-backed programmes. She analyses alumni outcomes and helps strengthen the fund’s education priorities.`,
+    mapCategory: 'academia',
+    mapLocation: { lat: 40.7128, lng: -74.006, label: 'USA', demo: true },
     quals: [
       `TDYU bitiruvchisi`,
       `Ta’lim natijalarini tadqiq etish`,
@@ -141,6 +160,8 @@ export const ALUMNI_PEOPLE: AlumniPerson[] = [
     about: `David Thomas 2022-yilda TDYU media yo‘nalishini tugatgan. U endowment fondi yordamida o‘qigan va hozir bitiruvchilar hikoyalarini yoritib, fondning ochiq kommunikatsiyasiga hissa qo‘shadi.`,
     aboutRu: `David Thomas окончил медиа-направление TDYU в 2022 году. Он учился при поддержке эндаумент-фонда и сейчас освещает истории выпускников, поддерживая открытые коммуникации фонда.`,
     aboutEn: `David Thomas graduated from TDYU’s media track in 2022. Supported by the endowment fund during his studies, he now shares alumni stories and strengthens the fund’s public communications.`,
+    mapCategory: 'international',
+    mapLocation: { lat: 52.52, lng: 13.405, label: 'Germany', demo: true },
     quals: [
       `TDYU, media bakalavriati (2022)`,
       `Endowment qo‘llab-quvvatlash oluvchisi`,
@@ -178,6 +199,8 @@ export const ALUMNI_PEOPLE: AlumniPerson[] = [
     about: `Margaret Johnson 2019-yilda TDYU da biotexnologiya magistraturasini tugatgan. Endowment dasturlari orqali olingan imkoniyatlar unga tadqiqot va mentorlikda davom etishga yordam berdi; u yosh talabalarni STEM yo‘nalishlariga rag‘batlantiradi.`,
     aboutRu: `Margaret Johnson окончила магистратуру по биотехнологии в TDYU в 2019 году. Возможности эндаумент-программ помогли ей продолжить исследования и менторство; она вдохновляет студентов на STEM-направление.`,
     aboutEn: `Margaret Johnson completed an MSc in Biotechnology at TDYU in 2019. Endowment programme opportunities helped her continue in research and mentoring; she encourages students toward STEM pathways.`,
+    mapCategory: 'academia',
+    mapLocation: { lat: 35.6895, lng: 139.6917, label: 'Japan', demo: true },
     quals: [
       `TDYU, biotexnologiya magistraturasi (2019)`,
       `Ilmiy tadqiqot tajribasi`,
@@ -215,6 +238,8 @@ export const ALUMNI_PEOPLE: AlumniPerson[] = [
     about: `Leslie Alexander 2018-yilda TDYU informatika bakalavriatini tugatgan. U endowment fondi bitiruvchilar tarmog‘ida faol bo‘lib, texnologiya sohasidagi tajribasini talabalar va yosh mutaxassislar bilan baham ko‘radi.`,
     aboutRu: `Leslie Alexander окончил бакалавриат по информатике в TDYU в 2018 году. Он активен в сети выпускников эндаумент-фонда и делится опытом в сфере технологий со студентами и молодыми специалистами.`,
     aboutEn: `Leslie Alexander earned a BSc in Computer Science at TDYU in 2018. Active in the endowment fund’s alumni network, he shares technology-sector experience with students and early-career professionals.`,
+    mapCategory: 'international',
+    mapLocation: { lat: -33.8688, lng: 151.2093, label: 'Australia', demo: true },
     quals: [
       `TDYU, informatika bakalavriati (2018)`,
       `Dasturiy ta’minot va IT loyihalar`,

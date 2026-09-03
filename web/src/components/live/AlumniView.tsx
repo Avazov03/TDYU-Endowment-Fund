@@ -6,6 +6,7 @@ import { EVENTS as ALL_EVENTS, localizeEvent } from '@/content/events'
 import { NEWS_POSTS, localizePost } from '@/content/news'
 import { PageHero } from './PageHero'
 import { loc } from './loc'
+import { AlumniWorldMap } from './AlumniWorldMap'
 
 const INTRO_IMG = '/media/alumni/alamni-single-thumb-1.jpg'
 
@@ -204,6 +205,8 @@ export function AlumniView({ locale }: { locale: Locale }) {
               )}
             </p>
           </header>
+
+          <AlumniWorldMap locale={locale} people={ALUMNI_PEOPLE} />
 
           <div className="ap-people">
             {ALUMNI_PEOPLE.map((p) => {
