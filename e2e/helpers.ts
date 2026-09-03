@@ -13,9 +13,15 @@ export async function expectFormOk(page: Page, text: string | RegExp) {
 export async function fillContact(page: Page, values: { name?: string; email?: string; message?: string }) {
   const form = page.locator('#contact-form')
   await form.waitFor({ state: 'visible' })
-  if (values.name !== undefined) await form.locator('[name="name"]').fill(values.name)
+  if (values.name !== undefined) {
+    await form.locator('[name="name"]').fill(values.name)
+    const last = form.locator('[name="lastName"]')
+    if (await last.count()) await last.fill('E2E')
+  }
   if (values.email !== undefined) await form.locator('[name="email"]').fill(values.email)
   if (values.message !== undefined) await form.locator('[name="message"]').fill(values.message)
+  const consent = form.locator('[name="consent"]')
+  if (await consent.count()) await consent.check()
   return form
 }
 
