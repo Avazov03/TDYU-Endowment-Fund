@@ -204,7 +204,8 @@ function useVisible() {
   return visible
 }
 
-function TestimonialCard({ item }: { item: (typeof STORIES)['uz'][number] }) {
+type Story = (typeof STORIES)[keyof typeof STORIES][number]
+function TestimonialCard({ item }: { item: Story }) {
   return (
     <article className="testi-card">
       <div className="testi-card-quote" aria-hidden>

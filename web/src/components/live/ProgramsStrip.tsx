@@ -75,7 +75,8 @@ function ButtonDotsIcon() {
   )
 }
 
-function ProgramCard({ program, more }: { program: (typeof PROGRAMS)['uz'][number]; more: string }) {
+type Program = (typeof PROGRAMS)[keyof typeof PROGRAMS][number]
+function ProgramCard({ program, more }: { program: Program; more: string }) {
   const icon = ICONS[program.icon]
   return (
     <div className="program-single-item">
