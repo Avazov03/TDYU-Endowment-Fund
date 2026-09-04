@@ -259,6 +259,7 @@
   z-index: 50;
   background: #f6f4ee;
   overflow: visible;
+  overflow-anchor: none;
   transition: background-color 0.35s ease, box-shadow 0.35s ease;
 }
 
@@ -271,16 +272,12 @@
 .live-root .site-topbar {
   height: 45px;
   overflow: hidden;
-  transition:
-    height 0.35s ease,
-    opacity 0.28s ease,
-    transform 0.35s ease;
+  transition: opacity 0.25s ease;
 }
 
 .live-root .site-chrome.is-compact .site-topbar {
   height: 0;
   opacity: 0;
-  transform: translateY(-6px);
   pointer-events: none;
 }
 

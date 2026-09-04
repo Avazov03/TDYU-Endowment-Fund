@@ -44,11 +44,16 @@ export function SiteHeader() {
 
   useEffect(() => {
     let raf = 0
+    const ENTER = 96
+    const LEAVE = 8
     function onScroll() {
       cancelAnimationFrame(raf)
       raf = requestAnimationFrame(() => {
-        const next = window.scrollY > 24
-        setCompact((cur) => (cur === next ? cur : next))
+        const y = window.scrollY
+        setCompact((cur) => {
+          const next = cur ? y > LEAVE : y > ENTER
+          return cur === next ? cur : next
+        })
       })
     }
     onScroll()
