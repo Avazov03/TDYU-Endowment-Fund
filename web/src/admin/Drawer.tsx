@@ -23,18 +23,23 @@ export function Drawer({
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose()
     }
+    const prev = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
     window.addEventListener('keydown', onKey)
-    return () => window.removeEventListener('keydown', onKey)
+    return () => {
+      document.body.style.overflow = prev
+      window.removeEventListener('keydown', onKey)
+    }
   }, [open, onClose])
 
   if (!open) return null
   return (
-    <div className={`drawer-root${size === 'wide' ? ' drawer-wide' : ''}`} role="dialog" aria-modal="true">
+    <div className={`drawer-root${size === 'wide' ? ' drawer-wide' : ''}`} role="dialog" aria-modal="true" aria-label={title}>
       <button type="button" className="drawer-backdrop" aria-label="Yopish" onClick={onClose} />
       <aside className="drawer-panel">
         <div className="drawer-head">
           <h2>{title}</h2>
-          <button type="button" className="btn ghost sm" onClick={onClose}>
+          <button type="button" className="btn ghost sm" onClick={onClose} aria-label="Yopish">
             ✕
           </button>
         </div>

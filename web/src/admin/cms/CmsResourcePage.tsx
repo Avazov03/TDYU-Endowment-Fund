@@ -291,7 +291,7 @@ export function CmsResourcePage({ config }: { config: CmsConfig }) {
               Bekor
             </button>
             <button type="submit" form="cms-editor-form" className="btn" disabled={busy}>
-              {busy ? 'Saqlanmoqda…' : 'Saqlash'}
+              {busy ? 'Saqlanmoqda…' : form.id ? 'Saqlash' : 'Qo‘shish'}
             </button>
           </>
         }
