@@ -12,10 +12,10 @@ export type CmsLang = 'uz' | 'ru' | 'en'
 export type CmsField =
   | { type: 'text'; key: string; label: string; lang?: boolean; required?: boolean; placeholder?: string }
   | { type: 'textarea'; key: string; label: string; lang?: boolean; hint?: string }
-  | { type: 'media'; key: string; label: string }
-  | { type: 'select'; key: string; label: string; options: { value: string; label: string }[] }
-  | { type: 'number'; key: string; label: string }
-  | { type: 'toggle'; key: string; label: string }
+  | { type: 'media'; key: string; label: string; lang?: boolean }
+  | { type: 'select'; key: string; label: string; options: { value: string; label: string }[]; lang?: boolean }
+  | { type: 'number'; key: string; label: string; lang?: boolean }
+  | { type: 'toggle'; key: string; label: string; lang?: boolean }
 
 export type CmsRow = Record<string, unknown> & {
   id?: string
