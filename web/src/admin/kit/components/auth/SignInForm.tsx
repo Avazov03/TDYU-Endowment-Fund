@@ -2,6 +2,7 @@
 
 import { useState, type FormEvent } from 'react'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 import { ChevronLeftIcon, EyeCloseIcon, EyeIcon } from '../../icons'
 import Label from '../form/Label'
 import Input from '../form/input/InputField'
@@ -41,20 +42,20 @@ export default function SignInForm() {
   return (
     <div className="flex flex-col flex-1">
       <div className="flex items-center justify-between w-full max-w-md gap-4 pt-10 mx-auto">
-        <a
+        <Link
           href="/uz"
           className="inline-flex items-center text-sm text-gray-500 transition-colors hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300"
         >
           <ChevronLeftIcon className="size-5" />
           {t('login.home')}
-        </a>
+        </Link>
         <LanguageSwitcher />
       </div>
       <div className="flex flex-col justify-center flex-1 w-full max-w-md mx-auto">
         <div>
-          <a href="/admin" className="mb-6 flex items-center lg:hidden" aria-label="TDYU">
+          <Link href="/admin" className="mb-6 flex items-center lg:hidden" aria-label="TDYU">
             <BrandLogo variant="full" />
-          </a>
+          </Link>
           <div className="mb-5 sm:mb-8">
             <h1 className="mb-2 font-semibold text-gray-800 text-title-sm dark:text-white/90 sm:text-title-md">
               {t('login.title')}

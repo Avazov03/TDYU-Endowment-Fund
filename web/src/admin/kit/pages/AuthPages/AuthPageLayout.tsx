@@ -1,5 +1,6 @@
 'use client'
 import React from "react";
+import Link from "next/link";
 import GridShape from "../../components/common/GridShape";
 import ThemeTogglerTwo from "../../components/common/ThemeTogglerTwo";
 import BrandLogo from "../../components/common/BrandLogo";
@@ -21,9 +22,9 @@ export default function AuthLayout({
             {/* <!-- ===== Common Grid Shape Start ===== --> */}
             <GridShape />
             <div className="flex flex-col items-center max-w-xs px-6">
-              <a href="/uz" className="block mb-5" aria-label="TDYU">
+              <Link href="/uz" className="block mb-5" aria-label="TDYU">
                 <BrandLogo variant="auth" />
-              </a>
+              </Link>
               <p className="text-center text-sm leading-6 text-gray-400 dark:text-white/60">
                 {t("login.subtitle")}
               </p>
