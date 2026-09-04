@@ -279,7 +279,13 @@ async function main() {
     })
   }
 
-  console.log('Seed OK')
+  console.log('Seed OK — CMS catalogs…')
+  const { spawnSync } = await import('node:child_process')
+  const cms = spawnSync(process.execPath, [path.join(__dirname, '../scripts/seed-cms.mjs')], {
+    stdio: 'inherit',
+    env: process.env,
+  })
+  if (cms.status) process.exit(cms.status || 1)
 }
 
 main()

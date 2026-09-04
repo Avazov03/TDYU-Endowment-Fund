@@ -1,19 +1,17 @@
 'use client'
 
-import { SHOP_CATEGORIES, SHOP_PRODUCTS } from '@/content/shop'
+import { SHOP_CATEGORIES } from '@/content/shop'
 import { CmsResourcePage, type CmsConfig } from '../cms/CmsResourcePage'
 
 const cats = SHOP_CATEGORIES.filter((c) => c.id !== 'all')
 
 const config: CmsConfig = {
   title: 'Mahsulotlar',
-  hint: 'Yangi mahsulot katalog ustiga qo‘shiladi. Stok 0 bo‘lsa, savatga qo‘shilmaydi.',
+  hint: 'Mahsulotlar bazadan. Stok 0 bo‘lsa, savatga qo‘shilmaydi.',
   path: '/api/admin/cms/products',
   createLabel: '+ Mahsulot',
   emptyTitle: 'Mahsulot yo‘q',
-  emptyHint: 'Yangi mahsulot qo‘shing yoki TSUL SHOP katalogini ko‘chiring.',
-  importType: 'shop',
-  importItems: SHOP_PRODUCTS,
+  emptyHint: 'Yangi mahsulot qo‘shing.',
   previewHref: (row) => `/uz/shop/${row.slug}`,
   titleOf: (row) => String(row.nameUz || row.slug || 'Mahsulot'),
   metaOf: (row) => {

@@ -2,19 +2,19 @@ import { hasLocale } from 'next-intl'
 import { setRequestLocale } from 'next-intl/server'
 import { notFound } from 'next/navigation'
 import { routing, type Locale } from '@/i18n/routing'
-import { SHOP_PRODUCTS, getShopProduct } from '@/content/shop'
 import { ShopProductView } from '@/components/live/shop/ShopProductView'
-import { loadShopProduct } from '@/lib/cms-source'
+import { loadShopProduct, loadShopProducts } from '@/lib/cms-source'
 
-export function generateStaticParams() {
-  return SHOP_PRODUCTS.map((p) => ({ slug: p.slug }))
+export async function generateStaticParams() {
+  const products = await loadShopProducts()
+  return products.map((p) => ({ slug: p.slug }))
 }
 
 export const dynamicParams = true
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string; slug: string }> }) {
   const { locale, slug } = await params
-  const product = (await loadShopProduct(slug)) || getShopProduct(slug)
+  const product = await loadShopProduct(slug)
   const name = product ? product.name[(locale as Locale) || 'uz'] : 'TSUL SHOP'
   return { title: `${name} — TSUL SHOP` }
 }

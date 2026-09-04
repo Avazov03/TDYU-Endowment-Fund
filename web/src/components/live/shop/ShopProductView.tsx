@@ -4,7 +4,7 @@ import { useState } from 'react'
 import Image from 'next/image'
 import { Link } from '@/i18n/navigation'
 import type { Locale } from '@/i18n/routing'
-import { categoryLabel, formatSom, productSizes, relatedProducts, type ShopProduct } from '@/content/shop'
+import { categoryLabel, formatSom, productSizes, type ShopProduct } from '@/content/shop'
 import { loc } from '../loc'
 import { PageHero } from '../PageHero'
 import { useShopCart } from '@/lib/shop-cart'
@@ -12,13 +12,17 @@ import { ShopBagIcon } from './ShopBagIcon'
 import { ShopHeartButton } from './ShopHeartButton'
 
 export function ShopProductView({ locale, product }: { locale: Locale; product: ShopProduct }) {
-  const { add, count } = useShopCart()
+  const { add, count, catalog } = useShopCart()
   const sizes = productSizes(product)
   const [qty, setQty] = useState(1)
   const [size, setSize] = useState<string>(sizes[0] || '')
   const [ok, setOk] = useState('')
   const [err, setErr] = useState('')
-  const related = relatedProducts(product.slug, 4)
+  const related = catalog
+    .filter((p) => p.slug !== product.slug)
+    .sort((a, b) => Number(a.category === product.category) - Number(b.category === product.category))
+    .reverse()
+    .slice(0, 4)
 
   function onAdd() {
     setErr('')

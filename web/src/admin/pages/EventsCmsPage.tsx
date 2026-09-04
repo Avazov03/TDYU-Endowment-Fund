@@ -1,17 +1,14 @@
 'use client'
 
-import { EVENTS } from '@/content/events'
 import { CmsResourcePage, type CmsConfig } from '../cms/CmsResourcePage'
 
 const config: CmsConfig = {
   title: 'Tadbirlar',
-  hint: 'Yangi tadbir saytdagi mavjudlar ustiga qo‘shiladi — katalog yo‘qolmaydi. Nashrdan olish yoki o‘chirish o‘sha yozuvni saytdan yashiradi.',
+  hint: 'Barcha tadbirlar bazadan. Nashr / o‘chirish saytni DB orqali yangilaydi.',
   path: '/api/admin/cms/events',
   createLabel: '+ Tadbir',
   emptyTitle: 'Tadbir yo‘q',
-  emptyHint: 'Yangi tadbir qo‘shing yoki hozirgi sayt kontentini bir marta ko‘chiring.',
-  importType: 'events',
-  importItems: EVENTS,
+  emptyHint: 'Yangi tadbir qo‘shing.',
   previewHref: (row) => `/uz/events/${row.slug}`,
   titleOf: (row) => String(row.titleUz || row.slug || 'Tadbir'),
   metaOf: (row) => [row.dateUz, row.locUz].filter(Boolean).join(' · '),

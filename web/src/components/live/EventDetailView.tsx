@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import { Link } from '@/i18n/navigation'
 import type { Locale } from '@/i18n/routing'
-import { localizeEvent, type EventItem, EVENTS } from '@/content/events'
+import { localizeEvent, type EventItem } from '@/content/events'
 import { PageHero } from './PageHero'
 import { loc } from './loc'
 
@@ -19,7 +19,7 @@ function VideoEmbed({ url }: { url: string }) {
 
 export function EventDetailView({ locale, event, others = [] }: { locale: Locale; event: EventItem; others?: EventItem[] }) {
   const L = localizeEvent(event, locale)
-  const more = (others.length ? others : EVENTS.filter((e) => e.slug !== event.slug)).slice(0, 3)
+  const more = others.slice(0, 3)
 
   return (
     <>

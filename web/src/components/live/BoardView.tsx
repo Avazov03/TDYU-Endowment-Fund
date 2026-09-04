@@ -5,34 +5,6 @@ import { BOARD_DETAIL } from '@/content/board'
 import { PageHero } from './PageHero'
 import { loc } from './loc'
 
-/** Dump all-faculty-members (page-id 7604) — e-bl-team order. */
-export const BOARD_MEMBERS = {
-  uz: [
-    { id: 'vasiylik-kengashi', img: '/media/board/e-bl-team-6-min.jpg', t: 'Vasiylik kengashi', r: 'Mentor' },
-    { id: 'boshqaruv-kengashi', img: '/media/board/e-bl-team-5-min.jpg', t: 'Boshqaruv kengashi', r: 'Maslahatchi' },
-    { id: 'taftish-komissiyasi', img: '/media/board/e-bl-team-4-min.jpg', t: 'Taftish komissiyasi', r: 'Yordamchi' },
-    { id: 'vasiylik-azosi', img: '/media/board/e-bl-team-3-min.jpg', t: 'Vasiylik a’zosi', r: 'Maslahatchi' },
-    { id: 'boshqaruv-azosi', img: '/media/board/e-bl-team-2-min.jpg', t: 'Boshqaruv a’zosi', r: 'Tadqiqotchi' },
-    { id: 'taftish-azosi', img: '/media/board/e-bl-team-1-min.jpg', t: 'Taftish a’zosi', r: 'Yordamchi o‘qituvchi' },
-  ],
-  ru: [
-    { id: 'vasiylik-kengashi', img: '/media/board/e-bl-team-6-min.jpg', t: 'Попечительский совет', r: 'Наставник' },
-    { id: 'boshqaruv-kengashi', img: '/media/board/e-bl-team-5-min.jpg', t: 'Правление', r: 'Советник' },
-    { id: 'taftish-komissiyasi', img: '/media/board/e-bl-team-4-min.jpg', t: 'Ревизионная комиссия', r: 'Помощник' },
-    { id: 'vasiylik-azosi', img: '/media/board/e-bl-team-3-min.jpg', t: 'Член попечительского совета', r: 'Советник' },
-    { id: 'boshqaruv-azosi', img: '/media/board/e-bl-team-2-min.jpg', t: 'Член правления', r: 'Исследователь' },
-    { id: 'taftish-azosi', img: '/media/board/e-bl-team-1-min.jpg', t: 'Член ревизионной комиссии', r: 'Помощник преподавателя' },
-  ],
-  en: [
-    { id: 'vasiylik-kengashi', img: '/media/board/e-bl-team-6-min.jpg', t: 'Board of Trustees', r: 'Mentor' },
-    { id: 'boshqaruv-kengashi', img: '/media/board/e-bl-team-5-min.jpg', t: 'Management Board', r: 'Adviser' },
-    { id: 'taftish-komissiyasi', img: '/media/board/e-bl-team-4-min.jpg', t: 'Audit Commission', r: 'Assistant' },
-    { id: 'vasiylik-azosi', img: '/media/board/e-bl-team-3-min.jpg', t: 'Trustee member', r: 'Adviser' },
-    { id: 'boshqaruv-azosi', img: '/media/board/e-bl-team-2-min.jpg', t: 'Board member', r: 'Researcher' },
-    { id: 'taftish-azosi', img: '/media/board/e-bl-team-1-min.jpg', t: 'Audit member', r: 'Teaching assistant' },
-  ],
-} as const
-
 const SOCIAL = [
   { label: 'Facebook', icon: 'M14 8h-4v3h3v3h-3v8h-4v-8H6v-3h1V7a4 4 0 0 1 4-4h3v4h-3a1 1 0 0 0-1 1v1h4l-.5 3z' },
   { label: 'X', icon: 'M17.5 3h3.1l-6.8 7.8L21 21h-6.3l-4.9-6.4L4.2 21H1.1l7.3-8.4L3 3h6.5l4.4 5.8L17.5 3zm-1.1 16h1.7L7.9 5H6.1l10.3 14z' },
@@ -96,16 +68,14 @@ export function BoardMemberCard({
   )
 }
 
-export function BoardView({ locale, members }: { locale: Locale; members?: typeof BOARD_DETAIL }) {
-  const list = members?.length
-    ? members.map((d) => ({
-        id: d.id,
-        img: d.img,
-        t: locale === 'ru' ? d.nameRu : locale === 'en' ? d.nameEn : d.name,
-        r: locale === 'ru' ? d.roleRu : locale === 'en' ? d.roleEn : d.role,
-        slug: d.slug,
-      }))
-    : BOARD_MEMBERS[locale].map((m) => ({ ...m, slug: BOARD_DETAIL.find((d) => d.id === m.id)?.slug }))
+export function BoardView({ locale, members }: { locale: Locale; members: typeof BOARD_DETAIL }) {
+  const list = members.map((d) => ({
+    id: d.id,
+    img: d.img,
+    t: locale === 'ru' ? d.nameRu : locale === 'en' ? d.nameEn : d.name,
+    r: locale === 'ru' ? d.roleRu : locale === 'en' ? d.roleEn : d.role,
+    slug: d.slug,
+  }))
 
   return (
     <>

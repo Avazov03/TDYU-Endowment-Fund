@@ -3,7 +3,7 @@ import { setRequestLocale } from 'next-intl/server'
 import { notFound } from 'next/navigation'
 import { routing, type Locale } from '@/i18n/routing'
 import { AlumniView } from '@/components/live/AlumniView'
-import { loadAlumni } from '@/lib/cms-source'
+import { loadAlumni, loadEvents, loadNews } from '@/lib/cms-source'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
@@ -16,5 +16,7 @@ export default async function AlumniPage({ params }: { params: Promise<{ locale:
   if (!hasLocale(routing.locales, locale)) notFound()
   setRequestLocale(locale)
   const people = await loadAlumni()
-  return <AlumniView locale={locale as Locale} people={people} />
+  const events = await loadEvents()
+  const news = await loadNews()
+  return <AlumniView locale={locale as Locale} people={people} events={events} news={news} />
 }

@@ -1,13 +1,21 @@
 import Image from 'next/image'
 import { Link } from '@/i18n/navigation'
 import type { Locale } from '@/i18n/routing'
-import { ALUMNI_PEOPLE, localizeAlumni, type AlumniPerson } from '@/content/alumni'
+import { localizeAlumni, type AlumniPerson } from '@/content/alumni'
 import { PageHero } from './PageHero'
 import { loc } from './loc'
 
-export function AlumniDetailView({ locale, person }: { locale: Locale; person: AlumniPerson }) {
+export function AlumniDetailView({
+  locale,
+  person,
+  others = [],
+}: {
+  locale: Locale
+  person: AlumniPerson
+  others?: AlumniPerson[]
+}) {
   const L = localizeAlumni(person, locale)
-  const others = ALUMNI_PEOPLE.filter((p) => p.slug !== person.slug).slice(0, 3)
+  const more = others.filter((p) => p.slug !== person.slug).slice(0, 3)
 
   return (
     <>
@@ -59,7 +67,7 @@ export function AlumniDetailView({ locale, person }: { locale: Locale; person: A
             <div className="detail-widget" style={{ marginTop: 24 }}>
               <h4>{loc(locale, 'Boshqa bitiruvchilar', 'Другие выпускники', 'Other alumni')}</h4>
               <ul className="detail-related">
-                {others.map((p) => {
+                {more.map((p) => {
                   const o = localizeAlumni(p, locale)
                   return (
                     <li key={p.slug}>

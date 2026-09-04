@@ -1,35 +1,16 @@
 'use client'
 
-import { ALUMNI_PEOPLE } from '@/content/alumni'
 import { ALUMNI_COUNTRIES, MAP_CATEGORIES } from '@/content/alumniMap'
 import { CmsResourcePage, type CmsConfig } from '../cms/CmsResourcePage'
 
 const config: CmsConfig = {
   title: 'Bitiruvchilar',
-  hint: 'Yangi bitiruvchi saytdagi ro‘yxat ustiga qo‘shiladi. Ism, lavozim, rasm va mamlakat — xarita shu ma’lumotdan yangilanadi.',
+  hint: 'Alumni bazadan. Ism, lavozim, rasm va mamlakat — xarita shu ma’lumotdan.',
   path: '/api/admin/cms/people',
   query: 'kind=alumni',
   createLabel: '+ Bitiruvchi',
   emptyTitle: 'Bitiruvchi yo‘q',
-  emptyHint: 'Yangi odam qo‘shing yoki saytdagi alumni ro‘yxatini ko‘chiring.',
-  importType: 'alumni',
-  importItems: ALUMNI_PEOPLE.map((p) => ({
-    ...p,
-    countryCode:
-      p.slug === 'jerome-bell'
-        ? 'uz'
-        : p.mapLocation?.label === 'UK'
-          ? 'gb'
-          : p.mapLocation?.label === 'USA'
-            ? 'us'
-            : p.mapLocation?.label === 'Germany'
-              ? 'de'
-              : p.mapLocation?.label === 'Japan'
-                ? 'jp'
-                : p.mapLocation?.label === 'Australia'
-                  ? 'au'
-                  : 'uz',
-  })),
+  emptyHint: 'Yangi bitiruvchi qo‘shing.',
   previewHref: (row) => `/uz/alumni/${row.slug}`,
   titleOf: (row) => String(row.nameUz || row.slug || 'Bitiruvchi'),
   metaOf: (row) => [row.roleUz, row.countryCode].filter(Boolean).join(' · '),

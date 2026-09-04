@@ -2,11 +2,6 @@
 
 import { useEffect, useMemo, useState } from 'react'
 import type { FormEvent } from 'react'
-import { ALUMNI_PEOPLE } from '@/content/alumni'
-import { BOARD_DETAIL } from '@/content/board'
-import { EVENTS } from '@/content/events'
-import { NEWS_POSTS } from '@/content/news'
-import { SHOP_PRODUCTS } from '@/content/shop'
 import { api } from '../api'
 import { EmptyState, LoadingBlock } from '../ui'
 
@@ -32,34 +27,6 @@ const presets = [
   { key: 'stats.5', page: 'home', label: 'Stats 5' },
 ]
 
-const CMS_BOOTSTRAP = [
-  { type: 'news', items: NEWS_POSTS, label: 'Maqolalar' },
-  { type: 'events', items: EVENTS, label: 'Tadbirlar' },
-  {
-    type: 'alumni',
-    items: ALUMNI_PEOPLE.map((p) => ({
-      ...p,
-      countryCode:
-        p.slug === 'jerome-bell'
-          ? 'uz'
-          : p.mapLocation?.label === 'UK'
-            ? 'gb'
-            : p.mapLocation?.label === 'USA'
-              ? 'us'
-              : p.mapLocation?.label === 'Germany'
-                ? 'de'
-                : p.mapLocation?.label === 'Japan'
-                  ? 'jp'
-                  : p.mapLocation?.label === 'Australia'
-                    ? 'au'
-                    : 'uz',
-    })),
-    label: 'Alumni',
-  },
-  { type: 'board', items: BOARD_DETAIL, label: 'Kengash' },
-  { type: 'shop', items: SHOP_PRODUCTS, label: 'Do‘kon' },
-] as const
-
 export default function ContentPage() {
   const [rows, setRows] = useState<Block[]>([])
   const [lang, setLang] = useState('uz')
@@ -68,7 +35,6 @@ export default function ContentPage() {
   const [msg, setMsg] = useState('')
   const [form, setForm] = useState({ key: 'home.welcome', title: '', body: '', page: 'home', lang: 'uz' })
   const [editing, setEditing] = useState<string | null>(null)
-  const [bootstrapping, setBootstrapping] = useState(false)
 
   async function load() {
     try {
@@ -85,37 +51,6 @@ export default function ContentPage() {
   }, [])
 
   const filtered = useMemo(() => rows.filter((r) => r.lang === lang), [rows, lang])
-
-  async function onBootstrapCms() {
-    const total = CMS_BOOTSTRAP.reduce((n, b) => n + b.items.length, 0)
-    if (
-      !confirm(
-        `Mavjud sayt kontenti (${total} ta yozuv: yangilik, tadbir, alumni, kengash, do‘kon) admin bazasiga ko‘chirilsinmi? Matn o‘zgarmaydi — faqat boshqaruv uchun DB ga yoziladi.`,
-      )
-    ) {
-      return
-    }
-    setBootstrapping(true)
-    setError('')
-    setMsg('')
-    try {
-      const parts: string[] = []
-      for (const batch of CMS_BOOTSTRAP) {
-        const res = await api<{ count: number }>('/api/admin/cms/import', {
-          method: 'POST',
-          body: JSON.stringify({ type: batch.type, items: batch.items }),
-        })
-        parts.push(`${batch.label}: ${res.count}`)
-      }
-      setMsg(
-        `CMS ko‘chirildi — ${parts.join(' · ')}. Endi /admin/news, /events, /alumni, /board, /shop/products da tahrirlashingiz mumkin.`,
-      )
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'CMS ko‘chirish xato')
-    } finally {
-      setBootstrapping(false)
-    }
-  }
 
   async function onSubmit(e: FormEvent) {
     e.preventDefault()
@@ -147,12 +82,9 @@ export default function ContentPage() {
       <div className="admin-top">
         <div>
           <h1>Sayt kontenti</h1>
-          <p>Asosiy matn va KPI (stats.1–5) — 3 tilda. CMS kataloglar (yangilik/tadbir/…) alohida bo‘limlarda.</p>
+          <p>Matn va KPI (stats.1–5) bazadan boshqariladi. Kataloglar: Yangiliklar, Tadbirlar, Alumni, Kengash, Mahsulotlar.</p>
         </div>
         <div className="toolbar">
-          <button type="button" className="btn ghost" onClick={onBootstrapCms} disabled={bootstrapping}>
-            {bootstrapping ? 'Ko‘chirilmoqda…' : 'Mavjud CMS kontentni adminga ko‘chir'}
-          </button>
           {(['uz', 'ru', 'en'] as const).map((l) => (
             <button key={l} type="button" className={`btn ${lang === l ? '' : 'ghost'} sm`} onClick={() => setLang(l)}>
               {l.toUpperCase()}

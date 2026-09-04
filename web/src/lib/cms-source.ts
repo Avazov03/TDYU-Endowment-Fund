@@ -1,9 +1,8 @@
-import { EVENTS, getEvent, type EventItem } from '@/content/events'
-import { NEWS_POSTS, getNewsPost, type NewsPost } from '@/content/news'
-import { ALUMNI_PEOPLE, getAlumni, type AlumniPerson } from '@/content/alumni'
-import { BOARD_DETAIL, getBoardMember, type BoardMember } from '@/content/board'
-import { SHOP_PRODUCTS, getShopProduct, type ShopProduct } from '@/content/shop'
-import { overlayItem, overlayList } from '@/lib/cms-merge'
+import type { EventItem } from '@/content/events'
+import type { NewsPost } from '@/content/news'
+import type { AlumniPerson } from '@/content/alumni'
+import type { BoardMember } from '@/content/board'
+import type { ShopProduct } from '@/content/shop'
 import type { Locale } from '@/i18n/routing'
 
 const API = process.env.API_ORIGIN || 'http://127.0.0.1:8787'
@@ -31,6 +30,11 @@ async function readJson<T>(path: string): Promise<T | null> {
   }
 }
 
+/** Public CMS — faqat DB (kod katalogi emas). */
+function fromDbList<T>(data: OverlayList<T> | null): T[] {
+  return Array.isArray(data?.items) ? data!.items! : []
+}
+
 export async function loadContent(locale: Locale): Promise<ContentBlockMap> {
   return (await readJson<ContentBlockMap>(`/content?lang=${locale}`)) || {}
 }
@@ -54,56 +58,52 @@ export function homeStatsFromContent(
   })
 }
 
-function slugOf<T extends { slug: string }>(row: T) {
-  return row.slug
-}
-
 export async function loadEvents(): Promise<EventItem[]> {
-  const data = await readJson<OverlayList<EventItem>>('/events')
-  return overlayList(EVENTS, data?.items, data?.suppressed, slugOf)
+  return fromDbList(await readJson<OverlayList<EventItem>>('/events'))
 }
 
 export async function loadEvent(slug: string): Promise<EventItem | undefined> {
   const data = await readJson<OverlayItem<EventItem>>(`/events/${slug}`)
-  return overlayItem(getEvent(slug), data)
+  if (data?.suppressed) return undefined
+  return data?.item || undefined
 }
 
 export async function loadNews(): Promise<NewsPost[]> {
-  const data = await readJson<OverlayList<NewsPost>>('/news')
-  return overlayList(NEWS_POSTS, data?.items, data?.suppressed, slugOf)
+  return fromDbList(await readJson<OverlayList<NewsPost>>('/news'))
 }
 
 export async function loadNewsItem(slug: string): Promise<NewsPost | undefined> {
   const data = await readJson<OverlayItem<NewsPost>>(`/news/${slug}`)
-  return overlayItem(getNewsPost(slug), data)
+  if (data?.suppressed) return undefined
+  return data?.item || undefined
 }
 
 export async function loadAlumni(): Promise<AlumniPerson[]> {
-  const data = await readJson<OverlayList<AlumniPerson>>('/alumni')
-  return overlayList(ALUMNI_PEOPLE, data?.items, data?.suppressed, slugOf)
+  return fromDbList(await readJson<OverlayList<AlumniPerson>>('/alumni'))
 }
 
 export async function loadAlumniItem(slug: string): Promise<AlumniPerson | undefined> {
   const data = await readJson<OverlayItem<AlumniPerson>>(`/alumni/${slug}`)
-  return overlayItem(getAlumni(slug), data)
+  if (data?.suppressed) return undefined
+  return data?.item || undefined
 }
 
 export async function loadBoard(): Promise<BoardMember[]> {
-  const data = await readJson<OverlayList<BoardMember>>('/board')
-  return overlayList(BOARD_DETAIL, data?.items, data?.suppressed, slugOf)
+  return fromDbList(await readJson<OverlayList<BoardMember>>('/board'))
 }
 
 export async function loadBoardItem(slug: string): Promise<BoardMember | undefined> {
   const data = await readJson<OverlayItem<BoardMember>>(`/board/${slug}`)
-  return overlayItem(getBoardMember(slug), data)
+  if (data?.suppressed) return undefined
+  return data?.item || undefined
 }
 
 export async function loadShopProducts(): Promise<ShopProduct[]> {
-  const data = await readJson<OverlayList<ShopProduct>>('/shop/products')
-  return overlayList(SHOP_PRODUCTS, data?.items, data?.suppressed, slugOf)
+  return fromDbList(await readJson<OverlayList<ShopProduct>>('/shop/products'))
 }
 
 export async function loadShopProduct(slug: string): Promise<ShopProduct | undefined> {
   const data = await readJson<OverlayItem<ShopProduct>>(`/shop/products/${slug}`)
-  return overlayItem(getShopProduct(slug), data)
+  if (data?.suppressed) return undefined
+  return data?.item || undefined
 }

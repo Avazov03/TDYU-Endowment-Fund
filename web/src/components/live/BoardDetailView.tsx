@@ -1,13 +1,21 @@
 import Image from 'next/image'
 import { Link } from '@/i18n/navigation'
 import type { Locale } from '@/i18n/routing'
-import { BOARD_DETAIL, localizeBoard, type BoardMember } from '@/content/board'
+import { localizeBoard, type BoardMember } from '@/content/board'
 import { PageHero } from './PageHero'
 import { loc } from './loc'
 
-export function BoardDetailView({ locale, member }: { locale: Locale; member: BoardMember }) {
+export function BoardDetailView({
+  locale,
+  member,
+  others = [],
+}: {
+  locale: Locale
+  member: BoardMember
+  others?: BoardMember[]
+}) {
   const L = localizeBoard(member, locale)
-  const others = BOARD_DETAIL.filter((m) => m.slug !== member.slug)
+  const more = others.filter((m) => m.slug !== member.slug)
 
   return (
     <>
@@ -60,7 +68,7 @@ export function BoardDetailView({ locale, member }: { locale: Locale; member: Bo
             <div className="detail-widget" style={{ marginTop: 24 }}>
               <h4>{loc(locale, 'Boshqa a’zolar', 'Другие члены', 'Other members')}</h4>
               <ul className="detail-related">
-                {others.map((m) => {
+                {more.map((m) => {
                   const o = localizeBoard(m, locale)
                   return (
                     <li key={m.slug}>

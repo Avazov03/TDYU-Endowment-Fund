@@ -1,18 +1,15 @@
 'use client'
 
-import { BOARD_DETAIL } from '@/content/board'
 import { CmsResourcePage, type CmsConfig } from '../cms/CmsResourcePage'
 
 const config: CmsConfig = {
   title: 'Boshqaruv kengashi',
-  hint: 'Yangi a’zo mavjudlar ustiga qo‘shiladi. Rasm, ism, lavozim va tarjima.',
+  hint: 'Kengash a’zolari bazadan. Rasm, ism, lavozim va tarjima.',
   path: '/api/admin/cms/people',
   query: 'kind=board',
   createLabel: '+ A’zo',
   emptyTitle: 'A’zo yo‘q',
-  emptyHint: 'Yangi a’zo qo‘shing yoki saytdagi kengashni ko‘chiring.',
-  importType: 'board',
-  importItems: BOARD_DETAIL,
+  emptyHint: 'Yangi a’zo qo‘shing.',
   previewHref: (row) => `/uz/board/${row.slug}`,
   titleOf: (row) => String(row.nameUz || row.slug || 'A’zo'),
   metaOf: (row) => String(row.roleUz || ''),

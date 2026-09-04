@@ -3,10 +3,11 @@
 import { useMemo, useState } from 'react'
 import { Link } from '@/i18n/navigation'
 import type { Locale } from '@/i18n/routing'
-import { formatSom, getShopProduct, pickupLabel } from '@/content/shop'
+import { formatSom, pickupLabel } from '@/content/shop'
 import { loc } from '../loc'
 import { PageHero } from '../PageHero'
 import { readLocalShopOrders, type LocalShopOrder } from '@/lib/shop-orders'
+import { useShopCart } from '@/lib/shop-cart'
 
 type RemoteOrder = {
   id: string
@@ -24,19 +25,20 @@ function statusLabel(status: string | undefined, locale: Locale) {
   return loc(locale, 'Qabul qilindi', 'Принят', 'Received')
 }
 
-function itemName(slug: string | undefined, locale: Locale) {
-  if (!slug) return slug || ''
-  const product = getShopProduct(slug)
-  return product ? product.name[locale] : slug
-}
-
 export function ShopOrdersView({ locale }: { locale: Locale }) {
+  const { catalog } = useShopCart()
   const local = useMemo(() => readLocalShopOrders(), [])
   const [email, setEmail] = useState(local[0]?.email || '')
   const [phone, setPhone] = useState(local[0]?.phone || '')
   const [remote, setRemote] = useState<RemoteOrder[] | null>(null)
   const [busy, setBusy] = useState(false)
   const [err, setErr] = useState('')
+
+  function itemName(slug: string | undefined) {
+    if (!slug) return slug || ''
+    const product = catalog.find((p) => p.slug === slug)
+    return product ? product.name[locale] : slug
+  }
 
   const orders = useMemo(() => {
     const map = new Map<string, LocalShopOrder | RemoteOrder>()
@@ -165,7 +167,7 @@ export function ShopOrdersView({ locale }: { locale: Locale }) {
                     <ul className="mt-4 mb-0 pl-5 text-[15px] text-body">
                       {order.items.map((item, i) => (
                         <li key={`${item.slug || i}-${item.size || ''}`}>
-                          {itemName(item.slug, locale)}
+                          {itemName(item.slug)}
                           {item.size ? ` (${item.size})` : ''} × {item.qty}
                           {item.price ? ` — ${formatSom(item.price * (item.qty || 1), locale)}` : ''}
                         </li>

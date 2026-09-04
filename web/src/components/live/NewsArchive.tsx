@@ -4,7 +4,7 @@ import { useMemo, useState } from 'react'
 import Image from 'next/image'
 import { Link } from '@/i18n/navigation'
 import type { Locale } from '@/i18n/routing'
-import { NEWS_PER_PAGE, NEWS_POSTS, localizePost, type NewsPost } from '@/content/news'
+import { NEWS_PER_PAGE, localizePost, type NewsPost } from '@/content/news'
 import { NewsSidebar } from './NewsSidebar'
 import { loc } from './loc'
 
@@ -90,7 +90,7 @@ export function NewsArchive({
   page = 1,
   initialQuery = '',
   initialCat = null,
-  items = NEWS_POSTS,
+  items = [],
 }: {
   locale: Locale
   page?: number
@@ -168,6 +168,7 @@ export function NewsArchive({
         cat={cat}
         onCatChange={setCat}
         mode="filter"
+        posts={items}
       />
     </div>
   )

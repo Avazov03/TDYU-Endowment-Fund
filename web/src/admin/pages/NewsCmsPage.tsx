@@ -1,17 +1,14 @@
 'use client'
 
-import { NEWS_POSTS } from '@/content/news'
 import { CmsResourcePage, type CmsConfig } from '../cms/CmsResourcePage'
 
 const config: CmsConfig = {
   title: 'Maqolalar',
-  hint: 'Yangi maqola mavjudlar ustiga qo‘shiladi. O‘chirish yoki nashrdan olish o‘sha yozuvni saytdan yashiradi.',
+  hint: 'Barcha maqolalar bazadan. Yangi yozuv yoki tahrir shu yerda — sayt DB dan o‘qiydi.',
   path: '/api/admin/cms/news',
   createLabel: '+ Maqola',
   emptyTitle: 'Maqola yo‘q',
-  emptyHint: 'Yangi maqola yozing yoki mavjud yangiliklarni ko‘chiring.',
-  importType: 'news',
-  importItems: NEWS_POSTS,
+  emptyHint: 'Yangi maqola qo‘shing.',
   previewHref: (row) => `/uz/news/${row.slug}`,
   titleOf: (row) => String(row.titleUz || row.slug || 'Maqola'),
   metaOf: (row) => [row.tagUz, row.dateUz].filter(Boolean).join(' · '),

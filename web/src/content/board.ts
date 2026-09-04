@@ -211,7 +211,7 @@ export const BOARD_DETAIL: BoardMember[] = [
   },
   {
     id: 'taftish-azosi',
-    slug: 'leslie-alexander',
+    slug: 'taftish-azosi',
     img: '/media/board/e-bl-team-1-min.jpg',
     name: `Taftish a’zosi`,
     nameRu: `Член ревизионной комиссии`,

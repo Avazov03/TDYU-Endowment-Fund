@@ -3,16 +3,8 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import type { Locale } from '@/i18n/routing'
 import { Link } from '@/i18n/navigation'
-import { ALUMNI_PEOPLE, type AlumniMapCategoryId, type AlumniPerson } from '@/content/alumni'
-import { overlayList } from '@/lib/cms-merge'
-import {
-  MAP_CATEGORIES,
-  getAlumniMapPins,
-  localizeCountry,
-  localizePin,
-  type AlumniCountryId,
-  type AlumniMapPin,
-} from '@/content/alumniMap'
+import { type AlumniMapCategoryId, type AlumniPerson } from '@/content/alumni'
+import { MAP_CATEGORIES, localizeCountry, localizePin, type AlumniCountryId, type AlumniMapPin } from '@/content/alumniMap'
 import { loc } from './loc'
 
 function EyebrowIcon() {
@@ -34,8 +26,8 @@ function buildSeriesData(byCountry: Map<AlumniCountryId, AlumniMapPin[]>): Chart
 }
 
 export function AlumniMap({ locale }: { locale: Locale }) {
-  const [livePins, setLivePins] = useState<AlumniMapPin[] | null>(null)
-  const pins = useMemo(() => livePins || getAlumniMapPins(), [livePins])
+  const [livePins, setLivePins] = useState<AlumniMapPin[]>([])
+  const pins = livePins
   const [tab, setTab] = useState<'all' | AlumniMapCategoryId>('all')
   const [activeId, setActiveId] = useState<AlumniCountryId | null>('uz')
   const [mapReady, setMapReady] = useState(false)
@@ -45,12 +37,7 @@ export function AlumniMap({ locale }: { locale: Locale }) {
     fetch('/api/public/alumni')
       .then((r) => r.json())
       .then((d) => {
-        const people = overlayList(
-          ALUMNI_PEOPLE,
-          Array.isArray(d?.items) ? (d.items as AlumniPerson[]) : [],
-          Array.isArray(d?.suppressed) ? d.suppressed : [],
-          (p: AlumniPerson) => p.slug,
-        )
+        const people = Array.isArray(d?.items) ? (d.items as AlumniPerson[]) : []
         const next: AlumniMapPin[] = people
           .filter((p) => p.mapCategory && (p.countryCode || p.mapLocation))
           .map((p) => ({

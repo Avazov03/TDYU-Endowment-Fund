@@ -32,8 +32,6 @@ export type CmsConfig = {
   createLabel: string
   emptyTitle: string
   emptyHint: string
-  importType?: string
-  importItems?: unknown[]
   previewHref?: (row: CmsRow) => string
   titleOf: (row: CmsRow) => string
   metaOf?: (row: CmsRow) => string
@@ -64,7 +62,6 @@ export function CmsResourcePage({ config }: { config: CmsConfig }) {
   const [form, setForm] = useState<CmsRow>(config.defaults)
   const [lang, setLang] = useState<CmsLang>('uz')
   const [busy, setBusy] = useState(false)
-  const [importing, setImporting] = useState(false)
 
   const listPath = config.query ? `${config.path}?${config.query}` : config.path
 
@@ -134,25 +131,6 @@ export function CmsResourcePage({ config }: { config: CmsConfig }) {
     }
   }
 
-  async function onImport() {
-    if (!config.importType || !config.importItems?.length) return
-            if (!confirm(`Mavjud ${config.importItems.length} ta yozuv admin bazasiga ko‘chirilsinmi? Matn o‘zgarmaydi — slug bo‘yicha yangilanadi.`)) return
-    setImporting(true)
-    setError('')
-    try {
-      const res = await api<{ count: number }>('/api/admin/cms/import', {
-        method: 'POST',
-        body: JSON.stringify({ type: config.importType, items: config.importItems }),
-      })
-      setMsg(`${res.count} ta yozuv admin’ga ko‘chirildi`)
-      load()
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Import xato')
-    } finally {
-      setImporting(false)
-    }
-  }
-
   const fillBases = config.langFillKeys || ['title', 'name']
 
   return (
@@ -163,11 +141,6 @@ export function CmsResourcePage({ config }: { config: CmsConfig }) {
           <p>{config.hint}</p>
         </div>
         <div className="toolbar">
-          {config.importType && config.importItems?.length ? (
-            <button type="button" className="btn ghost" onClick={onImport} disabled={importing}>
-              {importing ? 'Ko‘chirilmoqda…' : `Mavjud ${config.importItems.length} tasini adminga ko‘chir`}
-            </button>
-          ) : null}
           <button type="button" className="btn" onClick={openNew}>
             {config.createLabel}
           </button>
@@ -250,7 +223,7 @@ export function CmsResourcePage({ config }: { config: CmsConfig }) {
                         type="button"
                         className="btn danger sm"
                         onClick={async () => {
-                          if (!confirm('O‘chirish? Bu yozuv saytdan ham yashirinadi (statik nusxasi qaytib chiqmaydi).')) return
+                          if (!confirm('O‘chirish? Bu yozuv saytdan ham yashirinadi.')) return
                           await api(`${config.path}/${r.id}`, { method: 'DELETE' })
                           load()
                         }}

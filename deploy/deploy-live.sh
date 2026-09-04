@@ -60,6 +60,8 @@ if [[ -d "$SRC/server" ]]; then
   fi
   npx prisma migrate deploy --schema server/prisma/schema.prisma
   npx prisma generate --schema server/prisma/schema.prisma
+  echo "==> CMS seed (empty tables only)"
+  node server/scripts/seed-cms.mjs || true
   pm2 restart tdyu-endowment --update-env
 fi
 

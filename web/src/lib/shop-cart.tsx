@@ -1,8 +1,7 @@
 'use client'
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react'
-import { SHOP_PRODUCTS, getShopProduct, productSizes, type ShopProduct } from '@/content/shop'
-import { overlayList } from '@/lib/cms-merge'
+import { productSizes, type ShopProduct } from '@/content/shop'
 
 const CART_KEY = 'tdyu-shop-cart-v2'
 const FAV_KEY = 'tdyu-shop-fav-v1'
@@ -74,7 +73,7 @@ export function ShopCartProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<ShopCartItem[]>([])
   const [favorites, setFavorites] = useState<string[]>([])
   const [ready, setReady] = useState(false)
-  const [catalog, setCatalog] = useState<ShopProduct[]>(SHOP_PRODUCTS)
+  const [catalog, setCatalog] = useState<ShopProduct[]>([])
 
   useEffect(() => {
     const legacy = window.localStorage.getItem('tdyu-shop-cart-v1')
@@ -86,7 +85,7 @@ export function ShopCartProvider({ children }: { children: ReactNode }) {
       .then((r) => r.json())
       .then((d) => {
         if (!d || !Array.isArray(d.items)) return
-        setCatalog(overlayList(SHOP_PRODUCTS, d.items, d.suppressed, (p: ShopProduct) => p.slug))
+        setCatalog(d.items as ShopProduct[])
       })
       .catch(() => {})
   }, [])
@@ -98,7 +97,7 @@ export function ShopCartProvider({ children }: { children: ReactNode }) {
   }, [items, favorites, ready])
 
   const findProduct = useCallback(
-    (slug: string) => catalog.find((p) => p.slug === slug) || getShopProduct(slug),
+    (slug: string) => catalog.find((p) => p.slug === slug),
     [catalog],
   )
 

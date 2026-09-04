@@ -1,9 +1,9 @@
 import Image from 'next/image'
 import { Link } from '@/i18n/navigation'
 import type { Locale } from '@/i18n/routing'
-import { ALUMNI_PEOPLE, localizeAlumni } from '@/content/alumni'
-import { EVENTS as ALL_EVENTS, localizeEvent } from '@/content/events'
-import { NEWS_POSTS, localizePost } from '@/content/news'
+import { localizeAlumni, type AlumniPerson } from '@/content/alumni'
+import { localizeEvent, type EventItem } from '@/content/events'
+import { localizePost, type NewsPost } from '@/content/news'
 import { PageHero } from './PageHero'
 import { loc } from './loc'
 import { AlumniMapGate } from './AlumniMapGate'
@@ -65,9 +65,6 @@ const GALLERY = [
   '/media/alumni/e-sports-img6-min.jpg',
 ] as const
 
-const HOME_EVENTS = ALL_EVENTS.slice(0, 4)
-const HOME_NEWS = NEWS_POSTS.slice(0, 4)
-
 function CalIcon() {
   return (
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" aria-hidden>
@@ -114,9 +111,21 @@ function EyebrowIcon() {
   )
 }
 
-export function AlumniView({ locale, people = ALUMNI_PEOPLE }: { locale: Locale; people?: typeof ALUMNI_PEOPLE }) {
+export function AlumniView({
+  locale,
+  people,
+  events = [],
+  news = [],
+}: {
+  locale: Locale
+  people: AlumniPerson[]
+  events?: EventItem[]
+  news?: NewsPost[]
+}) {
   const bullets = STORY_BULLETS[locale]
   const viewProfile = loc(locale, 'Profilni ko‘rish', 'Смотреть профиль', 'View profile')
+  const HOME_EVENTS = events.slice(0, 4)
+  const HOME_NEWS = news.slice(0, 4)
 
   return (
     <>

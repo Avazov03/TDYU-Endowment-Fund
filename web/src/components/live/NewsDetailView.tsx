@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import { Link } from '@/i18n/navigation'
 import type { Locale } from '@/i18n/routing'
-import { getAdjacentNews, localizePost, type NewsPost } from '@/content/news'
+import { localizePost, type NewsPost } from '@/content/news'
 import { PageHero } from './PageHero'
 import { NewsSidebar } from './NewsSidebar'
 import { loc } from './loc'
@@ -33,9 +33,19 @@ function CommentIcon() {
 }
 
 /** Dump blog single — PageHero + alumni-shell (content + sticky sidebar) */
-export function NewsDetailView({ locale, post }: { locale: Locale; post: NewsPost }) {
+export function NewsDetailView({
+  locale,
+  post,
+  posts = [],
+}: {
+  locale: Locale
+  post: NewsPost
+  posts?: NewsPost[]
+}) {
   const L = localizePost(post, locale)
-  const { prev, next } = getAdjacentNews(post.slug)
+  const i = posts.findIndex((p) => p.slug === post.slug)
+  const prev = i > 0 ? posts[i - 1]! : null
+  const next = i >= 0 && i < posts.length - 1 ? posts[i + 1]! : null
   const prevL = prev ? localizePost(prev, locale) : null
   const nextL = next ? localizePost(next, locale) : null
 
@@ -129,7 +139,7 @@ export function NewsDetailView({ locale, post }: { locale: Locale; post: NewsPos
             </div>
           </article>
 
-          <NewsSidebar locale={locale} cat={post.tag} mode="links" />
+          <NewsSidebar locale={locale} cat={post.tag} mode="links" posts={posts} />
         </div>
       </section>
     </>

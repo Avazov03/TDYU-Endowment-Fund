@@ -6,7 +6,6 @@ import { Link, useRouter } from '@/i18n/navigation'
 import type { Locale } from '@/i18n/routing'
 import {
   NEWS_CATEGORIES,
-  NEWS_POSTS,
   localizePost,
   type NewsPost,
 } from '@/content/news'
@@ -37,6 +36,7 @@ export function NewsSidebar({
   cat,
   onCatChange,
   mode = 'filter',
+  posts = [],
 }: {
   locale: Locale
   query?: string
@@ -45,12 +45,13 @@ export function NewsSidebar({
   onCatChange?: (v: string | null) => void
   /** filter = client archive; links = detail page → /news?… */
   mode?: 'filter' | 'links'
+  posts?: NewsPost[]
 }) {
   const router = useRouter()
   const [localQuery, setLocalQuery] = useState(queryProp ?? '')
   const query = onQueryChange ? (queryProp ?? '') : localQuery
   const setQuery = onQueryChange ?? setLocalQuery
-  const recent = NEWS_POSTS.slice(0, 3)
+  const recent = posts.slice(0, 3)
 
   function submitSearch(e: React.FormEvent) {
     e.preventDefault()
@@ -86,7 +87,7 @@ export function NewsSidebar({
               {mode === 'links' ? (
                 <Link href="/news" className={['alumni-cat', cat === null ? 'is-active' : ''].filter(Boolean).join(' ')}>
                   <span>{loc(locale, 'Barchasi', 'Все', 'All')}</span>
-                  <span>({NEWS_POSTS.length})</span>
+                  <span>({posts.length})</span>
                 </Link>
               ) : (
                 <button
@@ -95,13 +96,14 @@ export function NewsSidebar({
                   onClick={() => onCatChange?.(null)}
                 >
                   <span>{loc(locale, 'Barchasi', 'Все', 'All')}</span>
-                  <span>({NEWS_POSTS.length})</span>
+                  <span>({posts.length})</span>
                 </button>
               )}
             </li>
             {NEWS_CATEGORIES.map((c) => {
               const label = locale === 'ru' ? c.ru : locale === 'en' ? c.en : c.uz
               const active = cat === c.key
+              const count = posts.filter((p) => p.tag === c.key).length
               if (mode === 'links') {
                 return (
                   <li key={c.key}>
@@ -110,7 +112,7 @@ export function NewsSidebar({
                       className={['alumni-cat', active ? 'is-active' : ''].filter(Boolean).join(' ')}
                     >
                       <span>{label}</span>
-                      <span>({c.count})</span>
+                      <span>({count})</span>
                     </Link>
                   </li>
                 )
@@ -123,7 +125,7 @@ export function NewsSidebar({
                     onClick={() => onCatChange?.(active ? null : c.key)}
                   >
                     <span>{label}</span>
-                    <span>({c.count})</span>
+                    <span>({count})</span>
                   </button>
                 </li>
               )
