@@ -188,7 +188,7 @@ export function AlumniMap({ locale }: { locale: Locale }) {
                   mouseOver() {
                     // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     const pt = this as any
-                    const key = String(pt['hc-key'] || '').toLowerCase()
+                    const key = String(pt['hc-key'] || '').toLowerCase() as AlumniCountryId
                     const has = byCountryRef.current.has(key)
                     if (pt.graphic) {
                       pt.graphic.attr({ fill: has ? '#f59a23' : '#c5dce8' })
@@ -197,7 +197,7 @@ export function AlumniMap({ locale }: { locale: Locale }) {
                   mouseOut() {
                     // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     const pt = this as any
-                    const key = String(pt['hc-key'] || '').toLowerCase()
+                    const key = String(pt['hc-key'] || '').toLowerCase() as AlumniCountryId
                     const has = byCountryRef.current.has(key)
                     if (pt.graphic) {
                       pt.graphic.attr({ fill: has ? pt.color || '#0C5776' : '#eef2f5' })
