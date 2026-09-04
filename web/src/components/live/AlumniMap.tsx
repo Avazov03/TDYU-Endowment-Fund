@@ -87,7 +87,7 @@ export function AlumniMap({ locale }: { locale: Locale }) {
           chart: {
             map: topology,
             backgroundColor: '#ffffff',
-            height: null,
+            height: undefined,
             spacing: [16, 16, 16, 16],
             style: { fontFamily: 'Inter, system-ui, sans-serif' },
           },
@@ -212,7 +212,7 @@ export function AlumniMap({ locale }: { locale: Locale }) {
               },
             },
           ],
-        })
+        } as never)
 
         chartApi.current = chart
         setMapReady(true)
