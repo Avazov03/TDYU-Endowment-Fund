@@ -4,11 +4,22 @@ import { ALUMNI_PEOPLE, getAlumni, type AlumniPerson } from '@/content/alumni'
 import { BOARD_DETAIL, getBoardMember, type BoardMember } from '@/content/board'
 import { SHOP_PRODUCTS, getShopProduct, type ShopProduct } from '@/content/shop'
 import { overlayItem, overlayList } from '@/lib/cms-merge'
+import type { Locale } from '@/i18n/routing'
 
 const API = process.env.API_ORIGIN || 'http://127.0.0.1:8787'
 
 type OverlayList<T> = { items?: T[]; suppressed?: string[] }
 type OverlayItem<T> = { item?: T | null; suppressed?: boolean }
+
+export type ContentBlockMap = Record<string, { title?: string | null; body?: string; page?: string | null }>
+
+export type PublicAnnouncement = {
+  id: string
+  title: string
+  excerpt?: string | null
+  dateLabel?: string | null
+  lang: string
+}
 
 async function readJson<T>(path: string): Promise<T | null> {
   try {
@@ -18,6 +29,29 @@ async function readJson<T>(path: string): Promise<T | null> {
   } catch {
     return null
   }
+}
+
+export async function loadContent(locale: Locale): Promise<ContentBlockMap> {
+  return (await readJson<ContentBlockMap>(`/content?lang=${locale}`)) || {}
+}
+
+export async function loadAnnouncements(locale: Locale): Promise<PublicAnnouncement[]> {
+  return (await readJson<PublicAnnouncement[]>(`/announcements?lang=${locale}`)) || []
+}
+
+/** Home KPI strip — admin ContentBlock keys stats.1…stats.5 */
+export function homeStatsFromContent(
+  content: ContentBlockMap,
+  fallback: readonly { n: string; l: string }[],
+): { n: string; l: string }[] {
+  return [1, 2, 3, 4, 5].map((i) => {
+    const row = content[`stats.${i}`]
+    const fb = fallback[i - 1]!
+    return {
+      n: (row?.title || fb.n).trim() || fb.n,
+      l: (row?.body || fb.l).trim() || fb.l,
+    }
+  })
 }
 
 function slugOf<T extends { slug: string }>(row: T) {

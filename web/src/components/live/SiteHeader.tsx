@@ -112,14 +112,7 @@ export function SiteHeader() {
       <div className="relative overflow-visible">
         <div className={`live-wrap site-navrow flex items-center justify-between overflow-visible ${locale === 'ru' ? 'site-navrow--ru min-h-[106px]' : ''}`}>
           <Link href="/" className="site-logo shrink-0" onClick={() => setOpen(false)}>
-            <BrandLogo
-              variant="lockup"
-              alt="TDYU Endowment Fund"
-              width={260}
-              height={56}
-              className="block h-[56px] w-auto max-w-[280px] object-contain object-left"
-              priority
-            />
+            <BrandLogo variant="header" locale={locale} priority />
           </Link>
 
           <nav

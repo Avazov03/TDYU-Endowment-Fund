@@ -5,23 +5,42 @@ import { createPortal } from 'react-dom'
 import Image from 'next/image'
 import { Link } from '@/i18n/navigation'
 import type { Locale } from '@/i18n/routing'
-import { NEWS_POSTS, localizePost } from '@/content/news'
+import type { PublicAnnouncement } from '@/lib/cms-source'
 
 const YT = 'KIgz0XGDJZw'
 
-const NOTE_SLUGS = ['tsul-shop', 'turk-dunyosi-kongressi', 'grant-arizalari'] as const
+export type HomeHeroNote = { slug: string; t: string; date: string; excerpt: string }
 
 function loc(locale: Locale, uz: string, ru: string, en: string) {
   return locale === 'ru' ? ru : locale === 'en' ? en : uz
 }
 
-export function HomeHero({ locale }: { locale: Locale }) {
+export function HomeHero({
+  locale,
+  notes,
+  announcements = [],
+}: {
+  locale: Locale
+  notes: HomeHeroNote[]
+  announcements?: PublicAnnouncement[]
+}) {
   const [play, setPlay] = useState(false)
-  const notes = NOTE_SLUGS.map((slug) => {
-    const post = NEWS_POSTS.find((p) => p.slug === slug)!
-    const L = localizePost(post, locale)
-    return { slug, t: L.title, date: L.date, excerpt: L.excerpt }
-  })
+  const items =
+    announcements.length > 0
+      ? announcements.map((a) => ({
+          key: a.id,
+          href: '/news' as const,
+          t: a.title,
+          date: a.dateLabel || '',
+          excerpt: a.excerpt || '',
+        }))
+      : notes.map((n) => ({
+          key: n.slug,
+          href: `/news/${n.slug}` as const,
+          t: n.t,
+          date: n.date,
+          excerpt: n.excerpt,
+        }))
   const videoTitle = loc(locale, 'TDYU haqida xorijiy talabalar fikri', 'Мнение иностранных студентов о ТГЮУ', 'International students on TSUL')
 
   return (
@@ -78,28 +97,30 @@ export function HomeHero({ locale }: { locale: Locale }) {
             {loc(locale, 'E’lonlar', 'Объявления', 'Announcements')}
           </h2>
           <ul className="m-0 p-0 list-none flex-1">
-            {notes.map((n, i) => {
-              const last = i === notes.length - 1
+            {items.map((n, i) => {
+              const last = i === items.length - 1
               return (
                 <li
-                  key={n.t}
+                  key={n.key}
                   style={{
                     paddingBottom: last ? 8 : 13.5,
                     marginBottom: last ? 12 : 13.5,
                     borderBottom: last ? 'none' : '1px solid rgba(255, 255, 255, 0.15)',
                   }}
                 >
-                  <Link href={`/news/${n.slug}`} className="block">
+                  <Link href={n.href} className="block">
                     <strong className="block font-[Bitter,Georgia,serif] text-[17px] leading-5 font-semibold !text-white" style={{ marginBottom: 8 }}>
                       {n.t}
                     </strong>
-                    <span className="flex items-center text-[14px] leading-5 text-white/80">
-                      <svg className="block" width="14" height="14" viewBox="0 0 448 512" fill="currentColor" aria-hidden style={{ marginRight: 8 }}>
-                        <path d="M148 288h-40c-6.6 0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12zm108-12v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm-96 96v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm-96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm192 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm96-260v352c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h48V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h128V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h48c26.5 0 48 21.5 48 48zm-48 346V160H48v298c0 3.3 2.7 6 6 6h340c3.3 0 6-2.7 6-6z" />
-                      </svg>
-                      {n.date}
-                    </span>
-                    <span className="block mt-1 text-[13px] leading-5 text-white/70">{n.excerpt}</span>
+                    {n.date ? (
+                      <span className="flex items-center text-[14px] leading-5 text-white/80">
+                        <svg className="block" width="14" height="14" viewBox="0 0 448 512" fill="currentColor" aria-hidden style={{ marginRight: 8 }}>
+                          <path d="M148 288h-40c-6.6 0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12zm108-12v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm-96 96v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm-96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm192 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm96-260v352c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h48V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h128V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h48c26.5 0 48 21.5 48 48zm-48 346V160H48v298c0 3.3 2.7 6 6 6h340c3.3 0 6-2.7 6-6z" />
+                        </svg>
+                        {n.date}
+                      </span>
+                    ) : null}
+                    {n.excerpt ? <span className="block mt-1 text-[13px] leading-5 text-white/70">{n.excerpt}</span> : null}
                   </Link>
                 </li>
               )

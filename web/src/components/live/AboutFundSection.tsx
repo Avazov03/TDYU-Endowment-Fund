@@ -7,22 +7,16 @@ const COPY = {
   uz: {
     eyebrow: 'Fond haqida',
     lead: 'TDYU Endowment Fund — a’zoligi bo‘lmagan jamoat fondi. Maqsadi: TDYU xodimlari va talabalari uchun grant, stipendiya va xalqaro imkoniyatlar.',
-    statTitle: '31 loyiha',
-    statDesc: 'Amalga oshirilgan loyihalar va xalqaro tashabbuslar.',
     more: 'Batafsil',
   },
   ru: {
     eyebrow: 'О фонде',
     lead: 'TDYU Endowment Fund — общественный фонд без членства. Цель: гранты, стипендии и международные возможности для сотрудников и студентов ТГЮУ.',
-    statTitle: '31 проект',
-    statDesc: 'Реализованные проекты и международные инициативы.',
     more: 'Подробнее',
   },
   en: {
     eyebrow: 'About the fund',
     lead: 'TDYU Endowment Fund is a public fund without membership. Its goal: grants, scholarships and international opportunities for TSUL staff and students.',
-    statTitle: '31 projects',
-    statDesc: 'Completed projects and international initiatives.',
     more: 'Read more',
   },
 } as const
@@ -48,7 +42,15 @@ function ButtonDotsIcon() {
   )
 }
 
-export function AboutFundSection({ locale }: { locale: Locale }) {
+export function AboutFundSection({
+  locale,
+  statTitle,
+  statDesc,
+}: {
+  locale: Locale
+  statTitle: string
+  statDesc: string
+}) {
   const c = getContent(locale)
   const t = COPY[locale]
 
@@ -92,13 +94,14 @@ export function AboutFundSection({ locale }: { locale: Locale }) {
                 className="relative z-[5] mb-0 mt-10 h-auto w-[min(268px,44vw)] rounded-2xl object-cover sm:mt-14"
               />
 
-              <div className="absolute left-1/2 top-1/2 z-[6] -translate-x-1/2 -translate-y-1/2 rounded-full bg-sky p-5 shadow-[0_8px_30px_rgba(0,0,0,0.15)]">
+              <div className="absolute left-1/2 top-1/2 z-[6] -translate-x-1/2 -translate-y-1/2 flex h-[108px] w-[108px] items-center justify-center overflow-hidden rounded-full bg-white shadow-[0_8px_30px_rgba(0,0,0,0.16)]">
                 <Image
-                  src="/brand/endowment-seal-white.png"
+                  src="/brand/endowment-seal.png"
                   alt=""
-                  width={90}
-                  height={90}
-                  className="h-[90px] w-[90px] object-contain"
+                  width={108}
+                  height={108}
+                  className="h-full w-full scale-[1.28] object-contain"
+                  unoptimized
                 />
               </div>
             </div>
@@ -138,8 +141,8 @@ export function AboutFundSection({ locale }: { locale: Locale }) {
                   unoptimized
                 />
                 <div className="min-w-0">
-                  <h3 className="mb-2.5 text-lg font-bold leading-snug !text-white">{t.statTitle}</h3>
-                  <p className="m-0 text-[15px] leading-6 text-white">{t.statDesc}</p>
+                  <h3 className="mb-2.5 text-lg font-bold leading-snug !text-white">{statTitle}</h3>
+                  <p className="m-0 text-[15px] leading-6 text-white">{statDesc}</p>
                 </div>
               </div>
             </div>

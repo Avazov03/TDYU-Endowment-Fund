@@ -185,10 +185,10 @@ export function SupportView({ locale }: { locale: Locale }) {
               </div>
               <div className="support-process-seal" aria-hidden>
                 <Image
-                  src="/media/support/marquee-logo.png"
+                  src="/brand/endowment-seal.png"
                   alt=""
-                  width={140}
-                  height={140}
+                  width={148}
+                  height={148}
                   className="h-full w-full object-contain"
                   unoptimized
                 />

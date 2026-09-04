@@ -128,7 +128,7 @@ export function ProgramsView({ locale }: { locale: Locale }) {
       <PageHero
         image="/media/page-bnr-img22-min.jpg"
         height={413}
-        deco="/brand/endowment-seal.png"
+        deco="/media/programs/bnr-arrow-1-1.png"
         title={loc(locale, 'Dasturlar', 'Программы', 'Programs')}
         lead={loc(
           locale,

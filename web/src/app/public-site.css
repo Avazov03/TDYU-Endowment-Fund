@@ -321,14 +321,116 @@
   height: auto;
 }
 
-.live-root .site-logo img {
+.live-root .site-logo {
+  display: inline-flex;
+  align-items: center;
+  max-width: min(420px, 46vw);
+  text-decoration: none;
+}
+
+/* Brand lockup — header: katta muhr + haqiqiy matn; boshqa joylar: kichik */
+.brand-lockup {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.brand-seal {
+  display: block;
+  flex-shrink: 0;
+  object-fit: contain;
+  transition:
+    width 0.35s ease,
+    height 0.35s ease;
+}
+
+.brand-lockup.is-header .brand-seal {
+  width: 114px;
+  height: 114px;
+}
+
+.brand-lockup.is-compact .brand-seal {
+  width: 84px;
+  height: 84px;
+}
+
+.brand-title {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+  font-family: Inter, system-ui, sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  text-align: right;
+  line-height: 1.12;
+  color: #0c2f55;
+}
+
+.brand-lockup.is-white .brand-title {
+  color: #fff;
+}
+
+.brand-lockup.is-header .brand-title {
+  font-size: clamp(10px, 1.05vw, 12.5px);
+  gap: 1px;
+}
+
+.brand-lockup.is-compact .brand-title {
+  font-size: 9px;
+  line-height: 1.15;
+  gap: 0;
+  max-width: 168px;
+}
+
+.brand-title-line {
+  display: block;
+  white-space: nowrap;
+}
+
+.live-root .site-chrome.is-compact .brand-lockup.is-header .brand-seal {
+  width: 85px !important;
+  height: 85px !important;
+}
+
+.live-root .site-chrome.is-compact .brand-lockup.is-header .brand-title {
+  font-size: 9px;
+}
+
+.live-root .site-logo .brand-seal {
   transition: height 0.35s ease, width 0.35s ease;
 }
 
-.live-root .site-chrome.is-compact .site-logo img {
-  height: 44px !important;
-  width: auto !important;
-  max-width: 220px;
+@media (max-width: 900px) {
+  .brand-lockup.is-header .brand-seal {
+    width: 82px;
+    height: 82px;
+  }
+
+  .brand-lockup.is-header .brand-title {
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 640px) {
+  .live-root .site-logo {
+    max-width: min(280px, 72vw);
+  }
+
+  .brand-lockup.is-header {
+    gap: 8px;
+  }
+
+  .brand-lockup.is-header .brand-seal {
+    width: 64px;
+    height: 64px;
+  }
+
+  .brand-lockup.is-header .brand-title {
+    font-size: 8px;
+  }
 }
 
 .live-root .site-chrome.is-compact .live-nav {
@@ -2579,11 +2681,20 @@
 }
 
 .live-root .site-footer-logo {
-  display: block;
-  width: auto;
-  max-width: 184px;
-  height: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
   margin-bottom: 20px;
+}
+
+.live-root .site-footer-logo.brand-lockup.is-compact .brand-seal {
+  width: 104px;
+  height: 104px;
+}
+
+.live-root .site-footer-logo.brand-lockup.is-compact .brand-title {
+  max-width: 150px;
+  font-size: 8.5px;
 }
 
 .live-root .site-footer-contacts {
@@ -3068,15 +3179,27 @@
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  width: 120px;
-  height: 120px;
+  width: 168px;
+  height: 168px;
   z-index: 2;
   pointer-events: none;
-  filter: drop-shadow(0 8px 24px rgba(12, 87, 118, 0.25));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  box-sizing: border-box;
+  border-radius: 999px;
+  background: #fff;
+  box-shadow: 0 10px 28px rgba(12, 87, 118, 0.22);
+  overflow: hidden;
+  filter: none;
 }
 
 .live-root .about-photos-seal img {
-  mix-blend-mode: multiply;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transform: scale(1.28);
 }
 
 .live-root .about-counters {
@@ -3338,8 +3461,8 @@
   }
 
   .live-root .about-photos-seal {
-    width: 88px;
-    height: 88px;
+    width: 128px;
+    height: 128px;
   }
 
   .live-root .about-counters {
@@ -4332,12 +4455,26 @@
   top: 0;
   left: 50%;
   transform: translateX(-50%);
-  width: 120px;
-  height: 120px;
+  width: 148px;
+  height: 148px;
   border-radius: 999px;
   overflow: hidden;
-  box-shadow: 0 10px 30px rgba(12, 87, 118, 0.25);
+  background: #fff;
+  box-shadow: 0 12px 32px rgba(12, 87, 118, 0.24);
   z-index: 2;
+  padding: 0;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.live-root .support-process-seal img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  transform: scale(1.28);
 }
 
 .live-root .support-process-steps {
@@ -4492,8 +4629,9 @@
   }
 
   .live-root .support-process-seal {
-    width: 96px;
-    height: 96px;
+    width: 112px;
+    height: 112px;
+    padding: 0;
   }
 }
 
@@ -4531,18 +4669,29 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 90px;
-  height: 90px;
+  width: 140px;
+  height: 140px;
   z-index: 2;
   pointer-events: none;
   line-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  box-sizing: border-box;
+  border-radius: 999px;
+  background: #fff;
+  box-shadow: 0 10px 28px rgba(12, 87, 118, 0.22);
+  overflow: hidden;
 }
 
 .live-root .legal-gallery-seal img {
   display: block;
-  width: 90px;
-  height: 90px;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
   max-width: none;
+  transform: scale(1.28);
 }
 
 .live-root .legal-intro-title {
@@ -4739,9 +4888,15 @@
   }
 
   .live-root .legal-gallery-seal {
-    width: 72px;
-    height: 72px;
+    width: 110px;
+    height: 110px;
     top: calc(50% - 10px);
+    padding: 0;
+  }
+
+  .live-root .legal-gallery-seal img {
+    width: 100%;
+    height: 100%;
   }
 
   .live-root .legal-laws-card,
@@ -6344,9 +6499,9 @@
 }
 
 .live-root .grants-help-logo {
-  width: 72px;
-  height: 72px;
-  margin-bottom: 18px;
+  width: 36px;
+  height: 36px;
+  margin-bottom: 14px;
   object-fit: contain;
 }
 

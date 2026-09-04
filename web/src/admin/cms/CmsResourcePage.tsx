@@ -136,7 +136,7 @@ export function CmsResourcePage({ config }: { config: CmsConfig }) {
 
   async function onImport() {
     if (!config.importType || !config.importItems?.length) return
-            if (!confirm(`Saytdagi joriy ${config.importItems.length} ta yozuv admin’ga ko‘chirilsinmi? Mavjud slug’lar yangilanadi. Yangi yozuvlar saytdagi qolganlar ustiga qo‘shiladi — katalog yo‘qolmaydi.`)) return
+            if (!confirm(`Mavjud ${config.importItems.length} ta yozuv admin bazasiga ko‘chirilsinmi? Matn o‘zgarmaydi — slug bo‘yicha yangilanadi.`)) return
     setImporting(true)
     setError('')
     try {
@@ -144,7 +144,7 @@ export function CmsResourcePage({ config }: { config: CmsConfig }) {
         method: 'POST',
         body: JSON.stringify({ type: config.importType, items: config.importItems }),
       })
-      setMsg(`${res.count} ta yozuv yuklandi`)
+      setMsg(`${res.count} ta yozuv admin’ga ko‘chirildi`)
       load()
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Import xato')
@@ -165,7 +165,7 @@ export function CmsResourcePage({ config }: { config: CmsConfig }) {
         <div className="toolbar">
           {config.importType && config.importItems?.length ? (
             <button type="button" className="btn ghost" onClick={onImport} disabled={importing}>
-              {importing ? 'Ko‘chirilmoqda…' : `Saytdan ${config.importItems.length} ta yuklash`}
+              {importing ? 'Ko‘chirilmoqda…' : `Mavjud ${config.importItems.length} tasini adminga ko‘chir`}
             </button>
           ) : null}
           <button type="button" className="btn" onClick={openNew}>

@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import type { FormEvent } from 'react'
 import { useRouter } from 'next/navigation'
+import { BrandLogo } from '@/components/live/BrandLogo'
 import { api, setToken } from '../api'
 
 export default function LoginPage() {
@@ -44,7 +45,7 @@ export default function LoginPage() {
       </section>
       <div className="login-form-wrap">
         <form className="login-card" onSubmit={onSubmit}>
-          <img src="/brand/endowment-logo-lockup.png" alt="TDYU" style={{ height: 48, marginBottom: 14, width: 'auto', maxWidth: 240, objectFit: 'contain' }} />
+                    <BrandLogo variant="footer" locale="uz" alt="TDYU" className="admin-login-brand" />
           <h1>Admin kirish</h1>
           <p className="sub">Hisobingizga kiring va boshqaruvni davom ettiring</p>
           {error ? <div className="error">{error}</div> : null}

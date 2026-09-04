@@ -4,8 +4,7 @@ import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { Link } from '@/i18n/navigation'
 import type { Locale } from '@/i18n/routing'
-import { BOARD_MEMBERS, BoardMemberCard } from './BoardView'
-import { BOARD_DETAIL } from '@/content/board'
+import { BoardMemberCard } from './BoardView'
 
 const COPY = {
   uz: { eyebrow: 'Jamoa', title: 'Boshqaruv va kengash', more: 'Barchasini ko‘rish' },
@@ -51,8 +50,14 @@ function useVisible() {
   return visible
 }
 
-export function TeamStrip({ locale }: { locale: Locale }) {
-  const items = BOARD_MEMBERS[locale]
+export function TeamStrip({
+  locale,
+  members,
+}: {
+  locale: Locale
+  members: { id: string; slug: string; img: string; t: string; r: string }[]
+}) {
+  const items = members
   const copy = COPY[locale]
   const visible = useVisible()
   const max = Math.max(0, items.length - visible)
@@ -111,7 +116,7 @@ export function TeamStrip({ locale }: { locale: Locale }) {
           >
             {items.map((member) => (
               <div key={member.id} className="box-border shrink-0 px-2.5" style={{ width: `${100 / visible}%` }}>
-                <BoardMemberCard member={member} href={`/board/${BOARD_DETAIL.find((d) => d.id === member.id)?.slug || member.id}`} />
+                <BoardMemberCard member={member} href={`/board/${member.slug || member.id}`} />
               </div>
             ))}
           </div>

@@ -5,7 +5,6 @@ import { createPortal } from 'react-dom'
 import Image from 'next/image'
 import { Link } from '@/i18n/navigation'
 import type { Locale } from '@/i18n/routing'
-import { EVENTS as ALL_EVENTS, localizeEvent } from '@/content/events'
 
 const ALUMNI_VIDEO = 'v-Z3jc0-LhU'
 
@@ -16,14 +15,6 @@ const COPY = {
     eventsTitle: 'Fond tadbirlari',
     eventsCta: 'Barcha tadbirlar',
     videoTitle: 'TDYU haqida xorijiy talabalar fikri',
-    date: 'Avgust 4, 2025',
-    time: '09:00 AM - 03:40 PM',
-    events: [
-      { title: 'Philip C. Jessup Moot Court', location: 'MIOT, USA' },
-      { title: 'Westminster Teaching & Learning', location: 'ICL, UK' },
-      { title: 'TSUL SHOP infratuzilmasi', location: 'Stanford Universiteti, AQSH' },
-      { title: 'Xorijiy stajirovka dasturlari', location: 'Harvard Universiteti, AQSH' },
-    ],
   },
   ru: {
     alumniTitle: 'Alumni',
@@ -31,14 +22,6 @@ const COPY = {
     eventsTitle: 'События фонда',
     eventsCta: 'Все события',
     videoTitle: 'Мнение иностранных студентов о ТГЮУ',
-    date: '4 августа 2025',
-    time: '09:00 AM - 03:40 PM',
-    events: [
-      { title: 'Philip C. Jessup Moot Court', location: 'MIOT, USA' },
-      { title: 'Westminster Teaching & Learning', location: 'ICL, UK' },
-      { title: 'TSUL SHOP', location: 'Стэнфордский университет, США' },
-      { title: 'Зарубежные стажировки', location: 'Harvard University, USA' },
-    ],
   },
   en: {
     alumniTitle: 'Alumni',
@@ -46,16 +29,17 @@ const COPY = {
     eventsTitle: 'Fund events',
     eventsCta: 'All events',
     videoTitle: 'International students on TSUL',
-    date: 'August 4, 2025',
-    time: '09:00 AM - 03:40 PM',
-    events: [
-      { title: 'Philip C. Jessup Moot Court', location: 'MIOT, USA' },
-      { title: 'Westminster Teaching & Learning', location: 'ICL, UK' },
-      { title: 'TSUL SHOP infrastructure', location: 'Stanford University, USA' },
-      { title: 'Overseas internship programmes', location: 'Harvard University, USA' },
-    ],
   },
 } as const
+
+export type HomeEventCard = {
+  slug: string
+  title: string
+  location: string
+  date: string
+  time: string
+  img: string
+}
 
 const THUMBS = [
   '/media/home/alumni-thumb-1.jpg',
@@ -166,7 +150,7 @@ function VideoModal({ open, title, videoId, onClose }: { open: boolean; title: s
   )
 }
 
-export function AlumniEventsSection({ locale }: { locale: Locale }) {
+export function AlumniEventsSection({ locale, events }: { locale: Locale; events: HomeEventCard[] }) {
   const t = COPY[locale]
   const [play, setPlay] = useState(false)
 
@@ -241,8 +225,7 @@ export function AlumniEventsSection({ locale }: { locale: Locale }) {
           </div>
 
           <div className="alumni-events-grid">
-            {ALL_EVENTS.slice(0, 4).map((event, i) => {
-              const L = localizeEvent(event, locale)
+            {events.map((event, i) => {
               const href = `/events/${event.slug}`
               return (
                 <article key={event.slug} className="alumni-events-card">
@@ -253,20 +236,22 @@ export function AlumniEventsSection({ locale }: { locale: Locale }) {
                     <div className="alumni-events-meta">
                       <span>
                         <CalendarIcon />
-                        {L.date}
+                        {event.date}
                       </span>
-                      <span>
-                        <ClockIcon />
-                        {L.time}
-                      </span>
+                      {event.time ? (
+                        <span>
+                          <ClockIcon />
+                          {event.time}
+                        </span>
+                      ) : null}
                     </div>
                     <h4 className="alumni-events-card-title">
-                      <Link href={href}>{L.title}</Link>
+                      <Link href={href}>{event.title}</Link>
                     </h4>
                     <div className="alumni-events-meta alumni-events-meta--location">
                       <span>
                         <MapIcon />
-                        {L.loc}
+                        {event.location}
                       </span>
                     </div>
                   </div>

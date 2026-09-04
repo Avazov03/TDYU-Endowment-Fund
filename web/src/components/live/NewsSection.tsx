@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import { Link } from '@/i18n/navigation'
 import type { Locale } from '@/i18n/routing'
-import { NEWS_POSTS, localizePost } from '@/content/news'
+import { localizePost, type NewsPost } from '@/content/news'
 
 const COPY = {
   uz: {
@@ -71,10 +71,10 @@ function UserIcon() {
   )
 }
 
-/** Dump home news strip — first 3 posts → /news/[slug] */
-export function NewsSection({ locale }: { locale: Locale }) {
+/** Home news strip — CMS/API posts (fallback handled by parent loadNews) */
+export function NewsSection({ locale, posts }: { locale: Locale; posts: NewsPost[] }) {
   const t = COPY[locale]
-  const items = NEWS_POSTS.slice(0, 3)
+  const items = posts.slice(0, 3)
 
   return (
     <section className="news-section" aria-labelledby="news-section-heading">

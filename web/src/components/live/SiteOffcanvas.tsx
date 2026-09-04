@@ -82,7 +82,7 @@ export function SiteOffcanvas({
 
         <div className="px-8 pt-16 pb-10">
           <Link href="/" onClick={onClose} className="inline-block mb-5">
-            <BrandLogo variant="lockupWhite" alt={brand.name} width={220} height={48} className="h-[52px] w-auto object-contain object-left" />
+            <BrandLogo variant="footerWhite" locale={locale} alt={brand.name} />
           </Link>
           <p className="text-[15px] leading-6 text-white/85 mb-8">
             {t(

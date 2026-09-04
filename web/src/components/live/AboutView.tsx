@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import { Link } from '@/i18n/navigation'
 import type { Locale } from '@/i18n/routing'
+import { homeStatsFromContent, loadContent } from '@/lib/cms-source'
 import { PageHero } from './PageHero'
 import { GalleryStrip } from './GalleryStrip'
 import { AboutTestimonials } from './AboutTestimonials'
@@ -71,7 +72,21 @@ function QuoteMark() {
   )
 }
 
-export function AboutView({ locale }: { locale: Locale }) {
+export async function AboutView({ locale }: { locale: Locale }) {
+  const content = await loadContent(locale)
+  const stats = homeStatsFromContent(content, [
+    { n: '31', l: loc(locale, 'Loyihalar', 'Проекты', 'Projects') },
+    { n: '24', l: loc(locale, 'Mutaxassislar', 'Специалисты', 'Specialists') },
+    { n: '400', l: loc(locale, 'Tashabbuslar', 'Инициативы', 'Initiatives') },
+    { n: '18', l: loc(locale, 'Yillik tajriba', 'Лет опыта', 'Years') },
+    { n: '2023', l: loc(locale, 'Tashkil etilgan', 'Основан', 'Established') },
+  ])
+  const counters = [
+    { n: stats[0]!.n, suffix: '', l: stats[0]!.l, kind: 'projects' as const },
+    { n: stats[1]!.n, suffix: '', l: stats[1]!.l, kind: 'partners' as const },
+    { n: stats[2]!.n, suffix: '', l: stats[2]!.l, kind: 'countries' as const },
+  ]
+
   const dirs = DIRECTION_COPY[locale].map((item, i) => ({
     ...item,
     icon: DIRECTION_ICONS[i],
@@ -166,22 +181,18 @@ export function AboutView({ locale }: { locale: Locale }) {
                 </div>
               </div>
               <div className="about-photos-seal" aria-hidden>
-                <Image src="/media/about/deco.png" alt="" width={140} height={140} className="object-contain" unoptimized />
+                <Image src="/brand/endowment-seal.png" alt="" width={168} height={168} className="object-contain" unoptimized />
               </div>
             </div>
 
             <div className="about-counters">
-              {[
-                { n: '10.5', suffix: 'K', l: loc(locale, 'Loyihalar', 'Проекты', 'Projects'), kind: 'projects' as const },
-                { n: '150', suffix: '+', l: loc(locale, 'Hamkorlar', 'Партнёры', 'Partners'), kind: 'partners' as const },
-                { n: '120', suffix: '+', l: loc(locale, 'Davlatlar', 'Страны', 'Countries'), kind: 'countries' as const },
-              ].map((s) => (
+              {counters.map((s) => (
                 <div key={s.l} className="about-counter">
                   <CounterIcon kind={s.kind} />
                   <div>
                     <div className="about-counter-num">
                       {s.n}
-                      <span>{s.suffix}</span>
+                      {s.suffix ? <span>{s.suffix}</span> : null}
                     </div>
                     <div className="about-counter-label">{s.l}</div>
                   </div>

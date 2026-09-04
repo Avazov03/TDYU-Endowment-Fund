@@ -16,7 +16,7 @@ export function ProgramDetailView({ locale, program }: { locale: Locale; program
       <PageHero
         image="/media/page-bnr-img22-min.jpg"
         height={413}
-        deco="/brand/endowment-seal.png"
+        deco="/media/programs/bnr-arrow-1-1.png"
         title={L.t}
         lead={L.d}
         crumbs={[

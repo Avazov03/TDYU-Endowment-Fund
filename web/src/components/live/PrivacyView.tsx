@@ -1,4 +1,4 @@
-import Image from 'next/image'
+import { BrandLogo } from './BrandLogo'
 import { Link } from '@/i18n/navigation'
 import type { Locale } from '@/i18n/routing'
 import { loc } from './loc'
@@ -6,13 +6,12 @@ import { loc } from './loc'
 export function PrivacyView({ locale }: { locale: Locale }) {
   return (
     <div
-      className="min-h-screen font-[Maitree,Bitter,Georgia,serif] text-tdyu"
+      className="live-root min-h-screen font-[Maitree,Bitter,Georgia,serif] text-tdyu"
       style={{ backgroundImage: 'linear-gradient(180deg, #f6f4ee 0%, #eef6f8 100%)' }}
     >
       <div className="mx-auto max-w-[760px] px-5 pt-10 pb-20">
-        <Link href="/" className="flex items-center gap-3 mb-7 no-underline text-inherit">
-          <Image src="/brand/endowment-logo-lockup.png" alt="TDYU Endowment Fund" width={220} height={48} className="h-12 w-auto object-contain" unoptimized />
-          <span>TDYU Endowment Fund</span>
+        <Link href="/" className="inline-flex mb-7 no-underline text-inherit">
+          <BrandLogo variant="footer" locale={locale === 'ru' || locale === 'en' ? locale : 'uz'} />
         </Link>
 
         <h1 className="!font-[Maitree,Bitter,Georgia,serif] !text-tdyu !font-bold text-[32px] leading-[51.2px] mb-3">

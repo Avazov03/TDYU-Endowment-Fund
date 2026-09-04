@@ -316,10 +316,10 @@ export function LegalView({ locale }: { locale: Locale }) {
             </div>
             <div className="legal-gallery-seal" aria-hidden>
               <Image
-                src="/media/legal/cyan-m-logo1.png"
+                src="/brand/endowment-seal.png"
                 alt=""
-                width={90}
-                height={90}
+                width={140}
+                height={140}
                 unoptimized
               />
             </div>

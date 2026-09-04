@@ -86,13 +86,7 @@ export function SiteFooter({ locale }: { locale: Locale }) {
         <div className="live-wrap site-footer-inner relative z-10">
           <div className="site-footer-grid">
             <div className="site-footer-brand">
-              <BrandLogo
-                variant="lockupWhite"
-                alt={brand.name}
-                width={200}
-                height={44}
-                className="site-footer-logo h-11 w-auto object-contain object-left"
-              />
+              <BrandLogo variant="footerWhite" locale={locale} alt={brand.name} className="site-footer-logo" />
 
               {/* dump be02a0e: email + phone bir qatorda */}
               <div className="site-footer-contacts">
