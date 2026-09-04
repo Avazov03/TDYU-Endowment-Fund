@@ -165,7 +165,6 @@ function GovLightbox({
           ×
         </button>
         <div className="overflow-hidden rounded-[10px] shadow-[0_24px_80px_rgba(0,0,0,0.45)] bg-black">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={src} alt="" className="block w-full h-auto max-h-[80vh] object-contain mx-auto" />
         </div>
       </div>

@@ -136,7 +136,7 @@ export function CmsResourcePage({ config }: { config: CmsConfig }) {
 
   async function onImport() {
     if (!config.importType || !config.importItems?.length) return
-    if (!confirm(`Saytdagi joriy ${config.importItems.length} ta yozuv admin’ga ko‘chirilsinmi? Mavjud slug’lar yangilanadi.`)) return
+            if (!confirm(`Saytdagi joriy ${config.importItems.length} ta yozuv admin’ga ko‘chirilsinmi? Mavjud slug’lar yangilanadi. Yangi yozuvlar saytdagi qolganlar ustiga qo‘shiladi — katalog yo‘qolmaydi.`)) return
     setImporting(true)
     setError('')
     try {
@@ -220,7 +220,6 @@ export function CmsResourcePage({ config }: { config: CmsConfig }) {
                   <td>
                     <div className="cms-row-main">
                       {config.thumbOf?.(r) ? (
-                        // eslint-disable-next-line @next/next/no-img-element
                         <img className="cms-thumb" src={config.thumbOf(r)} alt="" />
                       ) : null}
                       <div>
@@ -251,7 +250,7 @@ export function CmsResourcePage({ config }: { config: CmsConfig }) {
                         type="button"
                         className="btn danger sm"
                         onClick={async () => {
-                          if (!confirm('O‘chirish? Saytdan ham yo‘qoladi.')) return
+                          if (!confirm('O‘chirish? Bu yozuv saytdan ham yashirinadi (statik nusxasi qaytib chiqmaydi).')) return
                           await api(`${config.path}/${r.id}`, { method: 'DELETE' })
                           load()
                         }}

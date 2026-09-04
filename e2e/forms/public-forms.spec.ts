@@ -74,6 +74,8 @@ test.describe('forms — obuna (newsletter)', () => {
     await page.goto('/uz', { waitUntil: 'domcontentloaded' })
     const form = page.locator('footer form').first()
     await form.locator('[name="email"]').fill(`e2e.home.${stamp()}@example.com`)
+    const consent = form.locator('[name="consent"]')
+    if (await consent.count()) await consent.check()
     await form.locator('button[type="submit"]').click()
     await expectFormOk(page, /Obuna qilindi/i)
   })

@@ -218,10 +218,11 @@ const announcements = [
 ]
 
 async function main() {
+  const seedDemo = process.env.SEED_DEMO_ADMIN !== 'false' && process.env.SEED_DEMO_ADMIN !== '0'
   const demoEmail = (process.env.ADMIN_EMAIL || '').trim().toLowerCase()
   const demoPassword = process.env.ADMIN_PASSWORD || ''
   const demoName = process.env.ADMIN_NAME || 'TDYU Admin'
-  if (demoEmail && demoPassword) {
+  if (seedDemo && demoEmail && demoPassword) {
     const hash = await bcrypt.hash(demoPassword, 10)
     await prisma.adminUser.upsert({
       where: { email: demoEmail },
@@ -229,6 +230,12 @@ async function main() {
       update: { passwordHash: hash, name: demoName },
     })
     console.log('Seed: operator admin', demoEmail)
+  } else if (demoEmail) {
+    const n = await prisma.adminUser.updateMany({
+      where: { email: demoEmail },
+      data: { active: false },
+    })
+    if (n.count) console.log('Seed: demo admin disabled', demoEmail)
   }
 
   const superEmail = (process.env.SUPER_ADMIN_EMAIL || '').trim().toLowerCase()

@@ -59,7 +59,6 @@ export function MediaPicker({
       <div className="media-field-row">
         <button type="button" className="media-preview" onClick={() => setOpen(true)}>
           {value ? (
-            // eslint-disable-next-line @next/next/no-img-element
             <img src={value} alt="" />
           ) : (
             <span>Rasm tanlash</span>
@@ -121,7 +120,6 @@ export function MediaPicker({
                       setOpen(false)
                     }}
                   >
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src={r.url} alt="" />
                     <span>{r.fileName}</span>
                   </button>

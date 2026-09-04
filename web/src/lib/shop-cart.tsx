@@ -2,6 +2,7 @@
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react'
 import { SHOP_PRODUCTS, getShopProduct, productSizes, type ShopProduct } from '@/content/shop'
+import { overlayList } from '@/lib/cms-merge'
 
 const CART_KEY = 'tdyu-shop-cart-v2'
 const FAV_KEY = 'tdyu-shop-fav-v1'
@@ -84,7 +85,8 @@ export function ShopCartProvider({ children }: { children: ReactNode }) {
     fetch('/api/public/shop/products')
       .then((r) => r.json())
       .then((d) => {
-        if (d?.managed && Array.isArray(d.items)) setCatalog(d.items)
+        if (!d || !Array.isArray(d.items)) return
+        setCatalog(overlayList(SHOP_PRODUCTS, d.items, d.suppressed, (p: ShopProduct) => p.slug))
       })
       .catch(() => {})
   }, [])

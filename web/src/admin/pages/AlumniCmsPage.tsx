@@ -6,7 +6,7 @@ import { CmsResourcePage, type CmsConfig } from '../cms/CmsResourcePage'
 
 const config: CmsConfig = {
   title: 'Bitiruvchilar',
-  hint: 'Ism, lavozim, rasm va mamlakat — xarita shu ma’lumotdan yangilanadi.',
+  hint: 'Yangi bitiruvchi saytdagi ro‘yxat ustiga qo‘shiladi. Ism, lavozim, rasm va mamlakat — xarita shu ma’lumotdan yangilanadi.',
   path: '/api/admin/cms/people',
   query: 'kind=alumni',
   createLabel: '+ Bitiruvchi',

@@ -7,7 +7,7 @@ const cats = SHOP_CATEGORIES.filter((c) => c.id !== 'all')
 
 const config: CmsConfig = {
   title: 'Mahsulotlar',
-  hint: 'Do‘kon katalogi: rasm, narx, ombor va uch til. Stok 0 bo‘lsa, savatga qo‘shilmaydi.',
+  hint: 'Yangi mahsulot katalog ustiga qo‘shiladi. Stok 0 bo‘lsa, savatga qo‘shilmaydi.',
   path: '/api/admin/cms/products',
   createLabel: '+ Mahsulot',
   emptyTitle: 'Mahsulot yo‘q',

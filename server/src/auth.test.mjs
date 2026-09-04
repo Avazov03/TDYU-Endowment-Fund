@@ -57,17 +57,31 @@ describe('parol hash', () => {
 })
 
 describe('authRequired middleware', () => {
-  it('Bearer token bilan next chaqiriladi', () => {
-    const token = signToken({ sub: 'a1' })
+  it('Bearer token bilan next chaqiriladi', async () => {
+    const { prisma } = await import('./db.mjs')
+    const user = await prisma.adminUser.upsert({
+      where: { email: 'auth-middleware@example.com' },
+      create: {
+        email: 'auth-middleware@example.com',
+        passwordHash: 'x',
+        name: 'Auth Test',
+        role: 'admin',
+        active: true,
+      },
+      update: { active: true },
+    })
+    const token = signToken({ sub: user.id, email: user.email, role: user.role })
     const req = { headers: { authorization: `Bearer ${token}` } }
     const res = mockRes()
     let nextCalls = 0
-    authRequired(req, res, () => {
+    await authRequired(req, res, () => {
       nextCalls += 1
     })
     expect(nextCalls).toBe(1)
-    expect(req.user.sub).toBe('a1')
+    expect(req.user.sub).toBe(user.id)
+    expect(req.admin.role).toBe('admin')
     expect(res.statusCode).toBe(200)
+    await prisma.adminUser.delete({ where: { id: user.id } })
   })
 
   it('token yo‘q — 401 Unauthorized', () => {

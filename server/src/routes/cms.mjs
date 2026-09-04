@@ -17,6 +17,7 @@ import {
   productFromImport,
   parseMoney,
 } from '../cms-util.mjs'
+import { hideSlug, unhideSlug } from '../cms-overlay.mjs'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const uploadDir = path.join(__dirname, '../../uploads/media')
@@ -111,7 +112,9 @@ router.post('/cms/events', async (req, res) => {
   try {
     const data = eventWrite(req.body || {}, null)
     data.slug = await uniqueSlug('cmsEvent', data.slug)
-    res.status(201).json(await prisma.cmsEvent.create({ data }))
+    const row = await prisma.cmsEvent.create({ data })
+    await unhideSlug('events', row.slug)
+    res.status(201).json(row)
   } catch (err) {
     fail(res, err)
   }
@@ -122,13 +125,20 @@ router.patch('/cms/events/:id', async (req, res) => {
     if (!existing) return res.status(404).json({ error: 'Not found' })
     const data = eventWrite({ ...existing, ...req.body }, existing)
     data.slug = await uniqueSlug('cmsEvent', data.slug, existing.id)
-    res.json(await prisma.cmsEvent.update({ where: { id: existing.id }, data }))
+    const row = await prisma.cmsEvent.update({ where: { id: existing.id }, data })
+    if (row.published) await unhideSlug('events', row.slug)
+    else await hideSlug('events', row.slug)
+    res.json(row)
   } catch (err) {
     fail(res, err)
   }
 })
 router.delete('/cms/events/:id', async (req, res) => {
-  await prisma.cmsEvent.delete({ where: { id: req.params.id } })
+  const existing = await prisma.cmsEvent.findUnique({ where: { id: req.params.id } })
+  if (existing) {
+    await hideSlug('events', existing.slug)
+    await prisma.cmsEvent.delete({ where: { id: existing.id } })
+  }
   res.json({ ok: true })
 })
 
@@ -139,7 +149,9 @@ router.post('/cms/news', async (req, res) => {
   try {
     const data = newsWrite(req.body || {}, null)
     data.slug = await uniqueSlug('cmsNews', data.slug)
-    res.status(201).json(await prisma.cmsNews.create({ data }))
+    const row = await prisma.cmsNews.create({ data })
+    await unhideSlug('news', row.slug)
+    res.status(201).json(row)
   } catch (err) {
     fail(res, err)
   }
@@ -150,13 +162,20 @@ router.patch('/cms/news/:id', async (req, res) => {
     if (!existing) return res.status(404).json({ error: 'Not found' })
     const data = newsWrite({ ...existing, ...req.body }, existing)
     data.slug = await uniqueSlug('cmsNews', data.slug, existing.id)
-    res.json(await prisma.cmsNews.update({ where: { id: existing.id }, data }))
+    const row = await prisma.cmsNews.update({ where: { id: existing.id }, data })
+    if (row.published) await unhideSlug('news', row.slug)
+    else await hideSlug('news', row.slug)
+    res.json(row)
   } catch (err) {
     fail(res, err)
   }
 })
 router.delete('/cms/news/:id', async (req, res) => {
-  await prisma.cmsNews.delete({ where: { id: req.params.id } })
+  const existing = await prisma.cmsNews.findUnique({ where: { id: req.params.id } })
+  if (existing) {
+    await hideSlug('news', existing.slug)
+    await prisma.cmsNews.delete({ where: { id: existing.id } })
+  }
   res.json({ ok: true })
 })
 
@@ -174,7 +193,9 @@ router.post('/cms/people', async (req, res) => {
     const kind = peopleKind(req)
     const data = personWrite(req.body || {}, kind, null)
     data.slug = await uniqueSlug('cmsPerson', data.slug)
-    res.status(201).json(await prisma.cmsPerson.create({ data }))
+    const row = await prisma.cmsPerson.create({ data })
+    await unhideSlug(kind, row.slug)
+    res.status(201).json(row)
   } catch (err) {
     fail(res, err)
   }
@@ -185,13 +206,20 @@ router.patch('/cms/people/:id', async (req, res) => {
     if (!existing) return res.status(404).json({ error: 'Not found' })
     const data = personWrite({ ...existing, ...req.body }, existing.kind, existing)
     data.slug = await uniqueSlug('cmsPerson', data.slug, existing.id)
-    res.json(await prisma.cmsPerson.update({ where: { id: existing.id }, data }))
+    const row = await prisma.cmsPerson.update({ where: { id: existing.id }, data })
+    if (row.published) await unhideSlug(existing.kind, row.slug)
+    else await hideSlug(existing.kind, row.slug)
+    res.json(row)
   } catch (err) {
     fail(res, err)
   }
 })
 router.delete('/cms/people/:id', async (req, res) => {
-  await prisma.cmsPerson.delete({ where: { id: req.params.id } })
+  const existing = await prisma.cmsPerson.findUnique({ where: { id: req.params.id } })
+  if (existing) {
+    await hideSlug(existing.kind === 'board' ? 'board' : 'alumni', existing.slug)
+    await prisma.cmsPerson.delete({ where: { id: existing.id } })
+  }
   res.json({ ok: true })
 })
 
@@ -202,7 +230,9 @@ router.post('/cms/products', async (req, res) => {
   try {
     const data = productWrite(req.body || {}, null)
     data.slug = await uniqueSlug('shopProduct', data.slug)
-    res.status(201).json(await prisma.shopProduct.create({ data }))
+    const row = await prisma.shopProduct.create({ data })
+    await unhideSlug('shop', row.slug)
+    res.status(201).json(row)
   } catch (err) {
     fail(res, err)
   }
@@ -213,13 +243,20 @@ router.patch('/cms/products/:id', async (req, res) => {
     if (!existing) return res.status(404).json({ error: 'Not found' })
     const data = productWrite({ ...existing, ...req.body }, existing)
     data.slug = await uniqueSlug('shopProduct', data.slug, existing.id)
-    res.json(await prisma.shopProduct.update({ where: { id: existing.id }, data }))
+    const row = await prisma.shopProduct.update({ where: { id: existing.id }, data })
+    if (row.published) await unhideSlug('shop', row.slug)
+    else await hideSlug('shop', row.slug)
+    res.json(row)
   } catch (err) {
     fail(res, err)
   }
 })
 router.delete('/cms/products/:id', async (req, res) => {
-  await prisma.shopProduct.delete({ where: { id: req.params.id } })
+  const existing = await prisma.shopProduct.findUnique({ where: { id: req.params.id } })
+  if (existing) {
+    await hideSlug('shop', existing.slug)
+    await prisma.shopProduct.delete({ where: { id: existing.id } })
+  }
   res.json({ ok: true })
 })
 
@@ -233,24 +270,28 @@ router.post('/cms/import', async (req, res) => {
       for (let i = 0; i < items.length; i += 1) {
         const data = eventFromImport(items[i], i)
         await prisma.cmsEvent.upsert({ where: { slug: data.slug }, create: data, update: data })
+        await unhideSlug('events', data.slug)
         count += 1
       }
     } else if (type === 'news') {
       for (let i = 0; i < items.length; i += 1) {
         const data = newsFromImport(items[i], i)
         await prisma.cmsNews.upsert({ where: { slug: data.slug }, create: data, update: data })
+        await unhideSlug('news', data.slug)
         count += 1
       }
     } else if (type === 'alumni' || type === 'board') {
       for (let i = 0; i < items.length; i += 1) {
         const data = personFromImport(items[i], type, i)
         await prisma.cmsPerson.upsert({ where: { slug: data.slug }, create: data, update: data })
+        await unhideSlug(type, data.slug)
         count += 1
       }
     } else if (type === 'shop') {
       for (let i = 0; i < items.length; i += 1) {
         const data = productFromImport(items[i], i)
         await prisma.shopProduct.upsert({ where: { slug: data.slug }, create: data, update: data })
+        await unhideSlug('shop', data.slug)
         count += 1
       }
     } else {

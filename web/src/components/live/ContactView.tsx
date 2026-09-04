@@ -74,7 +74,6 @@ export function ContactView({ locale }: { locale: Locale }) {
             {CARDS.map((c) => (
               <article key={c.tUz} className="contact-card">
                 <div className="contact-card-icon">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={c.icon} alt="" width={c.iconW} height={c.iconH} />
                 </div>
                 <h3 className="contact-card-title">{loc(locale, c.tUz, c.tRu, c.tEn)}</h3>

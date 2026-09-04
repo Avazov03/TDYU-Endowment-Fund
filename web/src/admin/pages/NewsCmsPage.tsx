@@ -5,7 +5,7 @@ import { CmsResourcePage, type CmsConfig } from '../cms/CmsResourcePage'
 
 const config: CmsConfig = {
   title: 'Maqolalar',
-  hint: 'Saytdagi yangiliklar: rasm, sarlavha, qisqa matn va to‘liq maqola.',
+  hint: 'Yangi maqola mavjudlar ustiga qo‘shiladi. O‘chirish yoki nashrdan olish o‘sha yozuvni saytdan yashiradi.',
   path: '/api/admin/cms/news',
   createLabel: '+ Maqola',
   emptyTitle: 'Maqola yo‘q',

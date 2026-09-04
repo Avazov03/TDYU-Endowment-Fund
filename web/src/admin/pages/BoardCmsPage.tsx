@@ -5,7 +5,7 @@ import { CmsResourcePage, type CmsConfig } from '../cms/CmsResourcePage'
 
 const config: CmsConfig = {
   title: 'Boshqaruv kengashi',
-  hint: 'Kengash a’zolari: rasm, ism, lavozim va tarjima.',
+  hint: 'Yangi a’zo mavjudlar ustiga qo‘shiladi. Rasm, ism, lavozim va tarjima.',
   path: '/api/admin/cms/people',
   query: 'kind=board',
   createLabel: '+ A’zo',

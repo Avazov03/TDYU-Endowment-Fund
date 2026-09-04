@@ -64,7 +64,7 @@ export default function DashboardPage() {
       <div className="admin-top">
         <div>
           <h1>Dashboard</h1>
-          <p>Bugungi holat: yangi murojaatlar, xayriya va grantlar — bir qarashda.</p>
+          <p>Bugungi holat: yangi murojaatlar, xayriya va grantlar — bir qarashda. Dasturlar, FAQ va hisobotlar hozircha kodda (keyingi CMS).</p>
         </div>
         <div className="toolbar">
           <Link className="btn ghost" href="/admin/events">

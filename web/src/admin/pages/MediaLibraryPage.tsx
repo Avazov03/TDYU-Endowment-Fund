@@ -72,7 +72,6 @@ export default function MediaLibraryPage() {
           <div className="media-grid media-grid-page">
             {rows.map((r) => (
               <article key={r.id} className="media-card">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={r.url} alt="" />
                 <div>
                   <strong>{r.fileName}</strong>

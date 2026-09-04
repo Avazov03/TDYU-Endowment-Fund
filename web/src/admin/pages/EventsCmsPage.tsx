@@ -5,7 +5,7 @@ import { CmsResourcePage, type CmsConfig } from '../cms/CmsResourcePage'
 
 const config: CmsConfig = {
   title: 'Tadbirlar',
-  hint: 'Rasm, video havola, sarlavha va matn — uch tilda. Nashr qilinganlar saytda chiqadi.',
+  hint: 'Yangi tadbir saytdagi mavjudlar ustiga qo‘shiladi — katalog yo‘qolmaydi. Nashrdan olish yoki o‘chirish o‘sha yozuvni saytdan yashiradi.',
   path: '/api/admin/cms/events',
   createLabel: '+ Tadbir',
   emptyTitle: 'Tadbir yo‘q',

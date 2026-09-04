@@ -120,7 +120,6 @@ export function WhyEndowmentSection({ locale }: { locale: Locale }) {
               <div className="why-endowment-icon">
                 {/* Dump: elementor-icon-box — img ishlatiladi, Next Image SVG bilan muammo beradi */}
                 <span className={`why-endowment-icon-glyph ${card.iconClass}`} aria-hidden>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={card.icon} alt="" width={80} height={80} decoding="async" />
                 </span>
               </div>

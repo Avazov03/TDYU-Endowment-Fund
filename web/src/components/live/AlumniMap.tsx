@@ -3,7 +3,8 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import type { Locale } from '@/i18n/routing'
 import { Link } from '@/i18n/navigation'
-import type { AlumniMapCategoryId, AlumniPerson } from '@/content/alumni'
+import { ALUMNI_PEOPLE, type AlumniMapCategoryId, type AlumniPerson } from '@/content/alumni'
+import { overlayList } from '@/lib/cms-merge'
 import {
   MAP_CATEGORIES,
   getAlumniMapPins,
@@ -44,8 +45,13 @@ export function AlumniMap({ locale }: { locale: Locale }) {
     fetch('/api/public/alumni')
       .then((r) => r.json())
       .then((d) => {
-        if (!d?.managed || !Array.isArray(d.items)) return
-        const next: AlumniMapPin[] = (d.items as AlumniPerson[])
+        const people = overlayList(
+          ALUMNI_PEOPLE,
+          Array.isArray(d?.items) ? (d.items as AlumniPerson[]) : [],
+          Array.isArray(d?.suppressed) ? d.suppressed : [],
+          (p: AlumniPerson) => p.slug,
+        )
+        const next: AlumniMapPin[] = people
           .filter((p) => p.mapCategory && (p.countryCode || p.mapLocation))
           .map((p) => ({
             id: p.slug,
