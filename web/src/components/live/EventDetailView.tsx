@@ -5,9 +5,21 @@ import { localizeEvent, type EventItem, EVENTS } from '@/content/events'
 import { PageHero } from './PageHero'
 import { loc } from './loc'
 
-export function EventDetailView({ locale, event }: { locale: Locale; event: EventItem }) {
+function VideoEmbed({ url }: { url: string }) {
+  const yt = url.match(/(?:youtu\.be\/|v=|embed\/)([A-Za-z0-9_-]{6,})/)
+  const vm = url.match(/vimeo\.com\/(?:video\/)?(\d+)/)
+  const src = yt ? `https://www.youtube-nocookie.com/embed/${yt[1]}` : vm ? `https://player.vimeo.com/video/${vm[1]}` : ''
+  if (!src) return null
+  return (
+    <div className="detail-media" style={{ aspectRatio: '16 / 9' }}>
+      <iframe title="Video" src={src} allow="accelerometer; autoplay; encrypted-media; picture-in-picture" allowFullScreen className="w-full h-full border-0" />
+    </div>
+  )
+}
+
+export function EventDetailView({ locale, event, others = [] }: { locale: Locale; event: EventItem; others?: EventItem[] }) {
   const L = localizeEvent(event, locale)
-  const others = EVENTS.filter((e) => e.slug !== event.slug).slice(0, 3)
+  const more = (others.length ? others : EVENTS.filter((e) => e.slug !== event.slug)).slice(0, 3)
 
   return (
     <>
@@ -31,6 +43,7 @@ export function EventDetailView({ locale, event }: { locale: Locale; event: Even
               <div className="detail-media">
                 <Image src={event.img} alt="" width={900} height={560} className="object-cover w-full h-full" unoptimized priority />
               </div>
+              {event.video ? <VideoEmbed url={event.video} /> : null}
               <div className="detail-body">
                 <p className="detail-meta">
                   <span>{L.date}</span>
@@ -66,7 +79,7 @@ export function EventDetailView({ locale, event }: { locale: Locale; event: Even
             <div className="detail-widget">
               <h4>{loc(locale, 'Boshqa tadbirlar', 'Другие мероприятия', 'Other events')}</h4>
               <ul className="detail-related">
-                {others.map((e) => {
+                {more.map((e) => {
                   const o = localizeEvent(e, locale)
                   return (
                     <li key={e.slug}>

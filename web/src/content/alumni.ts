@@ -20,6 +20,7 @@ export type AlumniPerson = {
    * Real loyihada bu maydonlar backend/DBdan keladi.
    */
   mapCategory?: AlumniMapCategoryId
+  countryCode?: string
   mapLocation?: {
     lat: number
     lng: number

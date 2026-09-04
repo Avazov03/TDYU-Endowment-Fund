@@ -9,11 +9,13 @@ export function NewsView({
   page = 1,
   initialQuery = '',
   initialCat = null,
+  items,
 }: {
   locale: Locale
   page?: number
   initialQuery?: string
   initialCat?: string | null
+  items?: import('@/content/news').NewsPost[]
 }) {
   return (
     <>
@@ -35,7 +37,7 @@ export function NewsView({
       />
 
       <section className="alumni-shell news-shell">
-        <NewsArchive locale={locale} page={page} initialQuery={initialQuery} initialCat={initialCat} />
+        <NewsArchive locale={locale} page={page} initialQuery={initialQuery} initialCat={initialCat} items={items} />
       </section>
     </>
   )

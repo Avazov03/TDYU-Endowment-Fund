@@ -1,11 +1,11 @@
 import Image from 'next/image'
 import { Link } from '@/i18n/navigation'
 import type { Locale } from '@/i18n/routing'
-import { EVENTS, localizeEvent } from '@/content/events'
+import { EVENTS, localizeEvent, type EventItem } from '@/content/events'
 import { PageHero } from './PageHero'
 import { loc } from './loc'
 
-export function EventsView({ locale }: { locale: Locale }) {
+export function EventsView({ locale, items = EVENTS }: { locale: Locale; items?: EventItem[] }) {
   const more = loc(locale, 'Batafsil', 'Подробнее', 'View Details')
 
   return (
@@ -30,7 +30,7 @@ export function EventsView({ locale }: { locale: Locale }) {
       <section className="events-shell">
         <div className="events-inner">
           <div className="events-grid">
-            {EVENTS.map((ev) => {
+            {items.map((ev) => {
               const L = localizeEvent(ev, locale)
               const href = `/events/${ev.slug}`
               return (

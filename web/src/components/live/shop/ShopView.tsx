@@ -8,7 +8,6 @@ import type { Locale } from '@/i18n/routing'
 import {
   SHOP_CATEGORIES,
   SHOP_PICKUPS,
-  SHOP_PRODUCTS,
   categoryLabel,
   formatSom,
   productSizes,
@@ -24,7 +23,7 @@ import { ShopHeartButton } from './ShopHeartButton'
 type SortId = 'featured' | 'price-asc' | 'price-desc'
 
 export function ShopView({ locale, favoritesOnly = false }: { locale: Locale; favoritesOnly?: boolean }) {
-  const { add, count, favorites, isFav } = useShopCart()
+  const { add, count, favorites, isFav, catalog } = useShopCart()
   const router = useRouter()
   const searchParams = useSearchParams()
   const [query, setQuery] = useState('')
@@ -40,7 +39,7 @@ export function ShopView({ locale, favoritesOnly = false }: { locale: Locale; fa
 
   const products = useMemo(() => {
     const q = query.trim().toLowerCase()
-    let list = SHOP_PRODUCTS.filter((p) => {
+    let list = catalog.filter((p) => {
       if (favOnly && !isFav(p.slug)) return false
       if (category !== 'all' && p.category !== category) return false
       if (!q) return true
@@ -50,13 +49,14 @@ export function ShopView({ locale, favoritesOnly = false }: { locale: Locale; fa
     else if (sort === 'price-desc') list = [...list].sort((a, b) => b.price - a.price)
     else list = [...list].sort((a, b) => Number(Boolean(b.featured)) - Number(Boolean(a.featured)))
     return list
-  }, [query, category, sort, locale, favOnly, isFav])
+  }, [catalog, query, category, sort, locale, favOnly, isFav])
 
   function onAdd(product: ShopProduct) {
     if (productSizes(product).length) {
       router.push(`/shop/${product.slug}`)
       return
     }
+    if (typeof product.stock === 'number' && product.stock <= 0) return
     if (!add(product.slug, 1)) return
     setFlash(product.slug)
     window.setTimeout(() => setFlash((cur) => (cur === product.slug ? null : cur)), 1400)

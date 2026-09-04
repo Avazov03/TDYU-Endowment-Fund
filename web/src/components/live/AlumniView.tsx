@@ -114,7 +114,7 @@ function EyebrowIcon() {
   )
 }
 
-export function AlumniView({ locale }: { locale: Locale }) {
+export function AlumniView({ locale, people = ALUMNI_PEOPLE }: { locale: Locale; people?: typeof ALUMNI_PEOPLE }) {
   const bullets = STORY_BULLETS[locale]
   const viewProfile = loc(locale, 'Profilni ko‘rish', 'Смотреть профиль', 'View profile')
 
@@ -209,7 +209,7 @@ export function AlumniView({ locale }: { locale: Locale }) {
           <AlumniMapGate locale={locale} />
 
           <div className="ap-people">
-            {ALUMNI_PEOPLE.map((p) => {
+            {people.map((p) => {
               const L = localizeAlumni(p, locale)
               const href = `/alumni/${p.slug}`
               return (

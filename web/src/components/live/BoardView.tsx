@@ -96,8 +96,16 @@ export function BoardMemberCard({
   )
 }
 
-export function BoardView({ locale }: { locale: Locale }) {
-  const members = BOARD_MEMBERS[locale]
+export function BoardView({ locale, members }: { locale: Locale; members?: typeof BOARD_DETAIL }) {
+  const list = members?.length
+    ? members.map((d) => ({
+        id: d.id,
+        img: d.img,
+        t: locale === 'ru' ? d.nameRu : locale === 'en' ? d.nameEn : d.name,
+        r: locale === 'ru' ? d.roleRu : locale === 'en' ? d.roleEn : d.role,
+        slug: d.slug,
+      }))
+    : BOARD_MEMBERS[locale].map((m) => ({ ...m, slug: BOARD_DETAIL.find((d) => d.id === m.id)?.slug }))
 
   return (
     <>
@@ -119,10 +127,9 @@ export function BoardView({ locale }: { locale: Locale }) {
       <section className="board-members-section">
         <div className="live-wrap">
           <div className="board-members-grid">
-            {members.map((m) => {
-              const detail = BOARD_DETAIL.find((d) => d.id === m.id)
-              return <BoardMemberCard key={m.id} member={m} href={detail ? `/board/${detail.slug}` : `/board#${m.id}`} />
-            })}
+            {list.map((m) => (
+              <BoardMemberCard key={m.id} member={m} href={m.slug ? `/board/${m.slug}` : `/board#${m.id}`} />
+            ))}
           </div>
         </div>
       </section>

@@ -8,6 +8,7 @@ export type ShopProduct = {
   price: number
   compareAt: number
   featured?: boolean
+  stock?: number
   image: string
   name: Record<Locale, string>
   blurb: Record<Locale, string>

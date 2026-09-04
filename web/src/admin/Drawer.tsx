@@ -9,12 +9,14 @@ export function Drawer({
   onClose,
   children,
   footer,
+  size = 'default',
 }: {
   open: boolean
   title: string
   onClose: () => void
   children: ReactNode
   footer?: ReactNode
+  size?: 'default' | 'wide'
 }) {
   useEffect(() => {
     if (!open) return
@@ -27,7 +29,7 @@ export function Drawer({
 
   if (!open) return null
   return (
-    <div className="drawer-root" role="dialog" aria-modal="true">
+    <div className={`drawer-root${size === 'wide' ? ' drawer-wide' : ''}`} role="dialog" aria-modal="true">
       <button type="button" className="drawer-backdrop" aria-label="Yopish" onClick={onClose} />
       <aside className="drawer-panel">
         <div className="drawer-head">

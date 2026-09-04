@@ -1,7 +1,7 @@
 'use client'
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react'
-import { getShopProduct, productSizes, type ShopProduct } from '@/content/shop'
+import { SHOP_PRODUCTS, getShopProduct, productSizes, type ShopProduct } from '@/content/shop'
 
 const CART_KEY = 'tdyu-shop-cart-v2'
 const FAV_KEY = 'tdyu-shop-fav-v1'
@@ -12,6 +12,7 @@ export type ShopCartLine = { product: ShopProduct; qty: number; size?: string; l
 
 type ShopCartApi = {
   ready: boolean
+  catalog: ShopProduct[]
   items: ShopCartItem[]
   lines: ShopCartLine[]
   count: number
@@ -47,7 +48,7 @@ function parseCart(raw: string | null): ShopCartItem[] {
     if (!Array.isArray(data)) return []
     const out: ShopCartItem[] = []
     for (const row of data) {
-      if (!row || typeof row.slug !== 'string' || !getShopProduct(row.slug)) continue
+      if (!row || typeof row.slug !== 'string') continue
       const size = typeof row.size === 'string' && row.size ? row.size : undefined
       out.push({ slug: row.slug, qty: clampQty(Number(row.qty) || 1), size })
     }
@@ -62,7 +63,7 @@ function parseFavs(raw: string | null): string[] {
   try {
     const data = JSON.parse(raw) as unknown
     if (!Array.isArray(data)) return []
-    return data.filter((s): s is string => typeof s === 'string' && Boolean(getShopProduct(s)))
+    return data.filter((s): s is string => typeof s === 'string')
   } catch {
     return []
   }
@@ -72,6 +73,7 @@ export function ShopCartProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<ShopCartItem[]>([])
   const [favorites, setFavorites] = useState<string[]>([])
   const [ready, setReady] = useState(false)
+  const [catalog, setCatalog] = useState<ShopProduct[]>(SHOP_PRODUCTS)
 
   useEffect(() => {
     const legacy = window.localStorage.getItem('tdyu-shop-cart-v1')
@@ -79,6 +81,12 @@ export function ShopCartProvider({ children }: { children: ReactNode }) {
     setItems(parseCart(current || legacy))
     setFavorites(parseFavs(window.localStorage.getItem(FAV_KEY)))
     setReady(true)
+    fetch('/api/public/shop/products')
+      .then((r) => r.json())
+      .then((d) => {
+        if (d?.managed && Array.isArray(d.items)) setCatalog(d.items)
+      })
+      .catch(() => {})
   }, [])
 
   useEffect(() => {
@@ -87,9 +95,15 @@ export function ShopCartProvider({ children }: { children: ReactNode }) {
     window.localStorage.setItem(FAV_KEY, JSON.stringify(favorites))
   }, [items, favorites, ready])
 
+  const findProduct = useCallback(
+    (slug: string) => catalog.find((p) => p.slug === slug) || getShopProduct(slug),
+    [catalog],
+  )
+
   const add = useCallback((slug: string, qty = 1, size?: string) => {
-    const product = getShopProduct(slug)
+    const product = findProduct(slug)
     if (!product) return false
+    if (typeof product.stock === 'number' && product.stock <= 0) return false
     const sizes = productSizes(product)
     const normalized = size?.trim() || undefined
     if (sizes.length && (!normalized || !sizes.includes(normalized))) return false
@@ -99,7 +113,7 @@ export function ShopCartProvider({ children }: { children: ReactNode }) {
       return prev.map((i) => (sameLine(i, slug, normalized) ? { ...i, qty: clampQty(i.qty + qty) } : i))
     })
     return true
-  }, [])
+  }, [findProduct])
 
   const setQty = useCallback((slug: string, qty: number, size?: string) => {
     if (qty < 1) {
@@ -118,19 +132,20 @@ export function ShopCartProvider({ children }: { children: ReactNode }) {
   const isFav = useCallback((slug: string) => favorites.includes(slug), [favorites])
 
   const toggleFav = useCallback((slug: string) => {
-    if (!getShopProduct(slug)) return
+    if (!findProduct(slug)) return
     setFavorites((prev) => (prev.includes(slug) ? prev.filter((s) => s !== slug) : [...prev, slug]))
-  }, [])
+  }, [findProduct])
 
   const value = useMemo<ShopCartApi>(() => {
     const lines: ShopCartLine[] = []
     for (const item of items) {
-      const product = getShopProduct(item.slug)
+      const product = findProduct(item.slug)
       if (!product) continue
       lines.push({ product, qty: item.qty, size: item.size, lineTotal: product.price * item.qty })
     }
     return {
       ready,
+      catalog,
       items,
       lines,
       count: lines.reduce((n, l) => n + l.qty, 0),
@@ -143,7 +158,7 @@ export function ShopCartProvider({ children }: { children: ReactNode }) {
       isFav,
       toggleFav,
     }
-  }, [items, favorites, ready, add, setQty, remove, clear, isFav, toggleFav])
+  }, [catalog, items, favorites, ready, add, setQty, remove, clear, isFav, toggleFav, findProduct])
 
   return <ShopCartContext.Provider value={value}>{children}</ShopCartContext.Provider>
 }

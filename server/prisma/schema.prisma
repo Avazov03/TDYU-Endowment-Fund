@@ -12,6 +12,8 @@ model AdminUser {
   email        String   @unique
   passwordHash String
   name         String   @default("Admin")
+  role         String   @default("admin") // super | admin
+  active       Boolean  @default(true)
   createdAt    DateTime @default(now())
 }
 
@@ -121,4 +123,142 @@ model Setting {
   id    String @id @default(cuid())
   key   String @unique
   value String
+}
+
+model MediaAsset {
+  id         String   @id @default(cuid())
+  kind       String   @default("image")
+  url        String
+  storedName String
+  fileName   String
+  mimeType   String?
+  size       Int      @default(0)
+  alt        String?
+  createdAt  DateTime @default(now())
+}
+
+model CmsEvent {
+  id        String   @id @default(cuid())
+  slug      String   @unique
+  published Boolean  @default(true)
+  sortOrder Int      @default(0)
+  coverUrl  String?
+  videoUrl  String?
+  dateUz    String   @default("")
+  dateRu    String   @default("")
+  dateEn    String   @default("")
+  time      String   @default("")
+  titleUz   String
+  titleRu   String   @default("")
+  titleEn   String   @default("")
+  locUz     String   @default("")
+  locRu     String   @default("")
+  locEn     String   @default("")
+  bodyUz    String   @default("")
+  bodyRu    String   @default("")
+  bodyEn    String   @default("")
+  goalsUz   String   @default("")
+  goalsRu   String   @default("")
+  goalsEn   String   @default("")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model CmsNews {
+  id        String   @id @default(cuid())
+  slug      String   @unique
+  published Boolean  @default(true)
+  sortOrder Int      @default(0)
+  coverUrl  String?
+  videoUrl  String?
+  tagUz     String   @default("")
+  tagRu     String   @default("")
+  tagEn     String   @default("")
+  dateUz    String   @default("")
+  dateRu    String   @default("")
+  dateEn    String   @default("")
+  titleUz   String
+  titleRu   String   @default("")
+  titleEn   String   @default("")
+  excerptUz String   @default("")
+  excerptRu String   @default("")
+  excerptEn String   @default("")
+  bodyUz    String   @default("")
+  bodyRu    String   @default("")
+  bodyEn    String   @default("")
+  featured  Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model CmsPerson {
+  id          String   @id @default(cuid())
+  kind        String
+  slug        String   @unique
+  code        String?
+  published   Boolean  @default(true)
+  sortOrder   Int      @default(0)
+  coverUrl    String?
+  nameUz      String
+  nameRu      String   @default("")
+  nameEn      String   @default("")
+  roleUz      String   @default("")
+  roleRu      String   @default("")
+  roleEn      String   @default("")
+  aboutUz     String   @default("")
+  aboutRu     String   @default("")
+  aboutEn     String   @default("")
+  qualsUz     String   @default("")
+  qualsRu     String   @default("")
+  qualsEn     String   @default("")
+  countryCode String?
+  mapLat      Float?
+  mapLng      Float?
+  mapCategory String?
+  mapLabel    String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([kind, published])
+}
+
+model ShopProduct {
+  id        String   @id @default(cuid())
+  slug      String   @unique
+  category  String   @default("gifts")
+  price     Int      @default(0)
+  compareAt Int      @default(0)
+  stock     Int      @default(0)
+  featured  Boolean  @default(false)
+  published Boolean  @default(true)
+  sortOrder Int      @default(0)
+  coverUrl  String?
+  nameUz    String
+  nameRu    String   @default("")
+  nameEn    String   @default("")
+  blurbUz   String   @default("")
+  blurbRu   String   @default("")
+  blurbEn   String   @default("")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ShopOrder {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  phone     String
+  pickup    String
+  message   String   @default("")
+  lang      String   @default("uz")
+  total     Int      @default(0)
+  itemsJson String
+  requestId String?  @unique
+  status    String   @default("new")
+  adminNote String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([status, createdAt])
+  @@index([email])
 }

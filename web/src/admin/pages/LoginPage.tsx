@@ -7,7 +7,7 @@ import { api, setToken } from '../api'
 
 export default function LoginPage() {
   const nav = useRouter()
-  const [email, setEmail] = useState('admin@tdyu-endowment.uz')
+  const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
@@ -51,7 +51,14 @@ export default function LoginPage() {
           <div className="form-grid" style={{ padding: 0 }}>
             <label>
               Email
-              <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" required autoComplete="username" />
+              <input
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                type="email"
+                required
+                autoComplete="username"
+                placeholder="email@domain.com"
+              />
             </label>
             <label>
               Parol

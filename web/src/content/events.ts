@@ -3,6 +3,7 @@ import type { Locale } from '@/i18n/routing'
 export type EventItem = {
   slug: string
   img: string
+  video?: string
   date: string
   dateRu: string
   dateEn: string
@@ -479,11 +480,17 @@ export function getEvent(slug: string) {
 }
 
 export function localizeEvent(e: EventItem, locale: Locale) {
-  if (locale === 'ru') {
-    return { title: e.titleRu, loc: e.locRu, date: e.dateRu, body: e.bodyRu, time: e.time, goals: e.goalsRu }
+  const pick = <T,>(uz: T, ru: T, en: T) => {
+    if (locale === 'ru') return (typeof ru === 'string' ? String(ru).trim() : ru) ? ru : uz
+    if (locale === 'en') return (typeof en === 'string' ? String(en).trim() : en) ? en : uz
+    return uz
   }
-  if (locale === 'en') {
-    return { title: e.titleEn, loc: e.locEn, date: e.dateEn, body: e.bodyEn, time: e.time, goals: e.goalsEn }
+  return {
+    title: pick(e.title, e.titleRu, e.titleEn),
+    loc: pick(e.loc, e.locRu, e.locEn),
+    date: pick(e.date, e.dateRu, e.dateEn),
+    body: locale === 'ru' ? (e.bodyRu?.length ? e.bodyRu : e.body) : locale === 'en' ? (e.bodyEn?.length ? e.bodyEn : e.body) : e.body,
+    time: e.time,
+    goals: locale === 'ru' ? (e.goalsRu?.length ? e.goalsRu : e.goals) : locale === 'en' ? (e.goalsEn?.length ? e.goalsEn : e.goals) : e.goals,
   }
-  return { title: e.title, loc: e.loc, date: e.date, body: e.body, time: e.time, goals: e.goals }
 }

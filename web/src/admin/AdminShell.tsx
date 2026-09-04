@@ -1,26 +1,57 @@
 'use client'
 
+import { useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
-import { setToken } from './api'
+import { api, setToken } from './api'
 
-const inbox = [
-  { to: '/admin', end: true, label: 'Dashboard', icon: 'dash' },
-  { to: '/admin/contacts', label: 'Murojaatlar', icon: 'mail' },
-  { to: '/admin/donations', label: 'Xayriya', icon: 'gift' },
-  { to: '/admin/grants', label: 'Grantlar', icon: 'award' },
-]
+type NavItem = { to: string; end?: boolean; label: string; icon: string; superOnly?: boolean }
 
-const content = [
-  { to: '/admin/content', label: 'Sayt kontenti', icon: 'news' },
-  { to: '/admin/announcements', label: 'Yangiliklar', icon: 'news' },
-  { to: '/admin/documents', label: 'Hujjatlar', icon: 'file' },
-  { to: '/admin/subscribers', label: 'Axborotnoma', icon: 'users' },
-]
-
-const system = [
-  { to: '/admin/settings', label: 'Sozlamalar', icon: 'gear' },
-  { to: '/admin/account', label: 'Hisob / parol', icon: 'gear' },
+const groups: { title: string; items: NavItem[] }[] = [
+  {
+    title: 'Asosiy',
+    items: [
+      { to: '/admin', end: true, label: 'Dashboard', icon: 'dash' },
+      { to: '/admin/finance', label: 'Moliya', icon: 'gift' },
+    ],
+  },
+  {
+    title: 'Inbox',
+    items: [
+      { to: '/admin/contacts', label: 'Murojaatlar', icon: 'mail' },
+      { to: '/admin/donations', label: 'Xayriya', icon: 'gift' },
+      { to: '/admin/grants', label: 'Grantlar', icon: 'award' },
+    ],
+  },
+  {
+    title: 'Sayt',
+    items: [
+      { to: '/admin/events', label: 'Tadbirlar', icon: 'cal' },
+      { to: '/admin/news', label: 'Maqolalar', icon: 'news' },
+      { to: '/admin/announcements', label: 'Yangiliklar', icon: 'news' },
+      { to: '/admin/alumni', label: 'Bitiruvchilar', icon: 'users' },
+      { to: '/admin/board', label: 'Kengash', icon: 'users' },
+      { to: '/admin/media', label: 'Media', icon: 'image' },
+      { to: '/admin/content', label: 'Sayt kontenti', icon: 'news' },
+      { to: '/admin/documents', label: 'Hujjatlar', icon: 'file' },
+    ],
+  },
+  {
+    title: 'Do‘kon',
+    items: [
+      { to: '/admin/shop/products', label: 'Mahsulotlar', icon: 'bag' },
+      { to: '/admin/shop/orders', label: 'Buyurtmalar', icon: 'bag' },
+    ],
+  },
+  {
+    title: 'Tizim',
+    items: [
+      { to: '/admin/staff', label: 'Adminlar', icon: 'users', superOnly: true },
+      { to: '/admin/subscribers', label: 'Axborotnoma', icon: 'users' },
+      { to: '/admin/settings', label: 'Sozlamalar', icon: 'gear' },
+      { to: '/admin/account', label: 'Hisob / parol', icon: 'gear' },
+    ],
+  },
 ]
 
 function Icon({ name }: { name: string }) {
@@ -84,6 +115,28 @@ function Icon({ name }: { name: string }) {
           <path d="M2.5 19a6.5 6.5 0 0 1 13 0" />
         </svg>
       )
+    case 'cal':
+      return (
+        <svg viewBox="0 0 24 24" {...common}>
+          <rect x="3" y="5" width="18" height="16" rx="2" />
+          <path d="M8 3v4M16 3v4M3 11h18" />
+        </svg>
+      )
+    case 'image':
+      return (
+        <svg viewBox="0 0 24 24" {...common}>
+          <rect x="3" y="5" width="18" height="14" rx="2" />
+          <circle cx="9" cy="10" r="1.6" />
+          <path d="m21 16-5-5-8 8" />
+        </svg>
+      )
+    case 'bag':
+      return (
+        <svg viewBox="0 0 24 24" {...common}>
+          <path d="M6 8h12l-1 13H7L6 8z" />
+          <path d="M9 8V7a3 3 0 0 1 6 0v1" />
+        </svg>
+      )
     default:
       return (
         <svg viewBox="0 0 24 24" {...common}>
@@ -94,45 +147,87 @@ function Icon({ name }: { name: string }) {
   }
 }
 
-function NavItems({ items }: { items: typeof inbox }) {
-  const pathname = usePathname()
-  return (
-    <nav className="admin-nav">
-      {items.map((l) => {
-        const active = l.end ? pathname === l.to : pathname === l.to || pathname.startsWith(`${l.to}/`)
-        return (
-          <Link key={l.to} href={l.to} className={active ? 'active' : ''}>
-            <Icon name={l.icon} />
-            {l.label}
-          </Link>
-        )
-      })}
-    </nav>
-  )
+function isActive(pathname: string, item: NavItem) {
+  if (item.end) return pathname === item.to
+  return pathname === item.to || pathname.startsWith(`${item.to}/`)
 }
 
 export default function AdminShell({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname()
   const router = useRouter()
+  const [q, setQ] = useState('')
+  const [open, setOpen] = useState(false)
+  const [role, setRole] = useState<string | null>(null)
+  const [who, setWho] = useState('')
+
+  useEffect(() => {
+    api<{ role: string; name: string; email: string }>('/api/auth/me')
+      .then((u) => {
+        setRole(u.role)
+        setWho(u.name || u.email)
+      })
+      .catch(() => setRole('admin'))
+  }, [])
+
+  const filtered = useMemo(() => {
+    const needle = q.trim().toLowerCase()
+    const superUser = role === 'super'
+    return groups
+      .map((g) => ({
+        ...g,
+        items: g.items.filter((i) => {
+          if (i.superOnly && !superUser) return false
+          if (!needle) return true
+          return i.label.toLowerCase().includes(needle)
+        }),
+      }))
+      .filter((g) => g.items.length)
+  }, [q, role])
+
   return (
     <div className="admin-shell">
-      <aside className="admin-side">
-        <Link className="admin-brand" href="/admin">
+      <button type="button" className="admin-menu-btn" onClick={() => setOpen((v) => !v)}>
+        {open ? 'Yopish' : 'Menyu'}
+      </button>
+      <aside className={`admin-side${open ? ' is-open' : ''}`}>
+        <Link className="admin-brand" href="/admin" onClick={() => setOpen(false)}>
           <img src="/brand/tdyu-mark.svg" alt="" />
           <div className="brand-text">
             <strong>TDYU Endowment</strong>
-            <span>To‘liq boshqaruv</span>
+            <span>{role === 'super' ? 'Super admin' : 'Boshqaruv paneli'}</span>
           </div>
         </Link>
 
-        <div className="nav-section">Inbox</div>
-        <NavItems items={inbox} />
-        <div className="nav-section">Kontent</div>
-        <NavItems items={content} />
-        <div className="nav-section">Tizim</div>
-        <NavItems items={system} />
+        <input
+          className="nav-search"
+          value={q}
+          onChange={(e) => setQ(e.target.value)}
+          placeholder="Bo‘lim qidirish…"
+          aria-label="Bo‘lim qidirish"
+        />
+
+        {filtered.map((g) => (
+          <div key={g.title}>
+            <div className="nav-section">{g.title}</div>
+            <nav className="admin-nav">
+              {g.items.map((l) => (
+                <Link
+                  key={l.to}
+                  href={l.to}
+                  className={isActive(pathname, l) ? 'active' : ''}
+                  onClick={() => setOpen(false)}
+                >
+                  <Icon name={l.icon} />
+                  {l.label}
+                </Link>
+              ))}
+            </nav>
+          </div>
+        ))}
 
         <div className="spacer" />
         <div className="side-footer">
+          {who ? <div className="side-who">{who}</div> : null}
           <a className="side-link" href="/uz" target="_blank" rel="noreferrer">
             Public saytni ochish ↗
           </a>

@@ -218,16 +218,38 @@ const announcements = [
 ]
 
 async function main() {
-  const email = (process.env.ADMIN_EMAIL || 'admin@tdyu-endowment.uz').toLowerCase()
-  const password = process.env.ADMIN_PASSWORD || 'Admin123!'
-  const name = process.env.ADMIN_NAME || 'TDYU Admin'
-  const hash = await bcrypt.hash(password, 10)
+  const demoEmail = (process.env.ADMIN_EMAIL || '').trim().toLowerCase()
+  const demoPassword = process.env.ADMIN_PASSWORD || ''
+  const demoName = process.env.ADMIN_NAME || 'TDYU Admin'
+  if (demoEmail && demoPassword) {
+    const hash = await bcrypt.hash(demoPassword, 10)
+    await prisma.adminUser.upsert({
+      where: { email: demoEmail },
+      create: { email: demoEmail, passwordHash: hash, name: demoName, role: 'admin' },
+      update: { passwordHash: hash, name: demoName },
+    })
+    console.log('Seed: operator admin', demoEmail)
+  }
 
-  await prisma.adminUser.upsert({
-    where: { email },
-    create: { email, passwordHash: hash, name },
-    update: { passwordHash: hash, name },
-  })
+  const superEmail = (process.env.SUPER_ADMIN_EMAIL || '').trim().toLowerCase()
+  const superPassword = process.env.SUPER_ADMIN_PASSWORD || ''
+  const superName = process.env.SUPER_ADMIN_NAME || 'Super admin'
+  if (superEmail && superPassword) {
+    if (superPassword.length < 8) {
+      throw new Error('SUPER_ADMIN_PASSWORD kamida 8 belgi bo‘lishi kerak')
+    }
+    const hash = await bcrypt.hash(superPassword, 10)
+    await prisma.adminUser.upsert({
+      where: { email: superEmail },
+      create: { email: superEmail, passwordHash: hash, name: superName, role: 'super', active: true },
+      update: { passwordHash: hash, name: superName, role: 'super', active: true },
+    })
+    console.log('Seed: super admin', superEmail)
+  }
+
+  if (!demoEmail && !superEmail) {
+    console.warn('Seed: ADMIN_EMAIL / SUPER_ADMIN_EMAIL berilmagan — admin yaratilmadi')
+  }
 
   for (const [key, value] of Object.entries(defaults)) {
     await prisma.setting.upsert({
@@ -251,8 +273,6 @@ async function main() {
   }
 
   console.log('Seed OK')
-  console.log('Admin:', email)
-  console.log('Password:', password)
 }
 
 main()

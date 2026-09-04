@@ -14,7 +14,8 @@ export async function api<T = unknown>(
   options: RequestInit = {},
 ): Promise<T> {
   const headers = new Headers(options.headers || {})
-  if (!headers.has('Content-Type') && options.body) {
+  const isForm = typeof FormData !== 'undefined' && options.body instanceof FormData
+  if (!headers.has('Content-Type') && options.body && !isForm) {
     headers.set('Content-Type', 'application/json')
   }
   const token = getToken()
@@ -30,4 +31,11 @@ export async function api<T = unknown>(
   const data = await res.json().catch(() => ({}))
   if (!res.ok) throw new Error(data.error || res.statusText || 'Request failed')
   return data as T
+}
+
+export async function uploadFile<T = unknown>(path: string, file: File, extra: Record<string, string> = {}) {
+  const fd = new FormData()
+  fd.append('file', file)
+  for (const [k, v] of Object.entries(extra)) fd.append(k, v)
+  return api<T>(path, { method: 'POST', body: fd })
 }

@@ -90,24 +90,26 @@ export function NewsArchive({
   page = 1,
   initialQuery = '',
   initialCat = null,
+  items = NEWS_POSTS,
 }: {
   locale: Locale
   page?: number
   initialQuery?: string
   initialCat?: string | null
+  items?: NewsPost[]
 }) {
   const [query, setQuery] = useState(initialQuery)
   const [cat, setCat] = useState<string | null>(initialCat)
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase()
-    return NEWS_POSTS.filter((p) => {
+    return items.filter((p) => {
       if (cat && p.tag !== cat) return false
       if (!q) return true
       const L = localizePost(p, locale)
       return [L.title, L.excerpt, L.tag, p.title, p.titleRu, p.titleEn, ...L.body].join(' ').toLowerCase().includes(q)
     })
-  }, [query, cat, locale])
+  }, [items, query, cat, locale])
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / NEWS_PER_PAGE))
   const safePage = Math.min(Math.max(1, page), totalPages)

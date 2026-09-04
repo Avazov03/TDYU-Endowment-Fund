@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import type { Locale } from '@/i18n/routing'
 import { Link } from '@/i18n/navigation'
-import type { AlumniMapCategoryId } from '@/content/alumni'
+import type { AlumniMapCategoryId, AlumniPerson } from '@/content/alumni'
 import {
   MAP_CATEGORIES,
   getAlumniMapPins,
@@ -33,11 +33,37 @@ function buildSeriesData(byCountry: Map<AlumniCountryId, AlumniMapPin[]>): Chart
 }
 
 export function AlumniMap({ locale }: { locale: Locale }) {
-  const pins = useMemo(() => getAlumniMapPins(), [])
+  const [livePins, setLivePins] = useState<AlumniMapPin[] | null>(null)
+  const pins = useMemo(() => livePins || getAlumniMapPins(), [livePins])
   const [tab, setTab] = useState<'all' | AlumniMapCategoryId>('all')
   const [activeId, setActiveId] = useState<AlumniCountryId | null>('uz')
   const [mapReady, setMapReady] = useState(false)
   const [mapError, setMapError] = useState<string | null>(null)
+
+  useEffect(() => {
+    fetch('/api/public/alumni')
+      .then((r) => r.json())
+      .then((d) => {
+        if (!d?.managed || !Array.isArray(d.items)) return
+        const next: AlumniMapPin[] = (d.items as AlumniPerson[])
+          .filter((p) => p.mapCategory && (p.countryCode || p.mapLocation))
+          .map((p) => ({
+            id: p.slug,
+            slug: p.slug,
+            countryId: (p.countryCode || 'uz') as AlumniCountryId,
+            name: p.name,
+            nameRu: p.nameRu,
+            nameEn: p.nameEn,
+            role: p.role,
+            roleRu: p.roleRu,
+            roleEn: p.roleEn,
+            category: p.mapCategory as AlumniMapCategoryId,
+            demo: false,
+          }))
+        setLivePins(next)
+      })
+      .catch(() => {})
+  }, [])
 
   const chartRef = useRef<HTMLDivElement>(null)
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

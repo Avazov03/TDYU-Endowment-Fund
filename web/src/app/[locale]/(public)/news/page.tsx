@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation'
 import { routing, type Locale } from '@/i18n/routing'
 import { NEWS_CATEGORIES } from '@/content/news'
 import { NewsView } from '@/components/live/NewsView'
+import { loadNews } from '@/lib/cms-source'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
@@ -27,12 +28,14 @@ export default async function NewsPage({
   const initialQuery = (sp.q || '').trim()
   const catRaw = (sp.cat || '').trim()
   const validCat = NEWS_CATEGORIES.some((c) => c.key === catRaw) ? catRaw : null
+  const items = await loadNews()
   return (
     <NewsView
       locale={locale as Locale}
       page={page}
       initialQuery={initialQuery}
       initialCat={validCat}
+      items={items}
     />
   )
 }

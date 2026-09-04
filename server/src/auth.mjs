@@ -3,6 +3,7 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
+import { prisma } from './db.mjs'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 dotenv.config({ path: path.join(__dirname, '../.env') })
@@ -31,7 +32,7 @@ export function verifyToken(token) {
   return jwt.verify(token, JWT_SECRET)
 }
 
-export function authRequired(req, res, next) {
+export async function authRequired(req, res, next) {
   const header = req.headers.authorization || ''
   const token = header.startsWith('Bearer ') ? header.slice(7) : null
   if (!token) {
@@ -39,8 +40,47 @@ export function authRequired(req, res, next) {
   }
   try {
     req.user = verifyToken(token)
+    const admin = await prisma.adminUser.findUnique({ where: { id: req.user.sub } })
+    if (!admin || !admin.active) {
+      return res.status(401).json({ error: 'Unauthorized' })
+    }
+    req.admin = { id: admin.id, email: admin.email, name: admin.name, role: admin.role }
     next()
   } catch {
     return res.status(401).json({ error: 'Invalid token' })
+  }
+}
+
+export function requireSuper(req, res, next) {
+  if (req.admin?.role !== 'super') {
+    return res.status(403).json({ error: 'Super admin required' })
+  }
+  next()
+}
+
+const loginHits = new Map()
+const LOGIN_WINDOW_MS = 15 * 60 * 1000
+const LOGIN_MAX = 8
+
+export function loginRateLimited(ip) {
+  const now = Date.now()
+  const recent = (loginHits.get(ip) || []).filter((t) => now - t < LOGIN_WINDOW_MS)
+  if (recent.length >= LOGIN_MAX) {
+    loginHits.set(ip, recent)
+    return true
+  }
+  recent.push(now)
+  loginHits.set(ip, recent)
+  return false
+}
+
+export function publicAdmin(user) {
+  return {
+    id: user.id,
+    email: user.email,
+    name: user.name,
+    role: user.role,
+    active: user.active,
+    createdAt: user.createdAt,
   }
 }

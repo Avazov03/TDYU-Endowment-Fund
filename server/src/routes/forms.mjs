@@ -160,8 +160,12 @@ router.post('/shop-order', async (req, res) => {
   if (!check.ok) {
     return res.status(400).json({ error: check.error })
   }
-  const { name, email, phone, pickup, message, requestId } = check.value
+  const { name, email, phone, pickup, message, requestId, items } = check.value
   if (requestId) {
+    const existingOrder = await prisma.shopOrder.findUnique({ where: { requestId } }).catch(() => null)
+    if (existingOrder) {
+      return res.status(201).json({ ok: true, id: existingOrder.id, duplicate: true })
+    }
     const existing = await prisma.contactMessage.findFirst({
       where: { page: 'shop', payload: { contains: requestId } },
     })
@@ -169,7 +173,46 @@ router.post('/shop-order', async (req, res) => {
       return res.status(201).json({ ok: true, id: existing.id, duplicate: true })
     }
   }
-  const row = await prisma.contactMessage.create({
+
+  const catalogCount = await prisma.shopProduct.count()
+  let total = Number(req.body.total) || 0
+  if (catalogCount > 0) {
+    total = 0
+    for (const line of items) {
+      const product = await prisma.shopProduct.findUnique({ where: { slug: line.slug } })
+      if (!product || !product.published) {
+        return res.status(400).json({ error: `unknown product: ${line.slug}` })
+      }
+      if (product.stock < line.qty) {
+        return res.status(409).json({ error: `out of stock: ${line.slug}` })
+      }
+      total += product.price * line.qty
+    }
+    for (const line of items) {
+      const product = await prisma.shopProduct.findUnique({ where: { slug: line.slug } })
+      await prisma.shopProduct.update({
+        where: { id: product.id },
+        data: { stock: product.stock - line.qty },
+      })
+    }
+  }
+
+  const order = await prisma.shopOrder.create({
+    data: {
+      name,
+      email: String(email).trim().toLowerCase(),
+      phone,
+      pickup,
+      message,
+      lang: req.body.lang || 'uz',
+      total,
+      itemsJson: JSON.stringify(items),
+      requestId: requestId || null,
+      status: 'new',
+    },
+  })
+
+  await prisma.contactMessage.create({
     data: {
       name,
       email: String(email).trim().toLowerCase(),
@@ -178,10 +221,10 @@ router.post('/shop-order', async (req, res) => {
       message,
       lang: req.body.lang || 'uz',
       page: 'shop',
-      payload: flattenPayload({ ...req.body, pickup, requestId }),
+      payload: flattenPayload({ ...req.body, pickup, requestId, items, total, shopOrderId: order.id }),
     },
   })
-  res.status(201).json({ ok: true, id: row.id })
+  res.status(201).json({ ok: true, id: order.id })
 })
 
 router.post('/shop-orders-lookup', async (req, res) => {
@@ -194,6 +237,33 @@ router.post('/shop-orders-lookup', async (req, res) => {
     return res.status(400).json({ error: check.error })
   }
   const { email, phone } = check.value
+  const shopRows = await prisma.shopOrder.findMany({
+    where: { email },
+    orderBy: { createdAt: 'desc' },
+    take: 100,
+  })
+  const fromShop = shopRows
+    .filter((row) => phonesMatch(row.phone, phone))
+    .map((row) => {
+      let items = []
+      try {
+        items = JSON.parse(row.itemsJson)
+      } catch {
+        items = []
+      }
+      return {
+        id: row.id,
+        createdAt: row.createdAt,
+        status: row.status,
+        pickup: row.pickup,
+        total: row.total,
+        items,
+        message: row.message,
+      }
+    })
+  if (fromShop.length) {
+    return res.json({ ok: true, orders: fromShop })
+  }
   const rows = await prisma.contactMessage.findMany({
     where: { page: 'shop' },
     orderBy: { createdAt: 'desc' },

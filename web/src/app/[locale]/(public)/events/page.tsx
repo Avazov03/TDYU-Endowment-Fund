@@ -3,6 +3,7 @@ import { setRequestLocale } from 'next-intl/server'
 import { notFound } from 'next/navigation'
 import { routing, type Locale } from '@/i18n/routing'
 import { EventsView } from '@/components/live/EventsView'
+import { loadEvents } from '@/lib/cms-source'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
@@ -15,5 +16,6 @@ export default async function EventsPage({ params }: { params: Promise<{ locale:
   const { locale } = await params
   if (!hasLocale(routing.locales, locale)) notFound()
   setRequestLocale(locale)
-  return <EventsView locale={locale as Locale} />
+  const items = await loadEvents()
+  return <EventsView locale={locale as Locale} items={items} />
 }

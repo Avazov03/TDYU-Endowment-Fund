@@ -13,6 +13,10 @@ type Stats = {
   announcements: number
   documents?: number
   contentBlocks?: number
+  shopOrdersNew?: number
+  products?: number
+  events?: number
+  news?: number
 }
 
 type Contact = { id: string; name: string; email: string; status: string; createdAt: string; message: string }
@@ -63,14 +67,14 @@ export default function DashboardPage() {
           <p>Bugungi holat: yangi murojaatlar, xayriya va grantlar — bir qarashda.</p>
         </div>
         <div className="toolbar">
-          <Link className="btn ghost" href="/admin/content">
-            Kontentni tahrirlash
+          <Link className="btn ghost" href="/admin/events">
+            + Tadbir
           </Link>
-          <Link className="btn ghost" href="/admin/documents">
-            Hujjat yuklash
+          <Link className="btn ghost" href="/admin/shop/products">
+            Do‘kon
           </Link>
-          <Link className="btn ghost" href="/admin/announcements">
-            + E’lon
+          <Link className="btn ghost" href="/admin/finance">
+            Moliya
           </Link>
           <a className="btn" href="/uz" target="_blank" rel="noreferrer">
             Saytni ko‘rish
@@ -104,6 +108,18 @@ export default function DashboardPage() {
           <div className="label">Obunachilar</div>
           <div className="value">{stats?.subscribers ?? 0}</div>
           <div className="hint">Ro‘yxat →</div>
+        </Link>
+        <Link className="stat-card" href="/admin/shop/orders">
+          <div className="stat-icon warn">▣</div>
+          <div className="label">Yangi buyurtmalar</div>
+          <div className="value">{stats?.shopOrdersNew ?? 0}</div>
+          <div className="hint">Do‘kon →</div>
+        </Link>
+        <Link className="stat-card" href="/admin/events">
+          <div className="stat-icon">☰</div>
+          <div className="label">Tadbirlar</div>
+          <div className="value">{stats?.events ?? 0}</div>
+          <div className="hint">Boshqarish →</div>
         </Link>
         <Link className="stat-card" href="/admin/announcements">
           <div className="stat-icon">☰</div>
@@ -146,23 +162,23 @@ export default function DashboardPage() {
             <h2>Tezkor amallar</h2>
           </div>
           <div className="quick-actions">
+            <Link href="/admin/events">
+              Tadbir qo‘shish / tahrirlash <span>→</span>
+            </Link>
+            <Link href="/admin/shop/products">
+              Mahsulotlar va ombor <span>→</span>
+            </Link>
+            <Link href="/admin/shop/orders">
+              Do‘kon buyurtmalari <span>→</span>
+            </Link>
+            <Link href="/admin/finance">
+              Moliya paneli <span>→</span>
+            </Link>
+            <Link href="/admin/alumni">
+              Bitiruvchilar <span>→</span>
+            </Link>
             <Link href="/admin/content">
               Sayt matnlarini tahrirlash <span>→</span>
-            </Link>
-            <Link href="/admin/documents">
-              Hisobot / hujjat yuklash <span>→</span>
-            </Link>
-            <Link href="/admin/contacts">
-              Murojaatlarni ko‘rish <span>→</span>
-            </Link>
-            <Link href="/admin/donations">
-              Xayriyani tasdiqlash <span>→</span>
-            </Link>
-            <Link href="/admin/grants">
-              Grant arizalari <span>→</span>
-            </Link>
-            <Link href="/admin/settings">
-              Bank / aloqa sozlamalari <span>→</span>
             </Link>
           </div>
           <div className="panel-head" style={{ borderTop: '1px solid var(--tdyu-line)' }}>

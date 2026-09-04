@@ -58,6 +58,7 @@ if [[ -d "$SRC/server" ]]; then
   if [[ -f package-lock.json ]]; then
     npm ci --omit=dev || npm ci
   fi
+  npx prisma migrate deploy --schema server/prisma/schema.prisma
   npx prisma generate --schema server/prisma/schema.prisma
   pm2 restart tdyu-endowment --update-env
 fi

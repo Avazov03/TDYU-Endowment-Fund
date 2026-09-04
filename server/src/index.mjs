@@ -6,6 +6,8 @@ import cors from 'cors'
 import authRoutes from './routes/auth.mjs'
 import formsRoutes from './routes/forms.mjs'
 import adminRoutes from './routes/admin.mjs'
+import cmsRoutes from './routes/cms.mjs'
+import staffRoutes from './routes/staff.mjs'
 import publicRoutes from './routes/public.mjs'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
@@ -33,6 +35,8 @@ app.get('/api/health', (_req, res) => {
 app.use('/api/auth', authRoutes)
 app.use('/api/forms', formsRoutes)
 app.use('/api/admin', adminRoutes)
+app.use('/api/admin', cmsRoutes)
+app.use('/api/admin', staffRoutes)
 app.use('/api/public', publicRoutes)
 
 const root = path.join(__dirname, '../..')

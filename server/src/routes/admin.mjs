@@ -38,16 +38,31 @@ const router = Router()
 router.use(authRequired)
 
 router.get('/stats', async (_req, res) => {
-  const [contactsNew, donationsPending, grantsNew, subscribers, announcements, documents, contentBlocks] =
-    await Promise.all([
-      prisma.contactMessage.count({ where: { status: 'new' } }),
-      prisma.donation.count({ where: { status: 'pending' } }),
-      prisma.grantApplication.count({ where: { status: 'new' } }),
-      prisma.newsletterSubscriber.count(),
-      prisma.announcement.count({ where: { published: true } }),
-      prisma.document.count({ where: { published: true } }),
-      prisma.contentBlock.count(),
-    ])
+  const [
+    contactsNew,
+    donationsPending,
+    grantsNew,
+    subscribers,
+    announcements,
+    documents,
+    contentBlocks,
+    shopOrdersNew,
+    products,
+    events,
+    news,
+  ] = await Promise.all([
+    prisma.contactMessage.count({ where: { status: 'new' } }),
+    prisma.donation.count({ where: { status: 'pending' } }),
+    prisma.grantApplication.count({ where: { status: 'new' } }),
+    prisma.newsletterSubscriber.count(),
+    prisma.announcement.count({ where: { published: true } }),
+    prisma.document.count({ where: { published: true } }),
+    prisma.contentBlock.count(),
+    prisma.shopOrder.count({ where: { status: 'new' } }),
+    prisma.shopProduct.count({ where: { published: true } }),
+    prisma.cmsEvent.count({ where: { published: true } }),
+    prisma.cmsNews.count({ where: { published: true } }),
+  ])
   res.json({
     contactsNew,
     donationsPending,
@@ -56,6 +71,10 @@ router.get('/stats', async (_req, res) => {
     announcements,
     documents,
     contentBlocks,
+    shopOrdersNew,
+    products,
+    events,
+    news,
   })
 })
 

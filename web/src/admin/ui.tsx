@@ -26,6 +26,14 @@ export const grantStatus = {
   rejected: { label: 'Rad', tone: 'danger' },
 }
 
+export const shopOrderStatus = {
+  new: { label: 'Yangi', tone: 'info' },
+  packing: { label: 'Tayyorlanmoqda', tone: 'warn' },
+  ready: { label: 'Olib ketishga tayyor', tone: 'ok' },
+  done: { label: 'Berildi', tone: 'ok' },
+  cancelled: { label: 'Bekor', tone: 'danger' },
+}
+
 export function formatDate(iso: string) {
   try {
     return new Date(iso).toLocaleString('uz-UZ', {
