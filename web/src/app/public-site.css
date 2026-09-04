@@ -8120,9 +8120,9 @@
 }
 
 .live-root .alumni-map-board-wrap {
-  width: 95vw;
-  max-width: 95vw;
-  margin-left: calc(50% - 47.5vw);
+  width: 100%;
+  max-width: 100%;
+  margin-left: 0;
 }
 
 .live-root .alumni-map-board {
