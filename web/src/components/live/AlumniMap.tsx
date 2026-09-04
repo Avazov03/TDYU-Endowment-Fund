@@ -87,7 +87,8 @@ export function AlumniMap({ locale }: { locale: Locale }) {
           chart: {
             map: topology,
             backgroundColor: '#ffffff',
-            spacing: [12, 12, 12, 12],
+            height: null,
+            spacing: [16, 16, 16, 16],
             style: { fontFamily: 'Inter, system-ui, sans-serif' },
           },
           title: { text: undefined },
@@ -145,9 +146,7 @@ export function AlumniMap({ locale }: { locale: Locale }) {
               const list = mapNow.get(key) || []
               const name = localizeCountry(key, locNow)
               const alumniWord = loc(locNow, 'alumni', 'alumni', 'alumni')
-              if (!list.length) {
-                return `<b>${p.name || name}</b><br/>0 ${alumniWord}`
-              }
+              if (!list.length) return false
               const rows = list
                 .slice(0, 3)
                 .map((pin: AlumniMapPin) => {
@@ -170,16 +169,40 @@ export function AlumniMap({ locale }: { locale: Locale }) {
               mapData: topology,
               data: buildSeriesData(byCountryRef.current),
               joinBy: 'hc-key',
+              allAreas: true,
+              nullInteraction: true,
               nullColor: '#eef2f5',
               borderColor: '#ffffff',
               borderWidth: 0.75,
               states: {
-                hover: { color: '#f59a23', borderColor: '#ffffff' },
+                hover: {
+                  enabled: true,
+                  brightness: 0,
+                  borderColor: '#ffffff',
+                },
                 select: { color: '#00ade2' },
               },
               dataLabels: { enabled: false },
               point: {
                 events: {
+                  mouseOver() {
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    const pt = this as any
+                    const key = String(pt['hc-key'] || '').toLowerCase()
+                    const has = byCountryRef.current.has(key)
+                    if (pt.graphic) {
+                      pt.graphic.attr({ fill: has ? '#f59a23' : '#c5dce8' })
+                    }
+                  },
+                  mouseOut() {
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    const pt = this as any
+                    const key = String(pt['hc-key'] || '').toLowerCase()
+                    const has = byCountryRef.current.has(key)
+                    if (pt.graphic) {
+                      pt.graphic.attr({ fill: has ? pt.color || '#0C5776' : '#eef2f5' })
+                    }
+                  },
                   click() {
                     // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     const key = String((this as any)['hc-key'] || '').toLowerCase() as AlumniCountryId
@@ -207,6 +230,16 @@ export function AlumniMap({ locale }: { locale: Locale }) {
       }
     }
   }, [])
+
+  useEffect(() => {
+    const el = chartRef.current
+    if (!el || !mapReady) return
+    const ro = new ResizeObserver(() => {
+      chartApi.current?.reflow?.()
+    })
+    ro.observe(el)
+    return () => ro.disconnect()
+  }, [mapReady])
 
   useEffect(() => {
     const chart = chartApi.current
@@ -285,49 +318,51 @@ export function AlumniMap({ locale }: { locale: Locale }) {
           </div>
         </div>
 
-        <div className="alumni-map-board alumni-map-board--hc">
-          <div
-            ref={chartRef}
-            className="alumni-map-hc"
-            aria-label={loc(locale, 'Dunyo xaritasi', 'Карта мира', 'World map')}
-          />
-          {!mapReady && !mapError && (
-            <p className="alumni-map-loading">{loc(locale, 'Xarita yuklanmoqda…', 'Карта загружается…', 'Loading map…')}</p>
-          )}
-          {mapError && (
-            <p className="alumni-map-loading" role="alert">
-              {loc(locale, 'Xarita yuklanmadi.', 'Карта не загрузилась.', 'Map failed to load.')} {mapError}
-            </p>
-          )}
-
-          {focusId && primary && (
-            <aside className="alumni-map-panel" aria-live="polite">
-              <p className="alumni-map-panel-country">{localizeCountry(focusId, locale)}</p>
-              <p className="alumni-map-panel-count">
-                {focusPins.length} {loc(locale, 'alumni', 'alumni', 'alumni')}
+        <div className="alumni-map-board-wrap">
+          <div className="alumni-map-board alumni-map-board--hc">
+            <div
+              ref={chartRef}
+              className="alumni-map-hc"
+              aria-label={loc(locale, 'Dunyo xaritasi', 'Карта мира', 'World map')}
+            />
+            {!mapReady && !mapError && (
+              <p className="alumni-map-loading">{loc(locale, 'Xarita yuklanmoqda…', 'Карта загружается…', 'Loading map…')}</p>
+            )}
+            {mapError && (
+              <p className="alumni-map-loading" role="alert">
+                {loc(locale, 'Xarita yuklanmadi.', 'Карта не загрузилась.', 'Map failed to load.')} {mapError}
               </p>
-              <ul className="alumni-map-panel-list">
-                {focusPins.slice(0, 3).map((pin) => {
-                  const L = localizePin(pin, locale)
-                  return (
-                    <li key={pin.id}>
-                      <strong>{L.name}</strong>
-                      <span>{L.role}</span>
-                      {pin.year && <em>{pin.year}</em>}
-                    </li>
-                  )
-                })}
-              </ul>
-              {primary.slug && (
-                <Link href={`/alumni/${primary.slug}`} className="alumni-map-panel-link">
-                  {loc(locale, 'Profilni ko‘rish', 'Смотреть профиль', 'View profile')}
+            )}
+
+            {focusId && primary && (
+              <aside className="alumni-map-panel" aria-live="polite">
+                <p className="alumni-map-panel-country">{localizeCountry(focusId, locale)}</p>
+                <p className="alumni-map-panel-count">
+                  {focusPins.length} {loc(locale, 'alumni', 'alumni', 'alumni')}
+                </p>
+                <ul className="alumni-map-panel-list">
+                  {focusPins.slice(0, 3).map((pin) => {
+                    const L = localizePin(pin, locale)
+                    return (
+                      <li key={pin.id}>
+                        <strong>{L.name}</strong>
+                        <span>{L.role}</span>
+                        {pin.year && <em>{pin.year}</em>}
+                      </li>
+                    )
+                  })}
+                </ul>
+                {primary.slug && (
+                  <Link href={`/alumni/${primary.slug}`} className="alumni-map-panel-link">
+                    {loc(locale, 'Profilni ko‘rish', 'Смотреть профиль', 'View profile')}
+                  </Link>
+                )}
+                <Link href="/alumni" className="alumni-map-panel-more">
+                  {loc(locale, 'Barcha alumni', 'Все alumni', 'All alumni')}
                 </Link>
-              )}
-              <Link href="/alumni" className="alumni-map-panel-more">
-                {loc(locale, 'Barcha alumni', 'Все alumni', 'All alumni')}
-              </Link>
-            </aside>
-          )}
+              </aside>
+            )}
+          </div>
         </div>
       </div>
     </section>

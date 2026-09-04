@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { useLocale } from 'next-intl'
 import { Link, usePathname, useRouter } from '@/i18n/navigation'
@@ -25,8 +25,12 @@ function t(locale: string, uz: string, ru: string, en: string) {
 function navClass(active: boolean) {
   return [
     'inline-flex items-center h-[106px] text-[16px] leading-[22.4px] font-normal',
-    active ? 'text-sky' : 'text-[#030303] hover:text-sky',
+    active ? 'is-active text-sky' : 'text-[#030303] hover:text-sky',
   ].join(' ')
+}
+
+function startsWithPath(pathname: string, href: string) {
+  return pathname === href || pathname.startsWith(`${href}/`)
 }
 
 export function SiteHeader() {
@@ -35,7 +39,25 @@ export function SiteHeader() {
   const [open, setOpen] = useState(false)
   const [search, setSearch] = useState(false)
   const [query, setQuery] = useState('')
+  const [compact, setCompact] = useState(false)
   const router = useRouter()
+
+  useEffect(() => {
+    let raf = 0
+    function onScroll() {
+      cancelAnimationFrame(raf)
+      raf = requestAnimationFrame(() => {
+        const next = window.scrollY > 24
+        setCompact((cur) => (cur === next ? cur : next))
+      })
+    }
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => {
+      cancelAnimationFrame(raf)
+      window.removeEventListener('scroll', onScroll)
+    }
+  }, [])
 
   function submitSearch(e: React.FormEvent) {
     e.preventDefault()
@@ -46,8 +68,8 @@ export function SiteHeader() {
   }
 
   return (
-    <header className="sticky top-0 z-50 bg-[#f6f4ee] overflow-visible">
-      <div className="h-[45px] bg-tdyu text-white text-[14px] font-medium leading-none">
+    <header className={`site-chrome${compact ? ' is-compact' : ''}`}>
+      <div className="site-topbar h-[45px] bg-tdyu text-white text-[14px] font-medium leading-none">
         <div className="live-wrap flex items-center justify-between h-full">
           <span className="text-[16px] font-normal leading-none">TDYU Endowment Fund</span>
           <div className="live-top-links flex flex-wrap items-center justify-end">
@@ -81,9 +103,9 @@ export function SiteHeader() {
         </div>
       </div>
 
-      <div className="relative bg-[#f6f4ee] overflow-visible">
-        <div className={`live-wrap flex items-center justify-between overflow-visible ${locale === 'ru' ? 'min-h-[106px]' : 'h-[106px]'}`}>
-          <Link href="/" className="shrink-0" onClick={() => setOpen(false)}>
+      <div className="relative overflow-visible">
+        <div className={`live-wrap site-navrow flex items-center justify-between overflow-visible ${locale === 'ru' ? 'site-navrow--ru min-h-[106px]' : ''}`}>
+          <Link href="/" className="site-logo shrink-0" onClick={() => setOpen(false)}>
             <Image src="/brand/tdyu-logo.svg" alt="TDYU Endowment Fund" width={260} height={68} className="block h-[68px] w-[260px] max-w-none" priority unoptimized />
           </Link>
 
@@ -97,10 +119,10 @@ export function SiteHeader() {
             </Link>
             <Drop
               active={
-                pathname === '/about-us' ||
-                pathname === '/governance' ||
-                pathname === '/board' ||
-                pathname === '/mission-value'
+                startsWithPath(pathname, '/about-us') ||
+                startsWithPath(pathname, '/governance') ||
+                startsWithPath(pathname, '/board') ||
+                startsWithPath(pathname, '/mission-value')
               }
               label={t(locale, 'Missiya', 'Миссия', 'Mission')}
               items={[
@@ -111,6 +133,13 @@ export function SiteHeader() {
               ]}
             />
             <Drop
+              active={
+                startsWithPath(pathname, '/alumni') ||
+                startsWithPath(pathname, '/projects') ||
+                startsWithPath(pathname, '/grants') ||
+                startsWithPath(pathname, '/events') ||
+                startsWithPath(pathname, '/faq')
+              }
               label={t(locale, 'Sahifalar', 'Страницы', 'Pages')}
               items={[
                 { href: '/alumni', label: 'Alumni' },
@@ -121,13 +150,14 @@ export function SiteHeader() {
               ]}
             />
             <Mega
+              active={startsWithPath(pathname, '/programs')}
               label={t(locale, 'Dasturlar', 'Программы', 'Programs')}
               locale={locale}
             />
-            <Link className={navClass(pathname === '/news')} href="/news">
+            <Link className={navClass(startsWithPath(pathname, '/news'))} href="/news">
               {t(locale, 'Yangiliklar', 'Новости', 'News')}
             </Link>
-            <Link className={navClass(pathname === '/contact')} href="/contact">
+            <Link className={navClass(startsWithPath(pathname, '/contact'))} href="/contact">
               {t(locale, 'Aloqa', 'Контакты', 'Contact')}
             </Link>
           </nav>
@@ -149,7 +179,7 @@ export function SiteHeader() {
             <ShopHeaderCta />
             <Link
               href="/donate"
-              className="hidden sm:inline-flex items-center justify-center gap-2 rounded-[30px] bg-sky !text-white text-[15px] font-medium leading-none pl-[22px] pr-[18px] ml-4 h-[50px] hover:bg-tdyu"
+              className="site-cta-donate hidden sm:inline-flex items-center justify-center gap-2 rounded-[30px] bg-sky !text-white text-[15px] font-medium leading-none pl-[22px] pr-[18px] ml-4 h-[50px] hover:bg-tdyu"
               onClick={() => setOpen(false)}
             >
               {t(locale, 'Xayriya', 'Пожертвование', 'Donate')}
@@ -192,7 +222,7 @@ function Drop({
   active?: boolean
 }) {
   return (
-    <div className="nav-drop relative group h-[106px] flex items-center after:absolute after:left-0 after:right-0 after:top-full after:h-4">
+    <div className={['nav-drop relative group h-[106px] flex items-center after:absolute after:left-0 after:right-0 after:top-full after:h-4', active ? 'is-section-active' : ''].filter(Boolean).join(' ')}>
       <span className={['nav-drop-trigger', active ? 'is-active' : ''].filter(Boolean).join(' ')}>
         {label}
         <span className="nav-drop-chevron" aria-hidden>
@@ -224,7 +254,7 @@ function Drop({
   )
 }
 
-function Mega({ label, locale }: { label: string; locale: Locale }) {
+function Mega({ label, locale, active = false }: { label: string; locale: Locale; active?: boolean }) {
   const col = (title: string, items: { href: string; label: string }[]) => (
     <div>
       <p className="flex items-center gap-2 text-[16px] font-semibold text-[#030303] pb-3 mb-1 border-b border-[#e6e6e6]">
@@ -244,14 +274,14 @@ function Mega({ label, locale }: { label: string; locale: Locale }) {
   )
 
   return (
-    <div className="relative group h-[106px] flex items-center after:absolute after:left-0 after:right-0 after:top-full after:h-3">
-      <span className="inline-flex items-center gap-1 cursor-default text-[16px] leading-[22.4px] font-normal text-[#030303] group-hover:text-sky">
+    <div className={['nav-mega relative group h-[106px] flex items-center after:absolute after:left-0 after:right-0 after:top-full after:h-3', active ? 'is-section-active' : ''].filter(Boolean).join(' ')}>
+      <span className={['nav-mega-trigger inline-flex items-center gap-1 cursor-default text-[16px] leading-[22.4px] font-normal group-hover:text-sky', active ? 'text-sky' : 'text-[#030303]'].join(' ')}>
         {label}
         <svg className="group-hover:rotate-180 transition-transform" width="10" height="10" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
           <path d="M12 15.5 5.6 9.1l1.4-1.4L12 12.7l5-5 1.4 1.4z" />
         </svg>
       </span>
-      <div className="hidden group-hover:block fixed inset-x-0 top-[151px] z-[70] pointer-events-none">
+      <div className="hidden group-hover:block fixed inset-x-0 top-[var(--site-header-h)] z-[70] pointer-events-none">
         <div className="live-wrap pointer-events-auto">
           <div className="bg-white rounded-[16px] shadow-[0_18px_50px_rgba(12,87,118,0.16)] px-8 py-8 grid gap-8 lg:grid-cols-[0.85fr_1.2fr_0.85fr_minmax(380px,440px)]">
             {col(t(locale, 'Boshqaruv', 'Управление', 'Governance'), [

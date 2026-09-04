@@ -251,6 +251,123 @@
   line-height: 1;
 }
 
+/* Sticky header: hide top bar, shrink nav, slight blue tint */
+.live-root .site-chrome {
+  --site-header-h: 151px;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: #f6f4ee;
+  overflow: visible;
+  transition: background-color 0.35s ease, box-shadow 0.35s ease;
+}
+
+.live-root .site-chrome.is-compact {
+  --site-header-h: 74px;
+  background: #e8f2f6;
+  box-shadow: 0 10px 28px rgba(12, 87, 118, 0.1);
+}
+
+.live-root .site-topbar {
+  height: 45px;
+  overflow: hidden;
+  transition:
+    height 0.35s ease,
+    opacity 0.28s ease,
+    transform 0.35s ease;
+}
+
+.live-root .site-chrome.is-compact .site-topbar {
+  height: 0;
+  opacity: 0;
+  transform: translateY(-6px);
+  pointer-events: none;
+}
+
+.live-root .site-navrow {
+  height: 106px;
+  transition: height 0.35s ease;
+}
+
+.live-root .site-navrow.site-navrow--ru {
+  height: auto;
+  min-height: 106px;
+}
+
+.live-root .site-chrome.is-compact .site-navrow {
+  height: 74px;
+}
+
+.live-root .site-chrome.is-compact .site-navrow.site-navrow--ru {
+  min-height: 74px;
+  height: auto;
+}
+
+.live-root .site-logo img {
+  transition: height 0.35s ease, width 0.35s ease;
+}
+
+.live-root .site-chrome.is-compact .site-logo img {
+  height: 48px !important;
+  width: 184px !important;
+}
+
+.live-root .site-chrome.is-compact .live-nav {
+  column-gap: 36px;
+}
+
+.live-root .site-chrome.is-compact .live-nav > a,
+.live-root .site-chrome.is-compact .nav-drop,
+.live-root .site-chrome.is-compact .nav-mega {
+  height: 74px;
+}
+
+.live-root .site-chrome.is-compact .nav-drop-trigger,
+.live-root .site-chrome.is-compact .live-nav > a,
+.live-root .site-chrome.is-compact .nav-mega-trigger {
+  font-size: 15px;
+}
+
+.live-root .site-chrome.is-compact .site-cta-shop,
+.live-root .site-chrome.is-compact .site-cta-donate {
+  height: 42px;
+  font-size: 14px;
+}
+
+.live-root .site-chrome.is-compact .site-cta-donate span.inline-flex {
+  width: 24px;
+  height: 24px;
+}
+
+.live-root .live-nav > a,
+.live-root .nav-drop,
+.live-root .nav-mega {
+  position: relative;
+}
+
+.live-root .live-nav > a.is-active::before,
+.live-root .nav-drop.is-section-active::before,
+.live-root .nav-mega.is-section-active::before {
+  content: '';
+  position: absolute;
+  left: 10%;
+  right: 10%;
+  bottom: 0;
+  height: 3px;
+  background: #00ade2;
+  border-radius: 3px 3px 0 0;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .live-root .site-chrome,
+  .live-root .site-topbar,
+  .live-root .site-navrow,
+  .live-root .site-logo img {
+    transition: none;
+  }
+}
+
 .live-root a,
 .live-root button {
   transition:
@@ -7671,7 +7788,7 @@
 /* -- Alumni Highcharts Maps (real world choropleth) -- */
 .live-root .alumni-map-section {
   background: #f6f4ee;
-  padding: 70px 0 80px;
+  padding: 80px 0 96px;
 }
 
 .live-root .alumni-map-intro {
@@ -7703,10 +7820,10 @@
 
 .live-root .alumni-map-heading {
   margin: 0;
-  max-width: 16ch;
+  max-width: 18ch;
   color: #030303;
   font-family: Maitree, Georgia, serif;
-  font-size: clamp(1.8rem, 3vw, 2.45rem);
+  font-size: clamp(2rem, 3.4vw, 2.85rem);
   font-weight: 700;
   line-height: 1.2;
 }
@@ -7783,6 +7900,12 @@
   color: #fff;
 }
 
+.live-root .alumni-map-board-wrap {
+  width: 95vw;
+  max-width: 95vw;
+  margin-left: calc(50% - 47.5vw);
+}
+
 .live-root .alumni-map-board {
   position: relative;
   border-radius: 16px;
@@ -7793,12 +7916,12 @@
 }
 
 .live-root .alumni-map-board--hc {
-  min-height: 480px;
+  min-height: 560px;
 }
 
 .live-root .alumni-map-hc {
   width: 100%;
-  height: 520px;
+  height: 680px;
 }
 
 .live-root .alumni-map-loading {
@@ -7913,9 +8036,33 @@
   padding: 0 0 48px;
 }
 
+@media (max-width: 1024px) {
+  .live-root .alumni-map-hc {
+    height: 560px;
+  }
+
+  .live-root .alumni-map-board--hc {
+    min-height: 480px;
+  }
+}
+
 @media (max-width: 767px) {
   .live-root .alumni-map-section {
     padding: 48px 0 56px;
+  }
+
+  .live-root .alumni-map-board-wrap {
+    width: 100%;
+    max-width: 100%;
+    margin-left: 0;
+  }
+
+  .live-root .alumni-map-hc {
+    height: 400px;
+  }
+
+  .live-root .alumni-map-board--hc {
+    min-height: 360px;
   }
 
   .live-root .alumni-map-panel {
