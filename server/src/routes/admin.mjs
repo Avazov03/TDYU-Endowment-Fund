@@ -6,6 +6,8 @@ import { fileURLToPath } from 'node:url'
 import { prisma } from '../db.mjs'
 import { authRequired, hashPassword, verifyPassword } from '../auth.mjs'
 import { MAX_UPLOAD_BYTES, storedUploadName, assertAllowedUpload } from '../upload-security.mjs'
+import { parseMoney } from '../cms-util.mjs'
+import { countByMonth, lastNMonths, sumByMonth, trendFromRows } from '../admin-stats.mjs'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const uploadDir = path.join(__dirname, '../../uploads')
@@ -38,43 +40,146 @@ const router = Router()
 router.use(authRequired)
 
 router.get('/stats', async (_req, res) => {
+  const now = new Date()
+  const since = new Date(now.getFullYear(), now.getMonth() - 5, 1)
+  const months = lastNMonths(6, now)
+
   const [
     contactsNew,
     donationsPending,
+    donationsConfirmed,
     grantsNew,
     subscribers,
     announcements,
     documents,
     contentBlocks,
     shopOrdersNew,
+    shopOrdersOpen,
     products,
+    productsLowStock,
     events,
     news,
+    alumni,
+    board,
+    media,
+    mediaSum,
+    contactRows,
+    donationRows,
+    grantRows,
+    orderRows,
+    recentContacts,
+    recentDonations,
+    recentGrants,
+    recentOrders,
+    recentEvents,
   ] = await Promise.all([
     prisma.contactMessage.count({ where: { status: 'new' } }),
     prisma.donation.count({ where: { status: 'pending' } }),
+    prisma.donation.count({ where: { status: 'confirmed' } }),
     prisma.grantApplication.count({ where: { status: 'new' } }),
     prisma.newsletterSubscriber.count(),
     prisma.announcement.count({ where: { published: true } }),
     prisma.document.count({ where: { published: true } }),
     prisma.contentBlock.count(),
     prisma.shopOrder.count({ where: { status: 'new' } }),
+    prisma.shopOrder.count({ where: { status: { in: ['new', 'packing', 'ready'] } } }),
     prisma.shopProduct.count({ where: { published: true } }),
+    prisma.shopProduct.count({ where: { published: true, stock: { lte: 5 } } }),
     prisma.cmsEvent.count({ where: { published: true } }),
     prisma.cmsNews.count({ where: { published: true } }),
+    prisma.cmsPerson.count({ where: { kind: 'alumni', published: true } }),
+    prisma.cmsPerson.count({ where: { kind: 'board', published: true } }),
+    prisma.mediaAsset.count(),
+    prisma.mediaAsset.aggregate({ _sum: { size: true } }),
+    prisma.contactMessage.findMany({ where: { createdAt: { gte: since } }, select: { createdAt: true } }),
+    prisma.donation.findMany({
+      where: { createdAt: { gte: since } },
+      select: { createdAt: true, amount: true, status: true },
+    }),
+    prisma.grantApplication.findMany({ where: { createdAt: { gte: since } }, select: { createdAt: true } }),
+    prisma.shopOrder.findMany({ where: { createdAt: { gte: since } }, select: { createdAt: true, total: true } }),
+    prisma.contactMessage.findMany({
+      orderBy: { createdAt: 'desc' },
+      take: 5,
+      select: { id: true, name: true, email: true, status: true, createdAt: true, message: true },
+    }),
+    prisma.donation.findMany({
+      orderBy: { createdAt: 'desc' },
+      take: 5,
+      select: {
+        id: true,
+        firstName: true,
+        lastName: true,
+        amount: true,
+        currency: true,
+        status: true,
+        createdAt: true,
+      },
+    }),
+    prisma.grantApplication.findMany({
+      orderBy: { createdAt: 'desc' },
+      take: 5,
+      select: { id: true, name: true, email: true, program: true, status: true, createdAt: true },
+    }),
+    prisma.shopOrder.findMany({
+      orderBy: { createdAt: 'desc' },
+      take: 5,
+      select: { id: true, name: true, total: true, status: true, createdAt: true },
+    }),
+    prisma.cmsEvent.findMany({
+      where: { published: true },
+      orderBy: [{ sortOrder: 'asc' }, { createdAt: 'desc' }],
+      take: 6,
+      select: { slug: true, titleUz: true, dateUz: true, locUz: true, coverUrl: true },
+    }),
   ])
+
+  const confirmedInWindow = donationRows.filter((d) => d.status === 'confirmed')
+  const openWork = contactsNew + donationsPending + grantsNew + shopOrdersNew
+  const donationsConfirmedSum = confirmedInWindow.reduce((s, d) => s + parseMoney(d.amount), 0)
+
   res.json({
     contactsNew,
     donationsPending,
+    donationsConfirmed,
+    donationsConfirmedSum,
     grantsNew,
     subscribers,
     announcements,
     documents,
     contentBlocks,
     shopOrdersNew,
+    shopOrdersOpen,
     products,
+    productsLowStock,
     events,
     news,
+    alumni,
+    board,
+    media,
+    mediaBytes: mediaSum._sum.size || 0,
+    openWork,
+    trends: {
+      contacts: trendFromRows(contactRows, now),
+      donations: trendFromRows(donationRows, now),
+      grants: trendFromRows(grantRows, now),
+      orders: trendFromRows(orderRows, now),
+    },
+    month: {
+      labels: months.map((m) => m.label),
+      keys: months.map((m) => m.key),
+      contacts: countByMonth(contactRows, months),
+      donations: countByMonth(donationRows, months),
+      donationSum: sumByMonth(confirmedInWindow, months, (d) => parseMoney(d.amount)),
+      grants: countByMonth(grantRows, months),
+      orders: countByMonth(orderRows, months),
+      orderSum: sumByMonth(orderRows, months, (o) => o.total),
+    },
+    recentContacts,
+    recentDonations,
+    recentGrants,
+    recentOrders,
+    recentEvents,
   })
 })
 

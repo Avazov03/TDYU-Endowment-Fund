@@ -157,10 +157,16 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
   const router = useRouter()
   const [q, setQ] = useState('')
   const [open, setOpen] = useState(false)
+  const [collapsed, setCollapsed] = useState(false)
   const [role, setRole] = useState<string | null>(null)
   const [who, setWho] = useState('')
 
   useEffect(() => {
+    try {
+      setCollapsed(localStorage.getItem('tdyu_admin_sidebar') === '1')
+    } catch {
+      /* ignore */
+    }
     api<{ role: string; name: string; email: string }>('/api/auth/me')
       .then((u) => {
         setRole(u.role)
@@ -168,6 +174,18 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
       })
       .catch(() => setRole('admin'))
   }, [])
+
+  function toggleCollapsed() {
+    setCollapsed((v) => {
+      const next = !v
+      try {
+        localStorage.setItem('tdyu_admin_sidebar', next ? '1' : '0')
+      } catch {
+        /* ignore */
+      }
+      return next
+    })
+  }
 
   const filtered = useMemo(() => {
     const needle = q.trim().toLowerCase()
@@ -184,19 +202,35 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
       .filter((g) => g.items.length)
   }, [q, role])
 
+  const current = useMemo(() => {
+    const flat = groups.flatMap((g) => g.items.map((i) => ({ ...i, group: g.title })))
+    return flat.find((i) => isActive(pathname, i))
+  }, [pathname])
+
   return (
-    <div className="admin-shell">
+    <div className={`admin-shell${collapsed ? ' is-collapsed' : ''}`}>
       <button type="button" className="admin-menu-btn" onClick={() => setOpen((v) => !v)}>
         {open ? 'Yopish' : 'Menyu'}
       </button>
-      <aside className={`admin-side${open ? ' is-open' : ''}`}>
-        <Link className="admin-brand" href="/admin" onClick={() => setOpen(false)}>
-          <img src="/brand/tdyu-mark.svg" alt="" />
-          <div className="brand-text">
-            <strong>TDYU Endowment</strong>
-            <span>{role === 'super' ? 'Super admin' : 'Boshqaruv paneli'}</span>
-          </div>
-        </Link>
+      <aside className={`admin-side${open ? ' is-open' : ''}${collapsed ? ' is-collapsed' : ''}`}>
+        <div className="side-brand-row">
+          <Link className="admin-brand" href="/admin" onClick={() => setOpen(false)}>
+            <img src="/brand/tdyu-mark.svg" alt="" />
+            <div className="brand-text">
+              <strong>TDYU Endowment</strong>
+              <span>{role === 'super' ? 'Super admin' : 'Boshqaruv paneli'}</span>
+            </div>
+          </Link>
+          <button
+            type="button"
+            className="side-collapse"
+            onClick={toggleCollapsed}
+            aria-label={collapsed ? 'Menyuni kengaytirish' : 'Menyuni yig‘ish'}
+            title={collapsed ? 'Kengaytirish' : 'Yig‘ish'}
+          >
+            {collapsed ? '›' : '‹'}
+          </button>
+        </div>
 
         <input
           className="nav-search"
@@ -216,9 +250,10 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
                   href={l.to}
                   className={isActive(pathname, l) ? 'active' : ''}
                   onClick={() => setOpen(false)}
+                  title={l.label}
                 >
                   <Icon name={l.icon} />
-                  {l.label}
+                  <span>{l.label}</span>
                 </Link>
               ))}
             </nav>
@@ -243,7 +278,23 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
           </button>
         </div>
       </aside>
-      <main className="admin-main">{children}</main>
+      <main className="admin-main">
+        <header className="admin-headbar">
+          <div className="crumb">
+            <span>Admin</span>
+            {current ? (
+              <>
+                <span aria-hidden>/</span>
+                <strong>{current.label}</strong>
+              </>
+            ) : null}
+          </div>
+          <time dateTime={new Date().toISOString()}>
+            {new Date().toLocaleDateString('uz-UZ', { day: 'numeric', month: 'short', year: 'numeric' })}
+          </time>
+        </header>
+        {children}
+      </main>
     </div>
   )
 }

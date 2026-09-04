@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { api } from '../api'
 import { EmptyState, LoadingBlock, StatusBadge, donationStatus, formatDate, shopOrderStatus } from '../ui'
+import { BarChart } from '../charts'
 
 type Finance = {
   donations: {
@@ -22,6 +23,7 @@ type Finance = {
     recent: { id: string; name: string; total: number; status: string; createdAt: string }[]
   }
   grants: { new: number; reviewing: number; accepted: number; rejected: number }
+  month?: { labels: string[]; donationSum: number[]; orderSum: number[] }
 }
 
 function money(n: number) {
@@ -80,6 +82,26 @@ export default function FinancePage() {
           <div className="label">Do‘kon (jarayonda)</div>
           <div className="value">{money(data?.shop.openSum || 0)}</div>
           <div className="hint">{data?.shop.openCount || 0} ta ochiq</div>
+        </div>
+      </div>
+
+      <div className="panel" style={{ marginBottom: 14 }}>
+        <div className="panel-head">
+          <h2>6 oylik tushum</h2>
+          <span className="meta">Tasdiqlangan xayriya va berilgan buyurtmalar</span>
+        </div>
+        <div className="panel-pad">
+          {data?.month?.labels?.length ? (
+            <BarChart
+              labels={data.month.labels}
+              series={[
+                { name: 'Xayriya', values: data.month.donationSum || [], tone: 'ok' },
+                { name: 'Do‘kon', values: data.month.orderSum || [], tone: 'sky' },
+              ]}
+            />
+          ) : (
+            <EmptyState title="Hali oylik tushum yo‘q" />
+          )}
         </div>
       </div>
 

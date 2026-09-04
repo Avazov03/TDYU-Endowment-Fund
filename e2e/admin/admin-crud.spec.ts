@@ -102,7 +102,15 @@ test.describe('admin — status va ruxsat', () => {
       headers: { Authorization: `Bearer ${token}` },
     })
     expect(res.status()).toBe(200)
-    const body = (await res.json()) as { contactsNew: number }
+    const body = (await res.json()) as {
+      contactsNew: number
+      openWork?: number
+      month?: { labels: string[] }
+      trends?: { contacts: { pct: number } }
+    }
     expect(typeof body.contactsNew).toBe('number')
+    expect(typeof body.openWork).toBe('number')
+    expect(body.month?.labels?.length).toBe(6)
+    expect(typeof body.trends?.contacts.pct).toBe('number')
   })
 })

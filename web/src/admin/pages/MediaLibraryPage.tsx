@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { api, uploadFile } from '../api'
-import { EmptyState, LoadingBlock, formatDate } from '../ui'
+import { EmptyState, LoadingBlock, formatBytes, formatDate } from '../ui'
 import type { MediaAsset } from '../cms/MediaPicker'
 
 export default function MediaLibraryPage() {
@@ -62,6 +62,19 @@ export default function MediaLibraryPage() {
       </div>
       {error ? <div className="error">{error}</div> : null}
       {msg ? <div className="success">{msg}</div> : null}
+
+      {!loading ? (
+        <div className="cards cards-4" style={{ marginBottom: 16 }}>
+          <div className="stat-card mini">
+            <div className="label">Fayllar</div>
+            <div className="value">{rows.length}</div>
+          </div>
+          <div className="stat-card mini">
+            <div className="label">Hajm</div>
+            <div className="value">{formatBytes(rows.reduce((s, r) => s + (r.size || 0), 0))}</div>
+          </div>
+        </div>
+      ) : null}
 
       <div className="panel">
         {loading ? (

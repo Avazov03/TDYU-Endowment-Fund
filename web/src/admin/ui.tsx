@@ -48,6 +48,17 @@ export function formatDate(iso: string) {
   }
 }
 
+export function formatMoney(n: number, currency = 'so‘m') {
+  return `${Math.round(Number(n) || 0).toLocaleString('uz-UZ')} ${currency}`
+}
+
+export function formatBytes(n: number) {
+  const v = Number(n) || 0
+  if (v < 1024) return `${v} B`
+  if (v < 1024 * 1024) return `${(v / 1024).toFixed(0)} KB`
+  return `${(v / (1024 * 1024)).toFixed(1)} MB`
+}
+
 export function LoadingBlock({ label = 'Yuklanmoqda…' }: { label?: string }) {
   return (
     <div className="loading-block" role="status">

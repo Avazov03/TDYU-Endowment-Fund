@@ -18,6 +18,7 @@ import {
   parseMoney,
 } from '../cms-util.mjs'
 import { hideSlug, unhideSlug } from '../cms-overlay.mjs'
+import { lastNMonths, sumByMonth } from '../admin-stats.mjs'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const uploadDir = path.join(__dirname, '../../uploads/media')
@@ -386,6 +387,8 @@ router.get('/finance', async (_req, res) => {
   const shopDone = shopOrders.filter((o) => o.status === 'done')
   const lowStock = products.filter((p) => p.published && p.stock <= 5)
 
+  const months = lastNMonths(6)
+
   res.json({
     donations: {
       pendingCount: donPending.length,
@@ -407,6 +410,11 @@ router.get('/finance', async (_req, res) => {
       reviewing: grants.filter((g) => g.status === 'reviewing').length,
       accepted: grants.filter((g) => g.status === 'accepted').length,
       rejected: grants.filter((g) => g.status === 'rejected').length,
+    },
+    month: {
+      labels: months.map((m) => m.label),
+      donationSum: sumByMonth(donConfirmed, months, (d) => parseMoney(d.amount)),
+      orderSum: sumByMonth(shopDone, months, (o) => o.total),
     },
   })
 })
