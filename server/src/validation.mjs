@@ -76,3 +76,70 @@ export function validateNewsletter(body = {}) {
   }
   return { ok: true, value: { email } }
 }
+
+const SHOP_PICKUPS = new Set(['bino-2', 'bino-3'])
+
+export function normalizeShopItems(items) {
+  if (!Array.isArray(items) || items.length < 1 || items.length > 30) return null
+  const out = []
+  for (const row of items) {
+    if (!row || typeof row.slug !== 'string' || !/^[a-z0-9-]{2,40}$/.test(row.slug)) return null
+    const qty = Number(row.qty)
+    if (!Number.isInteger(qty) || qty < 1 || qty > 20) return null
+    const size = typeof row.size === 'string' ? row.size.trim() : ''
+    if (size && !/^[A-Z0-9-]{1,8}$/.test(size)) return null
+    out.push({ slug: row.slug, qty, size: size || undefined })
+  }
+  return out
+}
+
+export function validateShopOrder(body = {}) {
+  const name = String(body.name || '').trim()
+  const email = String(body.email || '').trim()
+  const phone = String(body.phone || '').replace(/\s/g, '')
+  const pickup = String(body.pickup || '').trim()
+  const message = String(body.message || '').trim()
+  const requestId = String(body.requestId || '').trim().slice(0, 200)
+  const items = normalizeShopItems(body.items)
+  if (!name || !email || !phone || !pickup || !message) {
+    return { ok: false, error: 'name, email, phone, pickup and message are required' }
+  }
+  if (!looksLikeEmail(email)) {
+    return { ok: false, error: 'invalid email format' }
+  }
+  const digits = phone.replace(/\D/g, '')
+  if (digits.length < 9 || digits.length > 15) {
+    return { ok: false, error: 'invalid phone' }
+  }
+  if (!SHOP_PICKUPS.has(pickup)) {
+    return { ok: false, error: 'invalid pickup' }
+  }
+  if (!items) {
+    return { ok: false, error: 'invalid items' }
+  }
+  return { ok: true, value: { name, email, phone, pickup, message, requestId, items } }
+}
+
+export function phoneDigits(value) {
+  return String(value || '').replace(/\D/g, '')
+}
+
+export function phonesMatch(a, b) {
+  const da = phoneDigits(a)
+  const db = phoneDigits(b)
+  if (!da || !db) return false
+  if (da === db) return true
+  return da.length >= 9 && db.length >= 9 && da.slice(-9) === db.slice(-9)
+}
+
+export function validateShopLookup(body = {}) {
+  const email = String(body.email || '').trim().toLowerCase()
+  const phone = phoneDigits(body.phone)
+  if (!email || !looksLikeEmail(email)) {
+    return { ok: false, error: 'invalid email format' }
+  }
+  if (phone.length < 9 || phone.length > 15) {
+    return { ok: false, error: 'invalid phone' }
+  }
+  return { ok: true, value: { email, phone } }
+}

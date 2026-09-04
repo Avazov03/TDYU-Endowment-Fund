@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { useLocale } from 'next-intl'
 import { Link, usePathname, useRouter } from '@/i18n/navigation'
 import { SiteOffcanvas } from './SiteOffcanvas'
+import { ShopHeaderCta } from './shop/ShopHeaderCta'
 
 const TOP = [
   { href: '/reports', uz: 'Hisobotlar', ru: 'Отчёты', en: 'Reports' },
@@ -40,7 +41,8 @@ export function SiteHeader() {
     e.preventDefault()
     const q = query.trim()
     setSearch(false)
-    router.push(q ? `/news?q=${encodeURIComponent(q)}` : '/news')
+    const shop = pathname === '/shop' || pathname.startsWith('/shop/')
+    router.push(q ? `${shop ? '/shop' : '/news'}?q=${encodeURIComponent(q)}` : shop ? '/shop' : '/news')
   }
 
   return (
@@ -144,6 +146,7 @@ export function SiteHeader() {
                 <span className="block w-[20px] h-[2px] bg-tdyu" />
               </span>
             </button>
+            <ShopHeaderCta />
             <Link
               href="/donate"
               className="hidden sm:inline-flex items-center justify-center gap-2 rounded-[30px] bg-sky !text-white text-[15px] font-medium leading-none pl-[22px] pr-[18px] ml-4 h-[50px] hover:bg-tdyu"

@@ -1,6 +1,27 @@
 import { Router } from 'express'
 import { prisma } from '../db.mjs'
-import { validateContact, validateDonation, validateGrant, validateNewsletter } from '../validation.mjs'
+import { validateContact, validateDonation, validateGrant, validateNewsletter, validateShopOrder, validateShopLookup, phonesMatch } from '../validation.mjs'
+
+const shopHits = new Map()
+const SHOP_WINDOW_MS = 60 * 60 * 1000
+const SHOP_MAX = 8
+
+function clientIp(req) {
+  const xf = String(req.headers['x-forwarded-for'] || '').split(',')[0].trim()
+  return xf || req.socket?.remoteAddress || 'unknown'
+}
+
+function shopRateLimited(ip) {
+  const now = Date.now()
+  const recent = (shopHits.get(ip) || []).filter((t) => now - t < SHOP_WINDOW_MS)
+  if (recent.length >= SHOP_MAX) {
+    shopHits.set(ip, recent)
+    return true
+  }
+  recent.push(now)
+  shopHits.set(ip, recent)
+  return false
+}
 
 const router = Router()
 
@@ -128,6 +149,76 @@ router.post('/grant', async (req, res) => {
     },
   })
   res.status(201).json({ ok: true, id: row.id })
+})
+
+router.post('/shop-order', async (req, res) => {
+  const ip = clientIp(req)
+  if (shopRateLimited(ip)) {
+    return res.status(429).json({ error: 'Too many requests' })
+  }
+  const check = validateShopOrder(req.body || {})
+  if (!check.ok) {
+    return res.status(400).json({ error: check.error })
+  }
+  const { name, email, phone, pickup, message, requestId } = check.value
+  if (requestId) {
+    const existing = await prisma.contactMessage.findFirst({
+      where: { page: 'shop', payload: { contains: requestId } },
+    })
+    if (existing) {
+      return res.status(201).json({ ok: true, id: existing.id, duplicate: true })
+    }
+  }
+  const row = await prisma.contactMessage.create({
+    data: {
+      name,
+      email: String(email).trim().toLowerCase(),
+      phone,
+      subject: 'TSUL SHOP buyurtma',
+      message,
+      lang: req.body.lang || 'uz',
+      page: 'shop',
+      payload: flattenPayload({ ...req.body, pickup, requestId }),
+    },
+  })
+  res.status(201).json({ ok: true, id: row.id })
+})
+
+router.post('/shop-orders-lookup', async (req, res) => {
+  const ip = clientIp(req)
+  if (shopRateLimited(ip)) {
+    return res.status(429).json({ error: 'Too many requests' })
+  }
+  const check = validateShopLookup(req.body || {})
+  if (!check.ok) {
+    return res.status(400).json({ error: check.error })
+  }
+  const { email, phone } = check.value
+  const rows = await prisma.contactMessage.findMany({
+    where: { page: 'shop' },
+    orderBy: { createdAt: 'desc' },
+    take: 100,
+  })
+  const orders = rows
+    .filter((row) => String(row.email || '').trim().toLowerCase() === email && phonesMatch(row.phone, phone))
+    .map((row) => {
+    let extra = {}
+    try {
+      extra = row.payload ? JSON.parse(row.payload) : {}
+    } catch {
+      extra = {}
+    }
+    return {
+      id: row.id,
+      createdAt: row.createdAt,
+      status: row.status,
+      pickup: extra.pickup || null,
+      total: extra.total ?? null,
+      items: Array.isArray(extra.items) ? extra.items : [],
+      message: row.message,
+    }
+  })
+  res.json({ ok: true, orders })
 })
 
 router.post('/newsletter', async (req, res) => {

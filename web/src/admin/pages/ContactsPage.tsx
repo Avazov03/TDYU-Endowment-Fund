@@ -30,6 +30,7 @@ export default function ContactsPage() {
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(true)
   const [status, setStatus] = useState('all')
+  const [kind, setKind] = useState('all')
   const [q, setQ] = useState('')
   const [active, setActive] = useState<Contact | null>(null)
   const [note, setNote] = useState('')
@@ -52,11 +53,13 @@ export default function ContactsPage() {
   const filtered = useMemo(() => {
     return rows.filter((r) => {
       if (status !== 'all' && r.status !== status) return false
+      if (kind === 'shop' && r.page !== 'shop') return false
+      if (kind === 'contact' && r.page === 'shop') return false
       if (!q.trim()) return true
-      const hay = `${r.name} ${r.email} ${r.phone || ''} ${r.message}`.toLowerCase()
+      const hay = `${r.name} ${r.email} ${r.phone || ''} ${r.subject || ''} ${r.message}`.toLowerCase()
       return hay.includes(q.trim().toLowerCase())
     })
-  }, [rows, status, q])
+  }, [rows, status, kind, q])
 
   function open(r: Contact) {
     setActive(r)
@@ -86,6 +89,11 @@ export default function ContactsPage() {
       <div className="panel">
         <div className="filters">
           <input className="search" placeholder="Qidirish…" value={q} onChange={(e) => setQ(e.target.value)} />
+          <select value={kind} onChange={(e) => setKind(e.target.value)}>
+            <option value="all">Barcha turlar</option>
+            <option value="contact">Aloqa</option>
+            <option value="shop">TSUL SHOP</option>
+          </select>
           <select value={status} onChange={(e) => setStatus(e.target.value)}>
             <option value="all">Barcha statuslar</option>
             {statuses.map((s) => (
@@ -120,8 +128,10 @@ export default function ContactsPage() {
                       {r.phone ? ` · ${r.phone}` : ''}
                     </div>
                     <div className="cell-meta">{formatDate(r.createdAt)}</div>
+                    {r.page === 'shop' ? <div className="badge tone-info">TSUL SHOP</div> : null}
                   </td>
                   <td style={{ maxWidth: 340 }}>
+                    {r.subject ? <div className="cell-title">{r.subject}</div> : null}
                     {r.message.slice(0, 140)}
                     {r.message.length > 140 ? '…' : ''}
                   </td>

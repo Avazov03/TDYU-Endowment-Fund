@@ -28,8 +28,11 @@ Nginx :80 (SSL = DNS dan keyin certbot)
 - [x] Clone + build + PM2
 - [x] `.env` + SQLite + uploads (localdan; eski SSH yopiq edi)
 - [x] Health: next/api/nginx **200**
-- [ ] DNS A → `3.79.57.253`
-- [ ] Certbot SSL
+- [x] DNS A `tdyu.zonic.fit` → `3.79.57.253`
+- [x] Certbot SSL `tdyu.zonic.fit` (2026-12-03 gacha; `certbot.timer`)
+- [x] Lightsail IPv4 firewall: HTTPS 443 ochiq (tashqi HTTPS 200)
+- [ ] DNS A `tdyu.yuretta.uz` + `tdyu.yuritta.uz` → `3.79.57.253`
+- [ ] Certbot SSL `tdyu.yuretta.uz`
 - [ ] Eski TDYU tozalash (SSH ochilganda)
 
 ## Foydalanuvchi qiladi

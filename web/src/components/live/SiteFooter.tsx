@@ -64,7 +64,11 @@ export function SiteFooter({ locale }: { locale: Locale }) {
     { href: '/projects' as const, label: loc(locale, 'Loyihalar', 'Проекты', 'Projects'), key: 'projects' },
   ]
 
-  const usefulLinks = [{ href: '/support' as const, label: loc(locale, 'Yordam', 'Поддержка', 'Support') }]
+  const usefulLinks = [
+    { href: '/shop' as const, label: loc(locale, 'Do‘kon', 'Магазин', 'Shop') },
+    { href: '/shop/orders' as const, label: loc(locale, 'Buyurtmalarim', 'Мои заказы', 'My orders') },
+    { href: '/support' as const, label: loc(locale, 'Yordam', 'Поддержка', 'Support') },
+  ]
 
   return (
     <footer className="site-footer">

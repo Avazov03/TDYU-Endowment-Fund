@@ -1,6 +1,6 @@
 # TDYU production deploy
 
-Live URL: https://tdyu.yuretta.uz/uz
+Live URL: https://tdyu.zonic.fit/uz
 
 ## Nima qayerda
 
@@ -9,7 +9,7 @@ Live URL: https://tdyu.yuretta.uz/uz
 | Git manba | `/opt/tdyu-fresh` (`origin/main`) |
 | Express + `.env` | `/opt/tdyu-endowment` — PM2 `tdyu-endowment` — `:18787` |
 | Next standalone | `/opt/tdyu-endowment/next` — PM2 `tdyu-next` — `:13000` |
-| Nginx | `tdyu.yuretta.uz` / `tdyu.yuritta.uz` — `/` `/admin` → Next; `/api` `/uploads` → Express |
+| Nginx | `tdyu.zonic.fit` (HTTPS) + `tdyu.yuretta.uz` / `tdyu.yuritta.uz` — `/` `/admin` → Next; `/api` `/uploads` → Express |
 
 `/opt/tdyu-endowment` **git repo emas**. U yerga `git pull` qilmang.
 

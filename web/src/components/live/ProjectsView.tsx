@@ -65,9 +65,10 @@ const FEATURES = [
     title: 'TSUL SHOP',
     titleRu: 'TSUL SHOP',
     titleEn: 'TSUL SHOP',
-    desc: 'Xalqaro tadbirlar, ilmiy nashrlar va infratuzilma — shaffof hisobotlar bilan.',
-    descRu: 'Международные мероприятия, научные издания и инфраструктура — с прозрачной отчётностью.',
-    descEn: 'International events, academic publications and infrastructure — with transparent reporting.',
+    href: '/shop' as const,
+    desc: 'Campus do‘koni: brend mahsulotlar, aksiya va olib ketish.',
+    descRu: 'Магазин кампуса: брендовые товары, акции и самовывоз.',
+    descEn: 'Campus shop: branded goods, sale prices and pickup.',
   },
   {
     icon: '/media/projects/icon-internship.svg',
@@ -233,7 +234,15 @@ export function ProjectsView({ locale }: { locale: Locale }) {
                 <div className="projects-feature-badge">
                   <Image src={f.icon} alt="" width={60} height={60} unoptimized />
                 </div>
-                <h3 className="projects-feature-title">{loc(locale, f.title, f.titleRu, f.titleEn)}</h3>
+                <h3 className="projects-feature-title">
+                  {'href' in f && f.href ? (
+                    <Link href={f.href} className="hover:!text-sky">
+                      {loc(locale, f.title, f.titleRu, f.titleEn)}
+                    </Link>
+                  ) : (
+                    loc(locale, f.title, f.titleRu, f.titleEn)
+                  )}
+                </h3>
                 <p className="projects-feature-desc">{loc(locale, f.desc, f.descRu, f.descEn)}</p>
               </article>
             ))}

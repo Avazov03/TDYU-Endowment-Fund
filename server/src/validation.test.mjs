@@ -5,6 +5,8 @@ import {
   validateDonation,
   validateGrant,
   validateNewsletter,
+  validateShopOrder,
+  validateShopLookup,
 } from '../src/validation.mjs'
 
 describe('validateContact', () => {
@@ -86,5 +88,51 @@ describe('validateNewsletter', () => {
   it('faqat @ — xato', () => {
     const r = validateNewsletter({ email: '@' })
     expect(r.ok).toBe(false)
+  })
+})
+
+describe('validateShopOrder', () => {
+  const okBody = {
+    name: 'Ali Valiyev',
+    email: 'ali@example.com',
+    phone: '+998901234567',
+    pickup: 'bino-2',
+    message: 'TSUL SHOP buyurtma\nBloknot × 1',
+    items: [{ slug: 'bloknot', qty: 1 }],
+  }
+
+  it('to‘g‘ri buyurtma bilan o‘tadi', () => {
+    const r = validateShopOrder(okBody)
+    expect(r.ok).toBe(true)
+    expect(r.value.pickup).toBe('bino-2')
+    expect(r.value.items).toEqual([{ slug: 'bloknot', qty: 1 }])
+  })
+
+  it('telefon juda qisqa — xato', () => {
+    const r = validateShopOrder({ ...okBody, phone: '123' })
+    expect(r.ok).toBe(false)
+    expect(r.error).toMatch(/phone/i)
+  })
+
+  it('bo‘sh savat — xato', () => {
+    const r = validateShopOrder({ ...okBody, items: [] })
+    expect(r.ok).toBe(false)
+    expect(r.error).toMatch(/items/i)
+  })
+
+  it('qidiruv email+telefon bilan o‘tadi', () => {
+    const r = validateShopLookup({ email: 'Ali@Example.com', phone: '90 111 22 33' })
+    expect(r.ok).toBe(true)
+    expect(r.value.email).toBe('ali@example.com')
+    expect(r.value.phone).toBe('901112233')
+  })
+
+  it('o‘lcham bilan o‘tadi', () => {
+    const r = validateShopOrder({
+      ...okBody,
+      items: [{ slug: 'polo-futbolka', qty: 2, size: 'M' }],
+    })
+    expect(r.ok).toBe(true)
+    expect(r.value.items[0].size).toBe('M')
   })
 })

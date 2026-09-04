@@ -102,6 +102,24 @@ export function SiteOffcanvas({
             <Link href="/contact" className="!text-white hover:!text-sky" onClick={onClose}>{t(locale, 'Aloqa', 'Контакты', 'Contact')}</Link>
             <Link href="/donate" className="!text-sky" onClick={onClose}>{t(locale, 'Xayriya', 'Пожертвование', 'Donate')}</Link>
           </nav>
+          <Link
+            href="/shop"
+            onClick={onClose}
+            className="mb-8 inline-flex items-center justify-center gap-2 w-full h-[50px] rounded-[30px] bg-sky !text-white text-[15px] font-medium hover:bg-white hover:!text-tdyu"
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
+              <path d="M6.5 8h11l-.7 11.2a2 2 0 0 1-2 1.8H9.2a2 2 0 0 1-2-1.8L6.5 8Z" stroke="currentColor" strokeWidth="1.7" strokeLinejoin="round" />
+              <path d="M9 8V6.4A3 3 0 0 1 12 3.5 3 3 0 0 1 15 6.4V8" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
+            </svg>
+            {t(locale, 'Do‘kon', 'Магазин', 'Shop')}
+          </Link>
+          <Link
+            href="/shop/orders"
+            onClick={onClose}
+            className="mb-8 inline-flex items-center justify-center gap-2 w-full h-[46px] rounded-[30px] border border-white/40 !text-white text-[15px] font-medium hover:bg-white hover:!text-tdyu"
+          >
+            {t(locale, 'Buyurtmalarim', 'Мои заказы', 'My orders')}
+          </Link>
 
           <div className="grid grid-cols-3 gap-2 mb-9">
             {GALLERY.map((n) => (
