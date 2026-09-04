@@ -1,21 +1,21 @@
 :root {
-  --tdyu-cyan: #1d2939;
-  --tdyu-cyan-deep: #101828;
-  --tdyu-sky: #465fff;
-  --tdyu-cream: #f9fafb;
+  --tdyu-cyan: #0c5776;
+  --tdyu-cyan-deep: #09465f;
+  --tdyu-sky: #00ade2;
+  --tdyu-cream: #f3f6f8;
   --tdyu-surface: #ffffff;
-  --tdyu-ink: #1d2939;
-  --tdyu-muted: #667085;
-  --tdyu-line: #e4e7ec;
-  --tdyu-danger: #d92d20;
-  --tdyu-ok: #079455;
-  --tdyu-warn: #dc6803;
-  --tdyu-info: #465fff;
-  --side-w: 290px;
-  --radius: 16px;
-  --shadow: 0 1px 3px rgba(16, 24, 40, 0.1), 0 1px 2px rgba(16, 24, 40, 0.06);
-  --font-ui: Outfit, Inter, system-ui, sans-serif;
-  --font-display: Outfit, Inter, system-ui, sans-serif;
+  --tdyu-ink: #142f3b;
+  --tdyu-muted: #5b7380;
+  --tdyu-line: rgba(12, 87, 118, 0.1);
+  --tdyu-danger: #b42318;
+  --tdyu-ok: #067647;
+  --tdyu-warn: #b54708;
+  --tdyu-info: #026aa2;
+  --side-w: 268px;
+  --radius: 12px;
+  --shadow: 0 1px 2px rgba(12, 87, 118, 0.04), 0 8px 24px rgba(12, 87, 118, 0.06);
+  --font-ui: 'Inter', system-ui, sans-serif;
+  --font-display: 'Maitree', 'Bitter', Georgia, serif;
 }
 
 * {
@@ -24,6 +24,16 @@
 
 .admin-root {
   min-height: 100vh;
+  font-family: var(--font-ui);
+  background:
+    radial-gradient(900px 420px at 100% -10%, rgba(0, 173, 226, 0.12), transparent 55%),
+    linear-gradient(180deg, #eef4f7 0%, var(--tdyu-cream) 40%);
+  color: var(--tdyu-ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: var(--tdyu-sky);
 }
 
 button,
@@ -371,21 +381,21 @@ textarea {
   background: #fff;
 }
 
-.panel table {
+table {
   width: 100%;
   border-collapse: collapse;
   font-size: 13.5px;
 }
 
-.panel th,
-.panel td {
+th,
+td {
   text-align: left;
   padding: 12px 14px;
   border-bottom: 1px solid var(--tdyu-line);
   vertical-align: top;
 }
 
-.panel th {
+th {
   color: var(--tdyu-muted);
   font-weight: 650;
   font-size: 11px;
@@ -394,7 +404,7 @@ textarea {
   background: #f7fafb;
 }
 
-.panel tr:hover td {
+tr:hover td {
   background: rgba(0, 173, 226, 0.03);
 }
 
@@ -1379,6 +1389,40 @@ textarea {
   font-weight: 700;
   color: var(--tdyu-cyan);
   line-height: 1;
+}
+
+.apex-wrap {
+  width: 100%;
+  min-height: 120px;
+}
+
+.apex-title {
+  font-size: 15px;
+  font-weight: 650;
+  color: var(--tdyu-ink);
+  margin-bottom: 4px;
+}
+
+.apex-hint {
+  margin: 0 0 8px;
+  font-size: 12px;
+  color: var(--tdyu-muted);
+}
+
+.apex-foot {
+  margin: 8px 0 0;
+  text-align: center;
+  font-size: 13px;
+  color: var(--tdyu-muted);
+}
+
+.apex-scroll {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.apex-scroll .apexcharts-canvas {
+  margin: 0 auto;
 }
 
 .queue-caption {

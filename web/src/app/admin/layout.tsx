@@ -1,5 +1,4 @@
 import type { ReactNode } from 'react'
-import '@/admin/kit/index.css'
 import '@/admin/admin.css'
 
 export const metadata = {
