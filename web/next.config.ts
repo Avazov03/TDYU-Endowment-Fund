@@ -10,6 +10,11 @@ const nextConfig: NextConfig = {
   output: 'standalone',
   outputFileTracingRoot: __dirname,
   devIndicators: false,
+  transpilePackages: [
+    '@react-jvectormap/core',
+    '@react-jvectormap/world',
+    'react-apexcharts',
+  ],
   async redirects() {
     const aliases: [string, string][] = [
       ['about', 'about-us'],

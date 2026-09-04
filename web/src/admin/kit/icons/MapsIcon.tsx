@@ -1,0 +1,9 @@
+'use client'
+import type { SVGProps } from 'react'
+export default function MapsIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+  <path fillRule="evenodd" clipRule="evenodd" d="M12 2.75c-3.728 0-6.75 2.94-6.75 6.57 0 4.62 5.37 10.18 6.36 11.2a.55.55 0 0 0 .78 0c.99-1.02 6.36-6.58 6.36-11.2 0-3.63-3.022-6.57-6.75-6.57Zm0 1.5c2.9 0 5.25 2.29 5.25 5.07 0 3.67-4.08 8.45-5.25 9.7-1.17-1.25-5.25-6.03-5.25-9.7 0-2.78 2.35-5.07 5.25-5.07Zm0 2.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5Z" fill="currentColor"/>
+</svg>
+  )
+}
