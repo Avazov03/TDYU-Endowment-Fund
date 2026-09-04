@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { Link } from '@/i18n/navigation'
 import { brand } from '@/content/site'
 import type { Locale } from '@/i18n/routing'
+import { BrandLogo } from './BrandLogo'
 import { NewsletterForm } from './NewsletterForm'
 
 function loc(locale: Locale, uz: string, ru: string, en: string) {
@@ -85,13 +86,12 @@ export function SiteFooter({ locale }: { locale: Locale }) {
         <div className="live-wrap site-footer-inner relative z-10">
           <div className="site-footer-grid">
             <div className="site-footer-brand">
-              <Image
-                src="/brand/tdyu-logo-white.svg"
+              <BrandLogo
+                variant="lockupWhite"
                 alt={brand.name}
-                width={184}
+                width={200}
                 height={44}
-                className="site-footer-logo"
-                unoptimized
+                className="site-footer-logo h-11 w-auto object-contain object-left"
               />
 
               {/* dump be02a0e: email + phone bir qatorda */}

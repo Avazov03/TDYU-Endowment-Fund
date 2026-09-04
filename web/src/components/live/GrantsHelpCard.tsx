@@ -17,7 +17,7 @@ export function GrantsHelpCard({ locale }: { locale: Locale }) {
       />
       <div className="grants-help-overlay" aria-hidden />
       <div className="grants-help-inner">
-        <Image src="/brand/tdyu-logo-white.svg" alt="" width={72} height={72} className="grants-help-logo" unoptimized />
+        <Image src="/brand/endowment-seal-white.png" alt="" width={72} height={72} className="grants-help-logo" unoptimized />
         <p className="grants-help-title">{loc(locale, 'Yordam kerakmi?', 'Нужна помощь?', 'Need help?')}</p>
         <a className="grants-help-phone" href={brand.phoneHref}>
           {brand.phone}

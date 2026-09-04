@@ -50,7 +50,7 @@ export function HomeHero({ locale }: { locale: Locale }) {
             </svg>
           </button>
           <p className="flex items-center gap-2 text-[17px] leading-7 font-medium text-white" style={{ marginBottom: 14 }}>
-            <Image src="/brand/tdyu-mark.svg" alt="" width={24} height={24} className="h-6 w-6" unoptimized />
+            <Image src="/brand/endowment-seal.png" alt="" width={24} height={24} className="h-6 w-6 object-contain" unoptimized />
             TDYU Endowment Fund
           </p>
           <h1 className="!text-white font-[Bitter,Georgia,serif] text-[36px] sm:text-[48px] lg:text-[64px] leading-[1.16] lg:leading-[74px] font-semibold w-[690px] max-w-full" style={{ marginBottom: 28 }}>

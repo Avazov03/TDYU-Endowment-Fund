@@ -195,25 +195,35 @@
 .live-root .nav-drop-panel {
   position: absolute;
   left: 0;
-  top: 100%;
+  top: calc(100% - 6px);
   z-index: 60;
-  display: none;
   width: 260px;
+  padding-top: 10px;
+  opacity: 0;
+  visibility: hidden;
   pointer-events: none;
+  transform: translateY(10px);
+  transition:
+    opacity 0.28s ease,
+    transform 0.28s ease,
+    visibility 0.28s ease;
 }
 
-.live-root .nav-drop:hover .nav-drop-panel {
-  display: block;
+.live-root .nav-drop:hover .nav-drop-panel,
+.live-root .nav-drop:focus-within .nav-drop-panel {
+  opacity: 1;
+  visibility: visible;
   pointer-events: auto;
+  transform: translateY(0);
 }
 
 .live-root .nav-drop-list {
   margin: 0;
-  padding: 0;
+  padding: 6px 0;
   list-style: none;
   background-color: #fff;
-  border-radius: 0 0 8px 8px;
-  box-shadow: 0 2px 35px 0 rgba(0, 0, 0, 0.04);
+  border-radius: 0 0 10px 10px;
+  box-shadow: 0 12px 36px rgba(12, 87, 118, 0.12);
 }
 
 .live-root .nav-drop-list > li:not(:last-child) {
@@ -231,11 +241,22 @@
   line-height: 1.4;
   text-transform: capitalize;
   color: #030303;
-  transition: color 0.3s;
+  transition:
+    color 0.22s ease,
+    background-color 0.22s ease,
+    padding-left 0.22s ease;
 }
 
 .live-root .nav-drop-link:hover {
+  color: #00ade2;
+  background-color: rgba(0, 173, 226, 0.06);
+  padding-left: 24px;
+}
+
+.live-root .nav-drop-link.is-active {
   color: #0c5776;
+  background-color: rgba(12, 87, 118, 0.08);
+  font-weight: 650;
 }
 
 .live-root .nav-drop-nested-icon {
@@ -305,8 +326,9 @@
 }
 
 .live-root .site-chrome.is-compact .site-logo img {
-  height: 48px !important;
-  width: 184px !important;
+  height: 44px !important;
+  width: auto !important;
+  max-width: 220px;
 }
 
 .live-root .site-chrome.is-compact .live-nav {
@@ -336,9 +358,41 @@
   height: 24px;
 }
 
-.live-root .live-nav > a,
 .live-root .nav-drop,
 .live-root .nav-mega {
+  position: relative;
+}
+
+.live-root .nav-mega-panel {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(12px);
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease,
+    visibility 0.3s ease;
+}
+
+.live-root .nav-mega:hover .nav-mega-panel,
+.live-root .nav-mega:focus-within .nav-mega-panel {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.live-root .nav-mega-card {
+  transform: translateY(6px);
+  transition: transform 0.3s ease;
+}
+
+.live-root .nav-mega:hover .nav-mega-card,
+.live-root .nav-mega:focus-within .nav-mega-card {
+  transform: translateY(0);
+}
+
+.live-root .live-nav > a {
   position: relative;
 }
 
@@ -360,8 +414,21 @@
   .live-root .site-chrome,
   .live-root .site-topbar,
   .live-root .site-navrow,
-  .live-root .site-logo img {
-    transition: none;
+  .live-root .site-logo img,
+  .live-root .nav-drop-panel,
+  .live-root .nav-mega-panel,
+  .live-root .nav-mega-card,
+  .live-root .nav-drop-link {
+    transition: none !important;
+    transform: none !important;
+  }
+
+  .live-root .nav-drop:hover .nav-drop-panel,
+  .live-root .nav-drop:focus-within .nav-drop-panel,
+  .live-root .nav-mega:hover .nav-mega-panel,
+  .live-root .nav-mega:focus-within .nav-mega-panel {
+    opacity: 1;
+    visibility: visible;
   }
 }
 

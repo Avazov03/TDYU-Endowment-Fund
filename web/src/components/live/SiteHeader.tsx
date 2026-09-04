@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { useLocale } from 'next-intl'
 import { Link, usePathname, useRouter } from '@/i18n/navigation'
+import { BrandLogo, brandAssets } from './BrandLogo'
 import { SiteOffcanvas } from './SiteOffcanvas'
 import { ShopHeaderCta } from './shop/ShopHeaderCta'
 
@@ -111,7 +112,14 @@ export function SiteHeader() {
       <div className="relative overflow-visible">
         <div className={`live-wrap site-navrow flex items-center justify-between overflow-visible ${locale === 'ru' ? 'site-navrow--ru min-h-[106px]' : ''}`}>
           <Link href="/" className="site-logo shrink-0" onClick={() => setOpen(false)}>
-            <Image src="/brand/tdyu-logo.svg" alt="TDYU Endowment Fund" width={260} height={68} className="block h-[68px] w-[260px] max-w-none" priority unoptimized />
+            <BrandLogo
+              variant="lockup"
+              alt="TDYU Endowment Fund"
+              width={260}
+              height={56}
+              className="block h-[56px] w-auto max-w-[280px] object-contain object-left"
+              priority
+            />
           </Link>
 
           <nav
@@ -226,6 +234,7 @@ function Drop({
   items: { href: string; label: string; nested?: boolean }[]
   active?: boolean
 }) {
+  const pathname = usePathname()
   return (
     <div className={['nav-drop relative group h-[106px] flex items-center after:absolute after:left-0 after:right-0 after:top-full after:h-4', active ? 'is-section-active' : ''].filter(Boolean).join(' ')}>
       <span className={['nav-drop-trigger', active ? 'is-active' : ''].filter(Boolean).join(' ')}>
@@ -241,18 +250,21 @@ function Drop({
       </span>
       <div className="nav-drop-panel">
         <ul className="nav-drop-list">
-          {items.map((item, i) => (
-            <li key={`${item.href}-${item.label}-${i}`}>
-              <Link href={item.href} className="nav-drop-link">
-                <span>{item.label}</span>
-                {item.nested ? (
-                  <svg className="nav-drop-nested-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
-                    <path d="M11.9999 13.1714L16.9497 8.22168L18.3639 9.63589L11.9999 15.9999L5.63599 9.63589L7.0502 8.22168L11.9999 13.1714Z" />
-                  </svg>
-                ) : null}
-              </Link>
-            </li>
-          ))}
+          {items.map((item, i) => {
+            const itemActive = startsWithPath(pathname, item.href)
+            return (
+              <li key={`${item.href}-${item.label}-${i}`}>
+                <Link href={item.href} className={['nav-drop-link', itemActive ? 'is-active' : ''].filter(Boolean).join(' ')}>
+                  <span>{item.label}</span>
+                  {item.nested ? (
+                    <svg className="nav-drop-nested-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+                      <path d="M11.9999 13.1714L16.9497 8.22168L18.3639 9.63589L11.9999 15.9999L5.63599 9.63589L7.0502 8.22168L11.9999 13.1714Z" />
+                    </svg>
+                  ) : null}
+                </Link>
+              </li>
+            )
+          })}
         </ul>
       </div>
     </div>
@@ -260,35 +272,45 @@ function Drop({
 }
 
 function Mega({ label, locale, active = false }: { label: string; locale: Locale; active?: boolean }) {
+  const pathname = usePathname()
   const col = (title: string, items: { href: string; label: string }[]) => (
     <div>
       <p className="flex items-center gap-2 text-[16px] font-semibold text-[#030303] pb-3 mb-1 border-b border-[#e6e6e6]">
-        <Image src="/brand/tdyu-mark.svg" alt="" width={22} height={22} className="h-[22px] w-[22px]" unoptimized />
+        <Image src={brandAssets.mark} alt="" width={22} height={22} className="h-[22px] w-[22px] object-contain" unoptimized />
         {title}
       </p>
       <ul className="m-0 p-0 list-none">
-        {items.map((item) => (
-          <li key={item.label} className="border-b border-[#eeeeee] last:border-b-0">
-            <Link href={item.href} className="block py-[11px] text-[15px] leading-[22px] text-[#4c4c4c] hover:text-sky">
-              {item.label}
-            </Link>
-          </li>
-        ))}
+        {items.map((item) => {
+          const itemActive = startsWithPath(pathname, item.href)
+          return (
+            <li key={item.label} className="border-b border-[#eeeeee] last:border-b-0">
+              <Link
+                href={item.href}
+                className={[
+                  'block py-[11px] text-[15px] leading-[22px] transition-colors duration-200',
+                  itemActive ? 'text-sky font-semibold' : 'text-[#4c4c4c] hover:text-sky',
+                ].join(' ')}
+              >
+                {item.label}
+              </Link>
+            </li>
+          )
+        })}
       </ul>
     </div>
   )
 
   return (
     <div className={['nav-mega relative group h-[106px] flex items-center after:absolute after:left-0 after:right-0 after:top-full after:h-3', active ? 'is-section-active' : ''].filter(Boolean).join(' ')}>
-      <span className={['nav-mega-trigger inline-flex items-center gap-1 cursor-default text-[16px] leading-[22.4px] font-normal group-hover:text-sky', active ? 'text-sky' : 'text-[#030303]'].join(' ')}>
+      <span className={['nav-mega-trigger inline-flex items-center gap-1 cursor-default text-[16px] leading-[22.4px] font-normal transition-colors duration-200 group-hover:text-sky', active ? 'text-sky' : 'text-[#030303]'].join(' ')}>
         {label}
-        <svg className="group-hover:rotate-180 transition-transform" width="10" height="10" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+        <svg className="transition-transform duration-300 group-hover:rotate-180" width="10" height="10" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
           <path d="M12 15.5 5.6 9.1l1.4-1.4L12 12.7l5-5 1.4 1.4z" />
         </svg>
       </span>
-      <div className="hidden group-hover:block fixed inset-x-0 top-[var(--site-header-h)] z-[70] pointer-events-none">
+      <div className="nav-mega-panel fixed inset-x-0 top-[var(--site-header-h)] z-[70] pointer-events-none">
         <div className="live-wrap pointer-events-auto">
-          <div className="bg-white rounded-[16px] shadow-[0_18px_50px_rgba(12,87,118,0.16)] px-8 py-8 grid gap-8 lg:grid-cols-[0.85fr_1.2fr_0.85fr_minmax(380px,440px)]">
+          <div className="nav-mega-card bg-white rounded-[16px] shadow-[0_18px_50px_rgba(12,87,118,0.16)] px-8 py-8 grid gap-8 lg:grid-cols-[0.85fr_1.2fr_0.85fr_minmax(380px,440px)]">
             {col(t(locale, 'Boshqaruv', 'Управление', 'Governance'), [
               { href: '/board', label: t(locale, 'Vasiylik kengashi', 'Попечительский совет', 'Board of Trustees') },
               {

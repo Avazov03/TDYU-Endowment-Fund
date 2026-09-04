@@ -11,7 +11,7 @@ export function PrivacyView({ locale }: { locale: Locale }) {
     >
       <div className="mx-auto max-w-[760px] px-5 pt-10 pb-20">
         <Link href="/" className="flex items-center gap-3 mb-7 no-underline text-inherit">
-          <Image src="/brand/tdyu-logo.svg" alt="TDYU Endowment Fund" width={180} height={48} className="h-12 w-auto" unoptimized />
+          <Image src="/brand/endowment-logo-lockup.png" alt="TDYU Endowment Fund" width={220} height={48} className="h-12 w-auto object-contain" unoptimized />
           <span>TDYU Endowment Fund</span>
         </Link>
 

@@ -5,6 +5,7 @@ import { createPortal } from 'react-dom'
 import Image from 'next/image'
 import { Link } from '@/i18n/navigation'
 import { brand } from '@/content/site'
+import { BrandLogo } from './BrandLogo'
 
 type Locale = 'uz' | 'ru' | 'en'
 
@@ -56,9 +57,9 @@ export function SiteOffcanvas({
 
   const address = t(
     locale,
-    "Sayilgoh ko'chasi 35, Yunusobod, Toshkent 100047",
-    'ул. Сайилгох 35, Юнусабад, Ташкент 100047',
-    '35 Saylgoh Street, Yunusobod, Tashkent 100047',
+    "100047, Toshkent shahri, Sayilgoh ko'chasi, 35-uy",
+    '100047, г. Ташкент, ул. Сайилгох, 35',
+    '35 Sayilgoh Street, Tashkent 100047',
   )
 
   return createPortal(
@@ -81,7 +82,7 @@ export function SiteOffcanvas({
 
         <div className="px-8 pt-16 pb-10">
           <Link href="/" onClick={onClose} className="inline-block mb-5">
-            <Image src="/brand/tdyu-logo-white.svg" alt={brand.name} width={220} height={58} className="h-[52px] w-auto" unoptimized />
+            <BrandLogo variant="lockupWhite" alt={brand.name} width={220} height={48} className="h-[52px] w-auto object-contain object-left" />
           </Link>
           <p className="text-[15px] leading-6 text-white/85 mb-8">
             {t(

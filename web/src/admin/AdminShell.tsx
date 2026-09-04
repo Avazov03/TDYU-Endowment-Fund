@@ -215,7 +215,7 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
       <aside className={`admin-side${open ? ' is-open' : ''}${collapsed ? ' is-collapsed' : ''}`}>
         <div className="side-brand-row">
           <Link className="admin-brand" href="/admin" onClick={() => setOpen(false)}>
-            <img src="/brand/tdyu-mark.svg" alt="" />
+            <img src="/brand/endowment-seal.png" alt="" />
             <div className="brand-text">
               <strong>TDYU Endowment</strong>
               <span>{role === 'super' ? 'Super admin' : 'Boshqaruv paneli'}</span>

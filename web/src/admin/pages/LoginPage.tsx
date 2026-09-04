@@ -44,7 +44,7 @@ export default function LoginPage() {
       </section>
       <div className="login-form-wrap">
         <form className="login-card" onSubmit={onSubmit}>
-          <img src="/brand/tdyu-logo.svg" alt="TDYU" style={{ height: 42, marginBottom: 14 }} />
+          <img src="/brand/endowment-logo-lockup.png" alt="TDYU" style={{ height: 48, marginBottom: 14, width: 'auto', maxWidth: 240, objectFit: 'contain' }} />
           <h1>Admin kirish</h1>
           <p className="sub">Hisobingizga kiring va boshqaruvni davom ettiring</p>
           {error ? <div className="error">{error}</div> : null}

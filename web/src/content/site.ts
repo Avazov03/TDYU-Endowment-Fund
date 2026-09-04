@@ -2,7 +2,7 @@ import type { Locale } from '@/i18n/routing'
 
 export const brand = {
   name: 'TDYU Endowment Fund',
-  email: 'info@tdyu-endowment.uz',
+  email: 'endowment@tsul.uz',
   phone: '+998 71 233-66-36',
   phoneHref: 'tel:+998712336636',
   registrar: {
@@ -16,9 +16,9 @@ export const brand = {
     en: 'Tashkent State University of Law',
   },
   address: {
-    uz: "Saylgoh ko'chasi 35-uy, Yunusobod tumani, Toshkent shahri, 100047",
-    ru: 'ул. Сайилгох 35, Юнусабад, Ташкент, 100047',
-    en: '35 Saylgoh Street, Yunusobod, Tashkent 100047',
+    uz: "100047, Toshkent shahri, Sayilgoh ko'chasi, 35-uy",
+    ru: '100047, г. Ташкент, ул. Сайилгох, 35',
+    en: '35 Sayilgoh Street, Tashkent 100047',
   },
 }
 

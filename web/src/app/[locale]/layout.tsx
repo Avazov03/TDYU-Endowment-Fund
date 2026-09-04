@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     template: '%s',
   },
   description: 'Tashkent State University of Law Endowment Fund',
-  icons: { icon: '/brand/tdyu-mark.svg' },
+  icons: { icon: '/brand/endowment-seal.png' },
 }
 
 export function generateStaticParams() {

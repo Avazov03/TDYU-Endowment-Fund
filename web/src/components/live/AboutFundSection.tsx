@@ -94,7 +94,7 @@ export function AboutFundSection({ locale }: { locale: Locale }) {
 
               <div className="absolute left-1/2 top-1/2 z-[6] -translate-x-1/2 -translate-y-1/2 rounded-full bg-sky p-5 shadow-[0_8px_30px_rgba(0,0,0,0.15)]">
                 <Image
-                  src="/brand/tdyu-logo-white.svg"
+                  src="/brand/endowment-seal-white.png"
                   alt=""
                   width={90}
                   height={90}
